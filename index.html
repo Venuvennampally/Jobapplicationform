@@ -376,22 +376,40 @@ Find Latest Jobs in Hyderabad 🚀
 
 <div class="search-box">
 
-<input type="text" placeholder="🔍 Search Jobs...">
+<input type="text"
+id="searchInput"
+placeholder="🔍 Search Jobs...">
 
-<select>
-<option>📍 All Locations</option>
+<select id="locationFilter">
+
+<option value="">📍 All Locations</option>
+
 <option>Hyderabad</option>
 <option>Uppal</option>
 <option>Miyapur</option>
 <option>Hitech City</option>
+<option>Madhapur</option>
+
 </select>
 
-<select>
-<option>💼 All Categories</option>
-<option>HR</option>
-<option>BPO</option>
-<option>Admin</option>
-<option>Sales</option>
+<select id="categoryFilter">
+
+<option value="">💼 All Categories</option>
+
+<option>HR Recruiter</option>
+<option>Telecaller</option>
+<option>Backend Executive</option>
+<option>Admin Executive</option>
+<option>Receptionist</option>
+<option>Data Entry Operator</option>
+<option>Customer Support</option>
+<option>Sales Executive</option>
+<option>Accountant</option>
+<option>Warehouse Staff</option>
+<option>Delivery Executive</option>
+<option>BPO Executive</option>
+<option>Office Assistant</option>
+
 </select>
 
 </div>
@@ -402,73 +420,7 @@ Find Latest Jobs in Hyderabad 🚀
 
 <section class="jobs-section">
 
-<div class="jobs-grid">
-
-<script>
-
-const jobs = [
-
-["HR Recruiter","Hyderabad","₹20,000"],
-["Telecaller","Uppal","₹15,000"],
-["Backend Executive","Hitech City","₹22,000"],
-["Admin Executive","Madhapur","₹18,000"],
-["Receptionist","Miyapur","₹16,000"],
-["Data Entry Operator","Kukatpally","₹17,000"],
-["Customer Support","Gachibowli","₹19,000"],
-["Sales Executive","Ameerpet","₹25,000"],
-["Accountant","Kondapur","₹28,000"],
-["Warehouse Staff","Shamshabad","₹16,500"],
-["Delivery Executive","Hyderabad","₹22,000"],
-["BPO Executive","Miyapur","₹18,000"],
-["Office Assistant","Begumpet","₹15,500"]
-
-];
-
-document.write(
-
-jobs.map(job => `
-
-<div class="job-card">
-
-<div class="company">
-VSR Staffing Services
-</div>
-
-<div class="job-title">
-${job[0]}
-</div>
-
-<div class="job-info">
-💰 Salary : ${job[2]}
-</div>
-
-<div class="job-info">
-📍 Location : ${job[1]}
-</div>
-
-<div class="job-info">
-🕒 Full Time
-</div>
-
-<div class="tags">
-<div class="tag">Hiring</div>
-<div class="tag">Apply Fast</div>
-</div>
-
-<button class="apply-btn"
-onclick="openPopup('${job[0]}','${job[1]}')">
-
-Apply Now
-
-</button>
-
-</div>
-
-`).join('')
-
-);
-
-</script>
+<div class="jobs-grid" id="jobsGrid">
 
 </div>
 
@@ -611,6 +563,146 @@ WhatsApp
 </a>
 
 <script>
+
+/* JOBS */
+
+const jobs = [
+
+["HR Recruiter","Hyderabad","₹20,000"],
+["Telecaller","Uppal","₹15,000"],
+["Backend Executive","Hitech City","₹22,000"],
+["Admin Executive","Madhapur","₹18,000"],
+["Receptionist","Miyapur","₹16,000"],
+["Data Entry Operator","Kukatpally","₹17,000"],
+["Customer Support","Gachibowli","₹19,000"],
+["Sales Executive","Ameerpet","₹25,000"],
+["Accountant","Kondapur","₹28,000"],
+["Warehouse Staff","Shamshabad","₹16,500"],
+["Delivery Executive","Hyderabad","₹22,000"],
+["BPO Executive","Miyapur","₹18,000"],
+["Office Assistant","Begumpet","₹15,500"]
+
+];
+
+const jobsGrid =
+document.getElementById("jobsGrid");
+
+function displayJobs(filteredJobs){
+
+jobsGrid.innerHTML="";
+
+filteredJobs.forEach(job=>{
+
+jobsGrid.innerHTML += `
+
+<div class="job-card">
+
+<div class="company">
+VSR Staffing Services
+</div>
+
+<div class="job-title">
+${job[0]}
+</div>
+
+<div class="job-info">
+💰 Salary : ${job[2]}
+</div>
+
+<div class="job-info">
+📍 Location : ${job[1]}
+</div>
+
+<div class="job-info">
+🕒 Full Time
+</div>
+
+<div class="tags">
+<div class="tag">Hiring</div>
+<div class="tag">Apply Fast</div>
+</div>
+
+<button class="apply-btn"
+onclick="openPopup('${job[0]}','${job[1]}')">
+
+Apply Now
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+displayJobs(jobs);
+
+/* FILTER */
+
+const searchInput =
+document.getElementById("searchInput");
+
+const locationFilter =
+document.getElementById("locationFilter");
+
+const categoryFilter =
+document.getElementById("categoryFilter");
+
+function filterJobs(){
+
+const searchText =
+searchInput.value.toLowerCase();
+
+const locationText =
+locationFilter.value.toLowerCase();
+
+const categoryText =
+categoryFilter.value.toLowerCase();
+
+const filtered = jobs.filter(job => {
+
+const title =
+job[0].toLowerCase();
+
+const location =
+job[1].toLowerCase();
+
+return (
+
+title.includes(searchText) &&
+
+(locationText === "" ||
+location.includes(locationText)) &&
+
+(categoryText === "" ||
+title.includes(categoryText))
+
+);
+
+});
+
+displayJobs(filtered);
+
+}
+
+searchInput.addEventListener(
+"keyup",
+filterJobs
+);
+
+locationFilter.addEventListener(
+"change",
+filterJobs
+);
+
+categoryFilter.addEventListener(
+"change",
+filterJobs
+);
+
+/* POPUP */
 
 function openPopup(job,location){
 
