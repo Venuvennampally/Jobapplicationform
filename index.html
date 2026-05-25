@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VSR Jobs</title>
+<title>VSR Staffing Services</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -20,137 +20,161 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f4f7ff;
+background:#eef3ff;
+overflow-x:hidden;
 }
 
 /* HEADER */
 
 .header{
-background:linear-gradient(135deg,#0f172a,#2563eb);
-padding:70px 20px;
+background:
+linear-gradient(rgba(0,40,160,0.92),rgba(0,20,100,0.92)),
+url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop');
+
+background-size:cover;
+background-position:center;
+
+padding:80px 20px;
 text-align:center;
 color:white;
 }
 
 .header h1{
-font-size:55px;
-margin-bottom:15px;
+font-size:58px;
+font-weight:800;
+margin-bottom:12px;
 }
 
 .header p{
-font-size:20px;
-opacity:0.9;
+font-size:22px;
+opacity:0.95;
 }
 
 /* SEARCH */
 
 .search-section{
 padding:30px 20px;
-display:flex;
-justify-content:center;
+margin-top:-45px;
 }
 
 .search-box{
-width:100%;
-max-width:1100px;
+max-width:1250px;
+margin:auto;
 background:white;
-padding:20px;
-border-radius:25px;
+padding:25px;
+border-radius:28px;
 display:grid;
 grid-template-columns:2fr 1fr 1fr;
-gap:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+gap:18px;
+box-shadow:0 15px 40px rgba(0,0,0,0.12);
 }
 
 .search-box input,
 .search-box select{
-padding:16px;
+padding:18px;
 border:none;
-background:#f1f5f9;
-border-radius:14px;
-font-size:16px;
 outline:none;
+background:#f1f5ff;
+border-radius:16px;
+font-size:16px;
+font-weight:500;
 }
 
 /* JOBS */
 
 .jobs-section{
 padding:20px;
-max-width:1200px;
+max-width:1450px;
 margin:auto;
-}
-
-.section-title{
-font-size:38px;
-text-align:center;
-margin-bottom:35px;
-color:#1e3a8a;
 }
 
 .jobs-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:25px;
+grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
+gap:28px;
 }
+
+/* CARD */
 
 .job-card{
 background:white;
 padding:28px;
-border-radius:25px;
+border-radius:28px;
 box-shadow:0 10px 30px rgba(0,0,0,0.08);
-transition:0.3s;
+transition:0.35s;
+position:relative;
+overflow:hidden;
+}
+
+.job-card::before{
+content:'';
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:6px;
+background:linear-gradient(90deg,#2563eb,#00b7ff);
 }
 
 .job-card:hover{
-transform:translateY(-8px);
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(37,99,235,0.18);
 }
 
 .company{
 font-size:14px;
-font-weight:600;
+font-weight:700;
 color:#2563eb;
-margin-bottom:10px;
+margin-bottom:16px;
 }
 
 .job-title{
-font-size:28px;
-font-weight:700;
-margin-bottom:15px;
+font-size:32px;
+font-weight:800;
+line-height:1.1;
+margin-bottom:20px;
+color:#111827;
 }
 
 .job-info{
-margin-bottom:10px;
+font-size:17px;
+margin-bottom:13px;
 color:#4b5563;
-font-size:16px;
+font-weight:500;
 }
 
 .tags{
 display:flex;
-flex-wrap:wrap;
 gap:10px;
-margin-top:18px;
+flex-wrap:wrap;
+margin-top:20px;
 }
 
 .tag{
-padding:8px 14px;
+padding:9px 16px;
 background:#dbeafe;
 color:#2563eb;
 border-radius:50px;
-font-size:13px;
-font-weight:600;
+font-size:14px;
+font-weight:700;
 }
 
 .apply-btn{
 width:100%;
-padding:15px;
-margin-top:22px;
+margin-top:28px;
+padding:18px;
 border:none;
-border-radius:16px;
+border-radius:18px;
 background:linear-gradient(135deg,#2563eb,#1e3a8a);
 color:white;
-font-size:17px;
-font-weight:700;
+font-size:20px;
+font-weight:800;
 cursor:pointer;
+transition:0.3s;
+}
+
+.apply-btn:hover{
+transform:scale(1.02);
 }
 
 /* POPUP */
@@ -161,36 +185,31 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.6);
-
+background:rgba(0,0,0,0.65);
 display:none;
-
 justify-content:center;
 align-items:flex-start;
-
 overflow-y:auto;
-
 padding:40px 15px;
-
 z-index:9999;
 }
 
 .popup-content{
 width:100%;
-max-width:450px;
+max-width:500px;
 background:white;
-padding:30px 25px;
+padding:30px;
 border-radius:25px;
 position:relative;
-animation:pop 0.3s ease;
 margin:auto;
+animation:pop 0.3s ease;
 }
 
 .close-btn{
 position:absolute;
 top:10px;
 right:18px;
-font-size:30px;
+font-size:35px;
 cursor:pointer;
 }
 
@@ -215,7 +234,7 @@ font-weight:600;
 width:100%;
 padding:15px;
 border:none;
-background:#f1f5f9;
+background:#f3f6ff;
 border-radius:14px;
 font-size:16px;
 outline:none;
@@ -233,8 +252,6 @@ font-weight:700;
 cursor:pointer;
 }
 
-/* SUCCESS */
-
 .success-page{
 display:none;
 text-align:center;
@@ -243,45 +260,51 @@ padding:20px;
 
 .success-page h1{
 color:#16a34a;
-margin-bottom:15px;
-}
-
-.success-page p{
-font-size:18px;
-color:#555;
+margin-bottom:12px;
 }
 
 /* FOOTER */
 
 .footer{
 margin-top:60px;
-background:#0f172a;
-padding:30px;
+background:#071b63;
+padding:35px 20px;
 text-align:center;
 color:white;
+}
+
+.footer h2{
+font-size:28px;
+margin-bottom:10px;
 }
 
 /* WHATSAPP */
 
 .whatsapp-btn{
 position:fixed;
-bottom:20px;
 right:20px;
-background:#25d366;
+bottom:20px;
+background:#22c55e;
 color:white;
-padding:15px 22px;
-border-radius:50px;
+padding:16px 24px;
+border-radius:60px;
 text-decoration:none;
+font-size:18px;
 font-weight:700;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+z-index:999;
 }
 
 /* MOBILE */
 
 @media(max-width:768px){
 
+.header{
+padding:70px 15px;
+}
+
 .header h1{
-font-size:38px;
+font-size:36px;
 }
 
 .header p{
@@ -290,19 +313,28 @@ font-size:16px;
 
 .search-box{
 grid-template-columns:1fr;
+padding:18px;
 }
 
-.section-title{
-font-size:30px;
+.job-card{
+padding:24px;
 }
 
 .job-title{
-font-size:24px;
+font-size:26px;
+}
+
+.apply-btn{
+font-size:18px;
+padding:15px;
+}
+
+.whatsapp-btn{
+font-size:15px;
+padding:14px 18px;
 }
 
 }
-
-/* ANIMATION */
 
 @keyframes pop{
 
@@ -328,10 +360,12 @@ opacity:1;
 
 <div class="header">
 
-<h1>VSR Jobs 🚀</h1>
+<h1>
+VSR Staffing Services
+</h1>
 
 <p>
-Find Latest Jobs in Hyderabad
+Find Latest Jobs in Hyderabad 🚀
 </p>
 
 </div>
@@ -342,26 +376,22 @@ Find Latest Jobs in Hyderabad
 
 <div class="search-box">
 
-<input type="text" placeholder="Search Jobs...">
+<input type="text" placeholder="🔍 Search Jobs...">
 
 <select>
-
-<option>All Locations</option>
-<option>Ameerpet</option>
+<option>📍 All Locations</option>
+<option>Hyderabad</option>
 <option>Uppal</option>
 <option>Miyapur</option>
-  <option>Nagole</option>
-  <option>Madhapur</option>
-
+<option>Hitech City</option>
 </select>
 
 <select>
-
-<option>All Categories</option>
-<option>Telecaller</option>
-<option>Receptionist</option>
-<option>HR Recruiter</option>
-
+<option>💼 All Categories</option>
+<option>HR</option>
+<option>BPO</option>
+<option>Admin</option>
+<option>Sales</option>
 </select>
 
 </div>
@@ -372,30 +402,48 @@ Find Latest Jobs in Hyderabad
 
 <section class="jobs-section">
 
-<h2 class="section-title">
-Latest Vacancies
-</h2>
-
 <div class="jobs-grid">
 
-<!-- JOB 1 -->
+<script>
+
+const jobs = [
+
+["HR Recruiter","Hyderabad","₹20,000"],
+["Telecaller","Uppal","₹15,000"],
+["Backend Executive","Hitech City","₹22,000"],
+["Admin Executive","Madhapur","₹18,000"],
+["Receptionist","Miyapur","₹16,000"],
+["Data Entry Operator","Kukatpally","₹17,000"],
+["Customer Support","Gachibowli","₹19,000"],
+["Sales Executive","Ameerpet","₹25,000"],
+["Accountant","Kondapur","₹28,000"],
+["Warehouse Staff","Shamshabad","₹16,500"],
+["Delivery Executive","Hyderabad","₹22,000"],
+["BPO Executive","Miyapur","₹18,000"],
+["Office Assistant","Begumpet","₹15,500"]
+
+];
+
+document.write(
+
+jobs.map(job => `
 
 <div class="job-card">
 
 <div class="company">
-V Hire Pvt Ltd
+VSR Staffing Services
 </div>
 
 <div class="job-title">
-Telecaller
+${job[0]}
 </div>
 
 <div class="job-info">
-💰 Salary : ₹15,000
+💰 Salary : ${job[2]}
 </div>
 
 <div class="job-info">
-📍 Location : Uppal
+📍 Location : ${job[1]}
 </div>
 
 <div class="job-info">
@@ -403,12 +451,12 @@ Telecaller
 </div>
 
 <div class="tags">
-<div class="tag">Freshers</div>
-<div class="tag">Day Shift</div>
+<div class="tag">Hiring</div>
+<div class="tag">Apply Fast</div>
 </div>
 
 <button class="apply-btn"
-onclick="openPopup('Telecaller','Uppal')">
+onclick="openPopup('${job[0]}','${job[1]}')">
 
 Apply Now
 
@@ -416,81 +464,11 @@ Apply Now
 
 </div>
 
-<!-- JOB 2 -->
+`).join('')
 
-<div class="job-card">
+);
 
-<div class="company">
-Tech Solutions
-</div>
-
-<div class="job-title">
-HR Recruiter
-</div>
-
-<div class="job-info">
-💰 Salary : ₹20,000
-</div>
-
-<div class="job-info">
-📍 Location : Hyderabad
-</div>
-
-<div class="job-info">
-🕒 Full Time
-</div>
-
-<div class="tags">
-<div class="tag">Experienced</div>
-<div class="tag">Office Job</div>
-</div>
-
-<button class="apply-btn"
-onclick="openPopup('HR Recruiter','Hyderabad')">
-
-Apply Now
-
-</button>
-
-</div>
-
-<!-- JOB 3 -->
-
-<div class="job-card">
-
-<div class="company">
-Sky BPO
-</div>
-
-<div class="job-title">
-BPO Executive
-</div>
-
-<div class="job-info">
-💰 Salary : ₹18,000
-</div>
-
-<div class="job-info">
-📍 Location : Miyapur
-</div>
-
-<div class="job-info">
-🕒 Night Shift
-</div>
-
-<div class="tags">
-<div class="tag">Voice Process</div>
-<div class="tag">Immediate Joiners</div>
-</div>
-
-<button class="apply-btn"
-onclick="openPopup('BPO Executive','Miyapur')">
-
-Apply Now
-
-</button>
-
-</div>
+</script>
 
 </div>
 
@@ -546,12 +524,21 @@ required>
 </div>
 
 <div class="input-box">
+<label>Date of Birth</label>
+<input type="date"
+name="dob"
+required>
+</div>
+
+<div class="input-box">
 <label>Gender</label>
 
-<select name="gender">
+<select name="gender" required>
 
+<option value="">Select Gender</option>
 <option>Male</option>
 <option>Female</option>
+<option>Other</option>
 
 </select>
 
@@ -583,8 +570,6 @@ Submit Application
 
 </div>
 
-<!-- SUCCESS -->
-
 <div class="success-page"
 id="successPage">
 
@@ -606,12 +591,12 @@ HR Team Will Contact You Soon
 
 <div class="footer">
 
-<h3>
+<h2>
 📞 Contact : 6305232525
-</h3>
+</h2>
 
 <p>
-V Hire Jobs | Hyderabad Staffing Services
+VSR Staffing Services | Hyderabad Staffing Solutions
 </p>
 
 </div>
@@ -627,23 +612,19 @@ WhatsApp
 
 <script>
 
-/* OPEN POPUP */
+function openPopup(job,location){
 
-function openPopup(job, location){
+document.getElementById("popup").style.display="flex";
 
-document.getElementById("popup").style.display = "flex";
+document.getElementById("jobRole").value=job;
 
-document.getElementById("jobRole").value = job;
-
-document.getElementById("jobLocation").value = location;
+document.getElementById("jobLocation").value=location;
 
 }
 
-/* CLOSE POPUP */
-
 function closePopup(){
 
-document.getElementById("popup").style.display = "none";
+document.getElementById("popup").style.display="none";
 
 }
 
@@ -652,32 +633,34 @@ document.getElementById("popup").style.display = "none";
 const scriptURL =
 "https://script.google.com/macros/s/AKfycbyAsqafWijN2RUII-Cz1dcGx5O2HC_La2HvEVy1PNxT-p7GPdjMKVFdK7lPNDDI4TGG/exec";
 
-const form = document.getElementById("jobForm");
+const form =
+document.getElementById("jobForm");
 
-const submitBtn = document.getElementById("submitBtn");
+const submitBtn =
+document.getElementById("submitBtn");
 
-let isSubmitting = false;
+let isSubmitting=false;
 
-form.addEventListener("submit", function(e){
+form.addEventListener("submit",function(e){
 
 e.preventDefault();
 
 if(isSubmitting) return;
 
-isSubmitting = true;
+isSubmitting=true;
 
-submitBtn.disabled = true;
+submitBtn.disabled=true;
 
-submitBtn.innerText = "Submitting...";
+submitBtn.innerText="Submitting...";
 
-fetch(scriptURL, {
+fetch(scriptURL,{
 
 method:"POST",
 body:new FormData(form)
 
 })
 
-.then(response => {
+.then(response=>{
 
 document.getElementById("formSection").style.display="none";
 
@@ -687,19 +670,19 @@ form.reset();
 
 })
 
-.catch(error => {
+.catch(error=>{
 
-alert("Error! Check Google Script.");
+alert("Error! Check Google Script");
 
 })
 
-.finally(() => {
+.finally(()=>{
 
-isSubmitting = false;
+isSubmitting=false;
 
-submitBtn.disabled = false;
+submitBtn.disabled=false;
 
-submitBtn.innerText = "Submit Application";
+submitBtn.innerText="Submit Application";
 
 });
 
