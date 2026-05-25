@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>V Hire Jobs</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f4f7ff;
+}
+
+/* HEADER */
+
+.header{
+background:linear-gradient(135deg,#0f172a,#2563eb);
+padding:70px 20px;
+text-align:center;
+color:white;
+}
+
+.header h1{
+font-size:55px;
+margin-bottom:15px;
+}
+
+.header p{
+font-size:20px;
+opacity:0.9;
+}
+
+/* SEARCH */
+
+.search-section{
+padding:30px 20px;
+display:flex;
+justify-content:center;
+}
+
+.search-box{
+width:100%;
+max-width:1100px;
+background:white;
+padding:20px;
+border-radius:25px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr;
+gap:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.search-box input,
+.search-box select{
+padding:16px;
+border:none;
+background:#f1f5f9;
+border-radius:14px;
+font-size:16px;
+outline:none;
+}
+
+/* JOBS */
+
+.jobs-section{
+padding:20px;
+max-width:1200px;
+margin:auto;
+}
+
+.section-title{
+font-size:38px;
+text-align:center;
+margin-bottom:35px;
+color:#1e3a8a;
+}
+
+.jobs-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
+}
+
+.job-card{
+background:white;
+padding:28px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.job-card:hover{
+transform:translateY(-8px);
+}
+
+.company{
+font-size:14px;
+font-weight:600;
+color:#2563eb;
+margin-bottom:10px;
+}
+
+.job-title{
+font-size:28px;
+font-weight:700;
+margin-bottom:15px;
+}
+
+.job-info{
+margin-bottom:10px;
+color:#4b5563;
+font-size:16px;
+}
+
+.tags{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:18px;
+}
+
+.tag{
+padding:8px 14px;
+background:#dbeafe;
+color:#2563eb;
+border-radius:50px;
+font-size:13px;
+font-weight:600;
+}
+
+.apply-btn{
+width:100%;
+padding:15px;
+margin-top:22px;
+border:none;
+border-radius:16px;
+background:linear-gradient(135deg,#2563eb,#1e3a8a);
+color:white;
+font-size:17px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* POPUP */
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+
+display:none;
+
+justify-content:center;
+align-items:flex-start;
+
+overflow-y:auto;
+
+padding:40px 15px;
+
+z-index:9999;
+}
+
+.popup-content{
+width:100%;
+max-width:450px;
+background:white;
+padding:30px 25px;
+border-radius:25px;
+position:relative;
+animation:pop 0.3s ease;
+margin:auto;
+}
+
+.close-btn{
+position:absolute;
+top:10px;
+right:18px;
+font-size:30px;
+cursor:pointer;
+}
+
+.popup h2{
+text-align:center;
+margin-bottom:25px;
+color:#2563eb;
+}
+
+.input-box{
+margin-bottom:18px;
+}
+
+.input-box label{
+display:block;
+margin-bottom:8px;
+font-weight:600;
+}
+
+.input-box input,
+.input-box select{
+width:100%;
+padding:15px;
+border:none;
+background:#f1f5f9;
+border-radius:14px;
+font-size:16px;
+outline:none;
+}
+
+.submit-btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:14px;
+background:#16a34a;
+color:white;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* SUCCESS */
+
+.success-page{
+display:none;
+text-align:center;
+padding:20px;
+}
+
+.success-page h1{
+color:#16a34a;
+margin-bottom:15px;
+}
+
+.success-page p{
+font-size:18px;
+color:#555;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:60px;
+background:#0f172a;
+padding:30px;
+text-align:center;
+color:white;
+}
+
+/* WHATSAPP */
+
+.whatsapp-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25d366;
+color:white;
+padding:15px 22px;
+border-radius:50px;
+text-decoration:none;
+font-weight:700;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.header h1{
+font-size:38px;
+}
+
+.header p{
+font-size:16px;
+}
+
+.search-box{
+grid-template-columns:1fr;
+}
+
+.section-title{
+font-size:30px;
+}
+
+.job-title{
+font-size:24px;
+}
+
+}
+
+/* ANIMATION */
+
+@keyframes pop{
+
+0%{
+transform:scale(0.8);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1>V Hire Jobs 🚀</h1>
+
+<p>
+Find Latest Jobs in Hyderabad
+</p>
+
+</div>
+
+<!-- SEARCH -->
+
+<section class="search-section">
+
+<div class="search-box">
+
+<input type="text" placeholder="Search Jobs...">
+
+<select>
+
+<option>All Locations</option>
+<option>Hyderabad</option>
+<option>Uppal</option>
+<option>Miyapur</option>
+
+</select>
+
+<select>
+
+<option>All Categories</option>
+<option>Telecaller</option>
+<option>HR Recruiter</option>
+<option>BPO</option>
+
+</select>
+
+</div>
+
+</section>
+
+<!-- JOBS -->
+
+<section class="jobs-section">
+
+<h2 class="section-title">
+Latest Vacancies
+</h2>
+
+<div class="jobs-grid">
+
+<!-- JOB 1 -->
+
+<div class="job-card">
+
+<div class="company">
+V Hire Pvt Ltd
+</div>
+
+<div class="job-title">
+Telecaller
+</div>
+
+<div class="job-info">
+💰 Salary : ₹15,000
+</div>
+
+<div class="job-info">
+📍 Location : Uppal
+</div>
+
+<div class="job-info">
+🕒 Full Time
+</div>
+
+<div class="tags">
+<div class="tag">Freshers</div>
+<div class="tag">Day Shift</div>
+</div>
+
+<button class="apply-btn"
+onclick="openPopup('Telecaller','Uppal')">
+
+Apply Now
+
+</button>
+
+</div>
+
+<!-- JOB 2 -->
+
+<div class="job-card">
+
+<div class="company">
+Tech Solutions
+</div>
+
+<div class="job-title">
+HR Recruiter
+</div>
+
+<div class="job-info">
+💰 Salary : ₹20,000
+</div>
+
+<div class="job-info">
+📍 Location : Hyderabad
+</div>
+
+<div class="job-info">
+🕒 Full Time
+</div>
+
+<div class="tags">
+<div class="tag">Experienced</div>
+<div class="tag">Office Job</div>
+</div>
+
+<button class="apply-btn"
+onclick="openPopup('HR Recruiter','Hyderabad')">
+
+Apply Now
+
+</button>
+
+</div>
+
+<!-- JOB 3 -->
+
+<div class="job-card">
+
+<div class="company">
+Sky BPO
+</div>
+
+<div class="job-title">
+BPO Executive
+</div>
+
+<div class="job-info">
+💰 Salary : ₹18,000
+</div>
+
+<div class="job-info">
+📍 Location : Miyapur
+</div>
+
+<div class="job-info">
+🕒 Night Shift
+</div>
+
+<div class="tags">
+<div class="tag">Voice Process</div>
+<div class="tag">Immediate Joiners</div>
+</div>
+
+<button class="apply-btn"
+onclick="openPopup('BPO Executive','Miyapur')">
+
+Apply Now
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- POPUP -->
+
+<div class="popup" id="popup">
+
+<div class="popup-content">
+
+<span class="close-btn"
+onclick="closePopup()">
+
+×
+
+</span>
+
+<div id="formSection">
+
+<h2>Job Registration 🚀</h2>
+
+<form id="jobForm">
+
+<div class="input-box">
+<label>Job Role</label>
+<input type="text"
+id="jobRole"
+name="job_role"
+readonly>
+</div>
+
+<div class="input-box">
+<label>Location</label>
+<input type="text"
+id="jobLocation"
+name="location"
+readonly>
+</div>
+
+<div class="input-box">
+<label>Full Name</label>
+<input type="text"
+name="name"
+required>
+</div>
+
+<div class="input-box">
+<label>Phone Number</label>
+<input type="text"
+name="phone"
+required>
+</div>
+
+<div class="input-box">
+<label>Gender</label>
+
+<select name="gender">
+
+<option>Male</option>
+<option>Female</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+<label>Qualification</label>
+
+<select name="qualification">
+
+<option>10th</option>
+<option>Inter</option>
+<option>Degree</option>
+<option>BTech</option>
+
+</select>
+
+</div>
+
+<button type="submit"
+class="submit-btn"
+id="submitBtn">
+
+Submit Application
+
+</button>
+
+</form>
+
+</div>
+
+<!-- SUCCESS -->
+
+<div class="success-page"
+id="successPage">
+
+<h1>
+✅ Submitted Successfully
+</h1>
+
+<p>
+HR Team Will Contact You Soon
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<h3>
+📞 Contact : 6305232525
+</h3>
+
+<p>
+V Hire Jobs | Hyderabad Staffing Services
+</p>
+
+</div>
+
+<!-- WHATSAPP -->
+
+<a href="https://wa.me/916305232525"
+class="whatsapp-btn">
+
+WhatsApp
+
+</a>
+
+<script>
+
+/* OPEN POPUP */
+
+function openPopup(job, location){
+
+document.getElementById("popup").style.display = "flex";
+
+document.getElementById("jobRole").value = job;
+
+document.getElementById("jobLocation").value = location;
+
+}
+
+/* CLOSE POPUP */
+
+function closePopup(){
+
+document.getElementById("popup").style.display = "none";
+
+}
+
+/* GOOGLE SHEET */
+
+const scriptURL =
+"https://script.google.com/macros/s/AKfycbyAsqafWijN2RUII-Cz1dcGx5O2HC_La2HvEVy1PNxT-p7GPdjMKVFdK7lPNDDI4TGG/exec";
+
+const form = document.getElementById("jobForm");
+
+const submitBtn = document.getElementById("submitBtn");
+
+let isSubmitting = false;
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+if(isSubmitting) return;
+
+isSubmitting = true;
+
+submitBtn.disabled = true;
+
+submitBtn.innerText = "Submitting...";
+
+fetch(scriptURL, {
+
+method:"POST",
+body:new FormData(form)
+
+})
+
+.then(response => {
+
+document.getElementById("formSection").style.display="none";
+
+document.getElementById("successPage").style.display="block";
+
+form.reset();
+
+})
+
+.catch(error => {
+
+alert("Error! Check Google Script.");
+
+})
+
+.finally(() => {
+
+isSubmitting = false;
+
+submitBtn.disabled = false;
+
+submitBtn.innerText = "Submit Application";
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
