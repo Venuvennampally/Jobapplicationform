@@ -24,33 +24,26 @@ background:#eef3ff;
 overflow-x:hidden;
 }
 
-/* HEADER */
-
 .header{
-background:
-linear-gradient(rgba(0,40,160,0.92),rgba(0,20,100,0.92)),
+background:linear-gradient(rgba(0,40,160,0.92),rgba(0,20,100,0.92)),
 url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop');
 
 background-size:cover;
 background-position:center;
-
 padding:80px 20px;
 text-align:center;
 color:white;
 }
 
 .header h1{
-font-size:58px;
+font-size:55px;
 font-weight:800;
-margin-bottom:12px;
 }
 
 .header p{
 font-size:22px;
-opacity:0.95;
+margin-top:10px;
 }
-
-/* SEARCH */
 
 .search-section{
 padding:30px 20px;
@@ -58,15 +51,15 @@ margin-top:-45px;
 }
 
 .search-box{
-max-width:1250px;
+max-width:1200px;
 margin:auto;
 background:white;
 padding:25px;
-border-radius:28px;
+border-radius:25px;
 display:grid;
-grid-template-columns:2fr 1fr 1fr;
-gap:18px;
-box-shadow:0 15px 40px rgba(0,0,0,0.12);
+grid-template-columns:2fr 1fr;
+gap:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
 .search-box input,
@@ -75,35 +68,34 @@ padding:18px;
 border:none;
 outline:none;
 background:#f1f5ff;
-border-radius:16px;
+border-radius:15px;
 font-size:16px;
-font-weight:500;
 }
-
-/* JOBS */
 
 .jobs-section{
 padding:20px;
-max-width:1450px;
+max-width:1400px;
 margin:auto;
 }
 
 .jobs-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
-gap:28px;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
 }
-
-/* CARD */
 
 .job-card{
 background:white;
 padding:28px;
-border-radius:28px;
+border-radius:25px;
 box-shadow:0 10px 30px rgba(0,0,0,0.08);
-transition:0.35s;
 position:relative;
 overflow:hidden;
+transition:0.3s;
+}
+
+.job-card:hover{
+transform:translateY(-8px);
 }
 
 .job-card::before{
@@ -116,31 +108,24 @@ height:6px;
 background:linear-gradient(90deg,#2563eb,#00b7ff);
 }
 
-.job-card:hover{
-transform:translateY(-10px);
-box-shadow:0 20px 40px rgba(37,99,235,0.18);
-}
-
 .company{
 font-size:14px;
 font-weight:700;
 color:#2563eb;
-margin-bottom:16px;
+margin-bottom:15px;
 }
 
 .job-title{
-font-size:32px;
+font-size:34px;
 font-weight:800;
-line-height:1.1;
-margin-bottom:20px;
+margin-bottom:18px;
 color:#111827;
 }
 
 .job-info{
-font-size:17px;
-margin-bottom:13px;
+font-size:18px;
+margin-bottom:12px;
 color:#4b5563;
-font-weight:500;
 }
 
 .tags{
@@ -151,7 +136,7 @@ margin-top:20px;
 }
 
 .tag{
-padding:9px 16px;
+padding:8px 15px;
 background:#dbeafe;
 color:#2563eb;
 border-radius:50px;
@@ -161,23 +146,16 @@ font-weight:700;
 
 .apply-btn{
 width:100%;
-margin-top:28px;
+margin-top:25px;
 padding:18px;
 border:none;
-border-radius:18px;
+border-radius:16px;
 background:linear-gradient(135deg,#2563eb,#1e3a8a);
 color:white;
 font-size:20px;
 font-weight:800;
 cursor:pointer;
-transition:0.3s;
 }
-
-.apply-btn:hover{
-transform:scale(1.02);
-}
-
-/* POPUP */
 
 .popup{
 position:fixed;
@@ -185,7 +163,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.65);
+background:rgba(0,0,0,0.7);
 display:none;
 justify-content:center;
 align-items:flex-start;
@@ -201,8 +179,6 @@ background:white;
 padding:30px;
 border-radius:25px;
 position:relative;
-margin:auto;
-animation:pop 0.3s ease;
 }
 
 .close-btn{
@@ -252,19 +228,6 @@ font-weight:700;
 cursor:pointer;
 }
 
-.success-page{
-display:none;
-text-align:center;
-padding:20px;
-}
-
-.success-page h1{
-color:#16a34a;
-margin-bottom:12px;
-}
-
-/* FOOTER */
-
 .footer{
 margin-top:60px;
 background:#071b63;
@@ -272,13 +235,6 @@ padding:35px 20px;
 text-align:center;
 color:white;
 }
-
-.footer h2{
-font-size:28px;
-margin-bottom:10px;
-}
-
-/* WHATSAPP */
 
 .whatsapp-btn{
 position:fixed;
@@ -291,17 +247,10 @@ border-radius:60px;
 text-decoration:none;
 font-size:18px;
 font-weight:700;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
 z-index:999;
 }
 
-/* MOBILE */
-
 @media(max-width:768px){
-
-.header{
-padding:70px 15px;
-}
 
 .header h1{
 font-size:36px;
@@ -313,39 +262,10 @@ font-size:16px;
 
 .search-box{
 grid-template-columns:1fr;
-padding:18px;
-}
-
-.job-card{
-padding:24px;
 }
 
 .job-title{
 font-size:26px;
-}
-
-.apply-btn{
-font-size:18px;
-padding:15px;
-}
-
-.whatsapp-btn{
-font-size:15px;
-padding:14px 18px;
-}
-
-}
-
-@keyframes pop{
-
-0%{
-transform:scale(0.8);
-opacity:0;
-}
-
-100%{
-transform:scale(1);
-opacity:1;
 }
 
 }
@@ -356,21 +276,13 @@ opacity:1;
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
-<h1>
-VSR Staffing Services
-</h1>
+<h1>VSR Staffing Services</h1>
 
-<p>
-Find Latest Jobs in Hyderabad 🚀
-</p>
+<p>Find Latest Jobs in Hyderabad 🚀</p>
 
 </div>
-
-<!-- SEARCH -->
 
 <section class="search-section">
 
@@ -384,54 +296,27 @@ placeholder="🔍 Search Jobs...">
 
 <option value="">📍 All Locations</option>
 
-<option>Ameerpet</option>
-<option>SR nagar</option>
+<option>Hyderabad</option>
+<option>Uppal</option>
 <option>Miyapur</option>
-<option>Hitech City</option>
-<option>Madhapur</option>
-  <option>Uppal</option>
-  <option>Nagole</option>
-  <option>KPHB</option>
-  <option>Balanagar</option>
-  
-
-</select>
-
-<select id="categoryFilter">
-
-<option value="">💼 All Categories</option>
-
-<option>HR Recruiter</option>
-<option>Telecaller</option>
-<option>Backend Executive</option>
-<option>Admin Executive</option>
-<option>Receptionist</option>
-<option>Data Entry Operator</option>
-<option>Customer Support</option>
-<option>Sales Executive</option>
-<option>Accountant</option>
-<option>Warehouse Staff</option>
-<option>Delivery Executive</option>
-<option>BPO Executive</option>
-<option>Office Assistant</option>
+<option>KPHB</option>
+<option>Balanagar</option>
 
 </select>
 
 </div>
 
 </section>
-
-<!-- JOBS -->
 
 <section class="jobs-section">
 
 <div class="jobs-grid" id="jobsGrid">
 
+Loading Jobs...
+
 </div>
 
 </section>
-
-<!-- POPUP -->
 
 <div class="popup" id="popup">
 
@@ -441,50 +326,40 @@ placeholder="🔍 Search Jobs...">
 onclick="closePopup()">
 
 ×
-
 </span>
-
-<div id="formSection">
 
 <h2>Job Registration 🚀</h2>
 
 <form id="jobForm">
 
 <div class="input-box">
+<label>Company Name</label>
+<input type="text" id="companyName" name="company" readonly>
+</div>
+
+<div class="input-box">
 <label>Job Role</label>
-<input type="text"
-id="jobRole"
-name="job_role"
-readonly>
+<input type="text" id="jobRole" name="job_role" readonly>
 </div>
 
 <div class="input-box">
 <label>Location</label>
-<input type="text"
-id="jobLocation"
-name="location"
-readonly>
+<input type="text" id="jobLocation" name="location" readonly>
 </div>
 
 <div class="input-box">
 <label>Full Name</label>
-<input type="text"
-name="name"
-required>
+<input type="text" name="name" required>
 </div>
 
 <div class="input-box">
 <label>Phone Number</label>
-<input type="text"
-name="phone"
-required>
+<input type="text" name="phone" required>
 </div>
 
 <div class="input-box">
 <label>Date of Birth</label>
-<input type="date"
-name="dob"
-required>
+<input type="date" name="dob" required>
 </div>
 
 <div class="input-box">
@@ -495,7 +370,6 @@ required>
 <option value="">Select Gender</option>
 <option>Male</option>
 <option>Female</option>
-<option>Other</option>
 
 </select>
 
@@ -510,9 +384,6 @@ required>
 <option>Inter</option>
 <option>Degree</option>
 <option>BTech</option>
-  <option>PG</option>
-  
-  
 
 </select>
 
@@ -530,38 +401,15 @@ Submit Application
 
 </div>
 
-<div class="success-page"
-id="successPage">
-
-<h1>
-✅ Submitted Successfully
-</h1>
-
-<p>
-HR Team Will Contact You Soon
-</p>
-
 </div>
-
-</div>
-
-</div>
-
-<!-- FOOTER -->
 
 <div class="footer">
 
-<h2>
-📞 Contact : 6305232525
-</h2>
+<h2>📞 Contact : 6305232525</h2>
 
-<p>
-VSR Staffing Services | Hyderabad Staffing Solutions
-</p>
+<p>VSR Staffing Services | Hyderabad Staffing Solutions</p>
 
 </div>
-
-<!-- WHATSAPP -->
 
 <a href="https://wa.me/916305232525"
 class="whatsapp-btn">
@@ -570,55 +418,106 @@ WhatsApp
 
 </a>
 
-<script>
+<script type="module">
 
-/* JOBS */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
-const jobs = [
+import {
+getFirestore,
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-["HR Recruiter","Hyderabad","₹20,000"],
-["Telecaller","Uppal","₹15,000"],
-["Backend Executive","Hitech City","₹18,000"],
-["Admin Executive","Madhapur","₹18,000"],
-["Receptionist","Miyapur","₹16,000"],
-["Data Entry Operator","Kukatpally","₹17,000"],
-["Customer Support","Gachibowli","₹19,000"],
-["Sales Executive","Ameerpet","₹25,000"],
-["Accountant","Kondapur","₹28,000"],
-["Warehouse Staff","Balanagar","₹16,500"],
-["Delivery Executive","Balanagar","₹22,000"],
-["BPO Executive","KPHB","₹18,000"],
-["Office Assistant","Begumpet","₹15,500"]
+const firebaseConfig = {
 
-];
+apiKey: "AIzaSyARjD6pxfDGkQQSWGZ-T3bOZiu4qa_SJkk",
+
+authDomain: "vsr--staffing.firebaseapp.com",
+
+projectId: "vsr--staffing",
+
+storageBucket: "vsr--staffing.firebasestorage.app",
+
+messagingSenderId: "105296080631",
+
+appId: "1:105296080631:web:29a610f720cfa60032edf2"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 const jobsGrid =
 document.getElementById("jobsGrid");
 
-function displayJobs(filteredJobs){
+let allJobs = [];
 
-jobsGrid.innerHTML="";
+async function loadJobs(){
 
-filteredJobs.forEach(job=>{
+jobsGrid.innerHTML =
+"Loading Jobs...";
+
+try{
+
+const querySnapshot =
+await getDocs(collection(db,"venu"));
+
+allJobs = [];
+
+querySnapshot.forEach((doc)=>{
+
+allJobs.push(doc.data());
+
+});
+
+displayJobs(allJobs);
+
+}catch(error){
+
+console.log(error);
+
+jobsGrid.innerHTML =
+"Error Loading Jobs";
+
+}
+
+}
+
+function displayJobs(jobs){
+
+jobsGrid.innerHTML = "";
+
+if(jobs.length === 0){
+
+jobsGrid.innerHTML =
+"No Jobs Available";
+
+return;
+
+}
+
+jobs.forEach((job)=>{
 
 jobsGrid.innerHTML += `
 
 <div class="job-card">
 
 <div class="company">
-VSR Staffing Services
+${job.company || "Company Hiring"}
 </div>
 
 <div class="job-title">
-${job[0]}
+${job.Title || job.title}
 </div>
 
 <div class="job-info">
-💰 Salary : ${job[2]}
+💰 Salary : ₹${job.salary}
 </div>
 
 <div class="job-info">
-📍 Location : ${job[1]}
+📍 Location : ${job.Location || job.location}
 </div>
 
 <div class="job-info">
@@ -631,7 +530,11 @@ ${job[0]}
 </div>
 
 <button class="apply-btn"
-onclick="openPopup('${job[0]}','${job[1]}')">
+onclick="openPopup(
+'${job.company || ""}',
+'${job.Title || job.title}',
+'${job.Location || job.location}'
+)">
 
 Apply Now
 
@@ -645,76 +548,38 @@ Apply Now
 
 }
 
-displayJobs(jobs);
-
-/* FILTER */
-
 const searchInput =
 document.getElementById("searchInput");
 
-const locationFilter =
-document.getElementById("locationFilter");
+searchInput.addEventListener("keyup",()=>{
 
-const categoryFilter =
-document.getElementById("categoryFilter");
-
-function filterJobs(){
-
-const searchText =
+const value =
 searchInput.value.toLowerCase();
 
-const locationText =
-locationFilter.value.toLowerCase();
+const filtered =
+allJobs.filter(job=>
 
-const categoryText =
-categoryFilter.value.toLowerCase();
+(job.Title || job.title || "")
+.toLowerCase()
+.includes(value)
 
-const filtered = jobs.filter(job => {
+||
 
-const title =
-job[0].toLowerCase();
-
-const location =
-job[1].toLowerCase();
-
-return (
-
-title.includes(searchText) &&
-
-(locationText === "" ||
-location.includes(locationText)) &&
-
-(categoryText === "" ||
-title.includes(categoryText))
+(job.Location || job.location || "")
+.toLowerCase()
+.includes(value)
 
 );
-
-});
 
 displayJobs(filtered);
 
-}
+});
 
-searchInput.addEventListener(
-"keyup",
-filterJobs
-);
-
-locationFilter.addEventListener(
-"change",
-filterJobs
-);
-
-categoryFilter.addEventListener(
-"change",
-filterJobs
-);
-
-/* POPUP */
-
-function openPopup(job,location){
+window.openPopup = function(company,job,location){
 
 document.getElementById("popup").style.display="flex";
+
+document.getElementById("companyName").value=company;
 
 document.getElementById("jobRole").value=job;
 
@@ -722,13 +587,11 @@ document.getElementById("jobLocation").value=location;
 
 }
 
-function closePopup(){
+window.closePopup = function(){
 
 document.getElementById("popup").style.display="none";
 
 }
-
-/* GOOGLE SHEET */
 
 const scriptURL =
 "https://script.google.com/macros/s/AKfycbyAsqafWijN2RUII-Cz1dcGx5O2HC_La2HvEVy1PNxT-p7GPdjMKVFdK7lPNDDI4TGG/exec";
@@ -739,54 +602,51 @@ document.getElementById("jobForm");
 const submitBtn =
 document.getElementById("submitBtn");
 
-let isSubmitting=false;
+let isSubmitting = false;
 
-form.addEventListener("submit",function(e){
+form.addEventListener("submit", async (e)=>{
 
 e.preventDefault();
 
 if(isSubmitting) return;
 
-isSubmitting=true;
+isSubmitting = true;
 
-submitBtn.disabled=true;
+submitBtn.disabled = true;
 
-submitBtn.innerText="Submitting...";
+submitBtn.innerText = "Submitting...";
 
-fetch(scriptURL,{
+try{
+
+await fetch(scriptURL,{
 
 method:"POST",
+
 body:new FormData(form)
 
-})
+});
 
-.then(response=>{
-
-document.getElementById("formSection").style.display="none";
-
-document.getElementById("successPage").style.display="block";
+alert("Application Submitted Successfully");
 
 form.reset();
 
-})
+closePopup();
 
-.catch(error=>{
+}catch(error){
 
-alert("Error! Check Google Script");
+alert("Error Submitting Form");
 
-})
+}
 
-.finally(()=>{
+submitBtn.disabled = false;
 
-isSubmitting=false;
+submitBtn.innerText = "Submit Application";
 
-submitBtn.disabled=false;
-
-submitBtn.innerText="Submit Application";
+isSubmitting = false;
 
 });
 
-});
+loadJobs();
 
 </script>
 
