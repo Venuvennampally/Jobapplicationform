@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VSR Staffing Services</title>
+<title>VenuHR.com</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -20,23 +20,25 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#eef3ff;
+background:#f4f7ff;
 overflow-x:hidden;
+color:#111827;
 }
 
 .header{
-background:linear-gradient(rgba(0,40,160,0.92),rgba(0,20,100,0.92)),
-url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop');
+background:
+linear-gradient(rgba(0,32,96,0.88),rgba(0,15,60,0.88)),
+url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1400&auto=format&fit=crop');
 
 background-size:cover;
 background-position:center;
-padding:80px 20px;
+padding:90px 20px;
 text-align:center;
 color:white;
 }
 
 .header h1{
-font-size:55px;
+font-size:58px;
 font-weight:800;
 }
 
@@ -45,37 +47,67 @@ font-size:22px;
 margin-top:10px;
 }
 
-.search-section{
+.top-stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 padding:30px 20px;
-margin-top:-45px;
+max-width:1300px;
+margin:auto;
+margin-top:-50px;
+}
+
+.stat-card{
+background:white;
+padding:28px;
+border-radius:22px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.stat-card h2{
+font-size:38px;
+color:#2563eb;
+margin-bottom:10px;
+}
+
+.search-section{
+padding:10px 20px 30px;
 }
 
 .search-box{
-max-width:1200px;
+max-width:1300px;
 margin:auto;
 background:white;
 padding:25px;
 border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
 display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
+grid-template-columns:repeat(3,1fr);
+gap:18px;
 }
 
 .search-box input,
 .search-box select{
-padding:18px;
+padding:16px;
 border:none;
 outline:none;
-background:#f1f5ff;
-border-radius:15px;
-font-size:16px;
+background:#eef3ff;
+border-radius:14px;
+font-size:15px;
 }
 
 .jobs-section{
 padding:20px;
 max-width:1400px;
 margin:auto;
+}
+
+.section-title{
+font-size:34px;
+font-weight:800;
+margin-bottom:25px;
 }
 
 .jobs-grid{
@@ -89,9 +121,9 @@ background:white;
 padding:28px;
 border-radius:25px;
 box-shadow:0 10px 30px rgba(0,0,0,0.08);
+transition:0.3s;
 position:relative;
 overflow:hidden;
-transition:0.3s;
 }
 
 .job-card:hover{
@@ -104,8 +136,8 @@ position:absolute;
 top:0;
 left:0;
 width:100%;
-height:6px;
-background:linear-gradient(90deg,#2563eb,#00b7ff);
+height:7px;
+background:linear-gradient(90deg,#2563eb,#06b6d4);
 }
 
 .company{
@@ -116,14 +148,13 @@ margin-bottom:15px;
 }
 
 .job-title{
-font-size:34px;
+font-size:30px;
 font-weight:800;
 margin-bottom:18px;
-color:#111827;
 }
 
 .job-info{
-font-size:18px;
+font-size:16px;
 margin-bottom:12px;
 color:#4b5563;
 }
@@ -136,25 +167,30 @@ margin-top:20px;
 }
 
 .tag{
-padding:8px 15px;
+padding:8px 14px;
 background:#dbeafe;
 color:#2563eb;
-border-radius:50px;
-font-size:14px;
+font-size:13px;
 font-weight:700;
+border-radius:50px;
 }
 
 .apply-btn{
 width:100%;
-margin-top:25px;
-padding:18px;
+margin-top:24px;
+padding:16px;
 border:none;
 border-radius:16px;
-background:linear-gradient(135deg,#2563eb,#1e3a8a);
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 color:white;
-font-size:20px;
-font-weight:800;
+font-size:18px;
+font-weight:700;
 cursor:pointer;
+transition:0.3s;
+}
+
+.apply-btn:hover{
+transform:scale(1.02);
 }
 
 .popup{
@@ -174,7 +210,7 @@ z-index:9999;
 
 .popup-content{
 width:100%;
-max-width:500px;
+max-width:550px;
 background:white;
 padding:30px;
 border-radius:25px;
@@ -183,8 +219,8 @@ position:relative;
 
 .close-btn{
 position:absolute;
-top:10px;
 right:18px;
+top:10px;
 font-size:35px;
 cursor:pointer;
 }
@@ -206,14 +242,20 @@ font-weight:600;
 }
 
 .input-box input,
-.input-box select{
+.input-box select,
+.input-box textarea{
 width:100%;
 padding:15px;
 border:none;
-background:#f3f6ff;
-border-radius:14px;
-font-size:16px;
 outline:none;
+border-radius:14px;
+background:#f3f6ff;
+font-size:15px;
+}
+
+textarea{
+resize:none;
+height:90px;
 }
 
 .submit-btn{
@@ -228,10 +270,17 @@ font-weight:700;
 cursor:pointer;
 }
 
+.no-job{
+text-align:center;
+padding:50px;
+font-size:24px;
+font-weight:700;
+}
+
 .footer{
-margin-top:60px;
 background:#071b63;
-padding:35px 20px;
+margin-top:60px;
+padding:40px 20px;
 text-align:center;
 color:white;
 }
@@ -243,29 +292,61 @@ bottom:20px;
 background:#22c55e;
 color:white;
 padding:16px 24px;
-border-radius:60px;
+border-radius:50px;
 text-decoration:none;
-font-size:18px;
 font-weight:700;
 z-index:999;
 }
 
-@media(max-width:768px){
+.action-buttons{
+display:flex;
+gap:15px;
+margin-top:25px;
+}
+
+.share-btn{
+flex:1;
+background:#22c55e;
+padding:16px;
+border-radius:16px;
+text-align:center;
+color:white;
+text-decoration:none;
+font-weight:700;
+}
+
+@media(max-width:900px){
+
+.search-box{
+grid-template-columns:1fr 1fr;
+}
 
 .header h1{
-font-size:36px;
+font-size:40px;
+}
+
+}
+
+@media(max-width:600px){
+
+.search-box{
+grid-template-columns:1fr;
+}
+
+.header h1{
+font-size:34px;
 }
 
 .header p{
 font-size:16px;
 }
 
-.search-box{
-grid-template-columns:1fr;
+.job-title{
+font-size:24px;
 }
 
-.job-title{
-font-size:26px;
+.action-buttons{
+flex-direction:column;
 }
 
 }
@@ -278,9 +359,33 @@ font-size:26px;
 
 <div class="header">
 
-<h1>VSR Staffing Services</h1>
+<h1>Venuhr.com</h1>
 
 <p>Find Latest Jobs in Hyderabad 🚀</p>
+
+</div>
+
+<div class="top-stats">
+
+<div class="stat-card">
+<h2 id="totalJobs">0</h2>
+<p>Total Jobs</p>
+</div>
+
+<div class="stat-card">
+<h2>50+</h2>
+<p>Companies</p>
+</div>
+
+<div class="stat-card">
+<h2>1000+</h2>
+<p>Candidates</p>
+</div>
+
+<div class="stat-card">
+<h2>24/7</h2>
+<p>Support</p>
+</div>
 
 </div>
 
@@ -290,17 +395,29 @@ font-size:26px;
 
 <input type="text"
 id="searchInput"
-placeholder="🔍 Search Jobs...">
+placeholder="🔍 Search Jobs">
 
 <select id="locationFilter">
 
 <option value="">📍 All Locations</option>
 
 <option>Hyderabad</option>
-<option>Uppal</option>
-<option>Miyapur</option>
 <option>KPHB</option>
+<option>Miyapur</option>
 <option>Balanagar</option>
+<option>Uppal</option>
+
+</select>
+
+<select id="categoryFilter">
+
+<option value="">💼 Category</option>
+
+<option>BPO</option>
+<option>HR</option>
+<option>IT</option>
+<option>Admin</option>
+<option>Warehouse</option>
 
 </select>
 
@@ -310,7 +427,12 @@ placeholder="🔍 Search Jobs...">
 
 <section class="jobs-section">
 
-<div class="jobs-grid" id="jobsGrid">
+<h2 class="section-title">
+🔥 Latest Jobs
+</h2>
+
+<div class="jobs-grid"
+id="jobsGrid">
 
 Loading Jobs...
 
@@ -318,7 +440,69 @@ Loading Jobs...
 
 </section>
 
-<div class="popup" id="popup">
+<!-- JOB DETAILS -->
+
+<div class="popup"
+id="jobPage">
+
+<div class="popup-content">
+
+<span class="close-btn"
+onclick="closeJobPage()">
+
+×
+
+</span>
+
+<h2 id="jobPageTitle"></h2>
+
+<div class="job-info"
+id="jobCompany"></div>
+
+<div class="job-info"
+id="jobSalary"></div>
+
+<div class="job-info"
+id="jobLocationText"></div>
+
+<div class="job-info">
+
+<h3 style="margin-bottom:10px;">
+Job Description
+</h3>
+
+<p id="jobDescription"></p>
+
+</div>
+
+<div class="action-buttons">
+
+<button class="apply-btn"
+style="margin-top:0;"
+onclick="openApplyForm()">
+
+Apply Now
+
+</button>
+
+<a id="shareWhatsapp"
+target="_blank"
+class="share-btn">
+
+Share WhatsApp
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- APPLY FORM -->
+
+<div class="popup"
+id="popup">
 
 <div class="popup-content">
 
@@ -326,14 +510,15 @@ Loading Jobs...
 onclick="closePopup()">
 
 ×
+
 </span>
 
-<h2>Job Registration 🚀</h2>
+<h2>Apply Job 🚀</h2>
 
 <form id="jobForm">
 
 <div class="input-box">
-<label>Company Name</label>
+<label>Company</label>
 <input type="text" id="companyName" name="company" readonly>
 </div>
 
@@ -353,8 +538,13 @@ onclick="closePopup()">
 </div>
 
 <div class="input-box">
-<label>Phone Number</label>
+<label>Phone</label>
 <input type="text" name="phone" required>
+</div>
+
+<div class="input-box">
+<label>Email</label>
+<input type="email" name="email">
 </div>
 
 <div class="input-box">
@@ -389,6 +579,24 @@ onclick="closePopup()">
 
 </div>
 
+<div class="input-box">
+<label>Experience</label>
+
+<select name="experience">
+
+<option>Fresher</option>
+<option>1 Year</option>
+<option>2 Years</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+<label>Address</label>
+<textarea name="address"></textarea>
+</div>
+
 <button type="submit"
 class="submit-btn"
 id="submitBtn">
@@ -407,7 +615,7 @@ Submit Application
 
 <h2>📞 Contact : 6305232525</h2>
 
-<p>VSR Staffing Services | Hyderabad Staffing Solutions</p>
+<p>VenuHR.com | Hyderabad</p>
 
 </div>
 
@@ -452,6 +660,9 @@ const db = getFirestore(app);
 const jobsGrid =
 document.getElementById("jobsGrid");
 
+const totalJobs =
+document.getElementById("totalJobs");
+
 let allJobs = [];
 
 async function loadJobs(){
@@ -472,6 +683,9 @@ allJobs.push(doc.data());
 
 });
 
+totalJobs.innerText =
+allJobs.length;
+
 displayJobs(allJobs);
 
 }catch(error){
@@ -479,7 +693,7 @@ displayJobs(allJobs);
 console.log(error);
 
 jobsGrid.innerHTML =
-"Error Loading Jobs";
+"<div class='no-job'>Error Loading Jobs</div>";
 
 }
 
@@ -492,7 +706,7 @@ jobsGrid.innerHTML = "";
 if(jobs.length === 0){
 
 jobsGrid.innerHTML =
-"No Jobs Available";
+"<div class='no-job'>No Jobs Found</div>";
 
 return;
 
@@ -509,34 +723,47 @@ ${job.company || "Company Hiring"}
 </div>
 
 <div class="job-title">
-${job.Title || job.title}
+${job.Title || job.title || "Job"}
 </div>
 
 <div class="job-info">
-💰 Salary : ₹${job.salary}
+💰 Salary : ₹${job.salary || "15000"}
 </div>
 
 <div class="job-info">
-📍 Location : ${job.Location || job.location}
+📍 Location : ${job.Location || job.location || "Hyderabad"}
 </div>
 
 <div class="job-info">
-🕒 Full Time
+💼 Category : ${job.category || "BPO"}
 </div>
 
 <div class="tags">
-<div class="tag">Hiring</div>
-<div class="tag">Apply Fast</div>
+
+<div class="tag">
+Urgent Hiring
+</div>
+
+<div class="tag">
+Apply Fast
+</div>
+
+<div class="tag">
+Full Time
+</div>
+
 </div>
 
 <button class="apply-btn"
-onclick="openPopup(
-'${job.company || ""}',
-'${job.Title || job.title}',
-'${job.Location || job.location}'
-)">
+onclick='openJobPage(
+${JSON.stringify(job.company || "")},
+${JSON.stringify(job.Title || job.title || "")},
+${JSON.stringify(job.Location || job.location || "")},
+${JSON.stringify(job.salary || "")},
+${JSON.stringify(job.description || job.Description || "No Description Available")}
+)'>
 
-Apply Now
+View Details
 
 </button>
 
@@ -551,39 +778,109 @@ Apply Now
 const searchInput =
 document.getElementById("searchInput");
 
-searchInput.addEventListener("keyup",()=>{
+const locationFilter =
+document.getElementById("locationFilter");
 
-const value =
+const categoryFilter =
+document.getElementById("categoryFilter");
+
+function filterJobs(){
+
+const searchValue =
 searchInput.value.toLowerCase();
 
-const filtered =
-allJobs.filter(job=>
+const locationValue =
+locationFilter.value.toLowerCase();
 
+const categoryValue =
+categoryFilter.value.toLowerCase();
+
+const filteredJobs =
+allJobs.filter((job)=>{
+
+const title =
 (job.Title || job.title || "")
-.toLowerCase()
-.includes(value)
+.toLowerCase();
 
-||
-
+const location =
 (job.Location || job.location || "")
-.toLowerCase()
-.includes(value)
+.toLowerCase();
+
+const category =
+(job.category || "")
+.toLowerCase();
+
+return(
+
+title.includes(searchValue)
+
+&&
+
+(locationValue === "" ||
+location.includes(locationValue))
+
+&&
+
+(categoryValue === "" ||
+category.includes(categoryValue))
 
 );
 
-displayJobs(filtered);
-
 });
 
-window.openPopup = function(company,job,location){
+displayJobs(filteredJobs);
+
+}
+
+searchInput.addEventListener("keyup",filterJobs);
+
+locationFilter.addEventListener("change",filterJobs);
+
+categoryFilter.addEventListener("change",filterJobs);
+
+window.openJobPage = function(company,job,location,salary,description){
+
+document.getElementById("jobPage").style.display="flex";
+
+document.getElementById("jobPageTitle").innerText = job;
+
+document.getElementById("jobCompany").innerHTML =
+"🏢 Company : " + company;
+
+document.getElementById("jobSalary").innerHTML =
+"💰 Salary : ₹" + salary;
+
+document.getElementById("jobLocationText").innerHTML =
+"📍 Location : " + location;
+
+document.getElementById("jobDescription").innerText =
+description || "No Description Available";
+
+document.getElementById("companyName").value = company;
+
+document.getElementById("jobRole").value = job;
+
+document.getElementById("jobLocation").value = location;
+
+const whatsappText =
+`*${job}*%0ACompany: ${company}%0ALocation: ${location}%0ASalary: ₹${salary}`;
+
+document.getElementById("shareWhatsapp").href =
+`https://wa.me/?text=${whatsappText}`;
+
+}
+
+window.closeJobPage = function(){
+
+document.getElementById("jobPage").style.display="none";
+
+}
+
+window.openApplyForm = function(){
+
+document.getElementById("jobPage").style.display="none";
 
 document.getElementById("popup").style.display="flex";
-
-document.getElementById("companyName").value=company;
-
-document.getElementById("jobRole").value=job;
-
-document.getElementById("jobLocation").value=location;
 
 }
 
@@ -626,7 +923,7 @@ body:new FormData(form)
 
 });
 
-alert("Application Submitted Successfully");
+alert("Application Submitted Successfully ✅");
 
 form.reset();
 
@@ -634,7 +931,7 @@ closePopup();
 
 }catch(error){
 
-alert("Error Submitting Form");
+alert("Error Submitting Form ❌");
 
 }
 
