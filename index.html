@@ -925,11 +925,20 @@ document.getElementById("jobRole").value = job;
 
 document.getElementById("jobLocation").value = location;
 
+const jobSlug = encodeURIComponent(job);
+const jobLink = `https://venuhr.com/?job=${jobSlug}`;
+
 const whatsappText =
-`*${job}*%0ACompany: ${company}%0ALocation: ${location}%0ASalary: ₹${salary}`;
+`🔥 Hiring: ${job}
+
+🏢 Company: ${company}
+📍 Location: ${location}
+
+Apply Now:
+${jobLink}`;
 
 document.getElementById("shareWhatsapp").href =
-`https://wa.me/?text=${whatsappText}`;
+`https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappText)}`;
 
 }
 
@@ -998,6 +1007,27 @@ alert("Submission Failed ❌");
 submitBtn.disabled = false;
 submitBtn.innerText = "Submit Application";
 
+});
+
+
+// Deep-link job support
+window.addEventListener('load',()=>{
+ const params=new URLSearchParams(location.search);
+ const sharedJob=params.get('job');
+ if(sharedJob){
+   setTimeout(()=>{
+     const found=allJobs.find(j=>(j.Title||j.title||'').toLowerCase()===decodeURIComponent(sharedJob).toLowerCase());
+     if(found){
+       openJobPage(
+         found.company||'',
+         found.Title||found.title||'',
+         found.Location||found.location||'',
+         found.salary||'',
+         found.description||found.Description||'No Description Available'
+       );
+     }
+   },1500);
+ }
 });
 
 loadJobs();
