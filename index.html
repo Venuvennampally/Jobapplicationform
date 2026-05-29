@@ -373,18 +373,18 @@ flex-direction:column;
 </div>
 
 <div class="stat-card">
-<h2>50+</h2>
+<h2 id="totalCompanies">0</h2>
 <p>Companies</p>
 </div>
 
 <div class="stat-card">
-<h2>1000+</h2>
-<p>Candidates</p>
+<h2 id="totalCandidates">0</h2>
+<p>Candidates Applied</p>
 </div>
 
 <div class="stat-card">
-<h2>24/7</h2>
-<p>Support</p>
+<h2 id="totalSelected">0</h2>
+<p>Selected Candidates</p>
 </div>
 
 </div>
@@ -397,28 +397,12 @@ flex-direction:column;
 id="searchInput"
 placeholder="🔍 Search Jobs">
 
-<select id="locationFilter">
+<select id="locationFilter"><option value="">📍 All Locations</option></select>
 
-<option value="">📍 All Locations</option>
+<select id="categoryFilter"><option value="">💼 All Categories</option></select>
 
-<option>Hyderabad</option>
-<option>KPHB</option>
-<option>Miyapur</option>
-<option>Balanagar</option>
-<option>Uppal</option>
-
-</select>
-
-<select id="categoryFilter">
-
-<option value="">💼 Category</option>
-
-<option>BPO</option>
-<option>HR</option>
-<option>IT</option>
-<option>Admin</option>
-<option>Warehouse</option>
-
+<select id="companyFilter">
+<option value="">🏢 All Companies</option>
 </select>
 
 </div>
@@ -592,6 +576,8 @@ onclick="closePopup()">
 
 </div>
 
+
+
 <div class="input-box">
 <label>Address</label>
 <textarea name="address"></textarea>
@@ -633,9 +619,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/fireba
 import {
 getFirestore,
 collection,
-getDocs
+getDocs,
+addDoc,
+serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+
 
 const firebaseConfig = {
 
@@ -657,11 +647,21 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+
 const jobsGrid =
 document.getElementById("jobsGrid");
 
 const totalJobs =
 document.getElementById("totalJobs");
+
+const totalCompanies =
+document.getElementById("totalCompanies");
+
+const totalCandidates =
+document.getElementById("totalCandidates");
+
+const totalSelected =
+document.getElementById("totalSelected");
 
 let allJobs = [];
 
@@ -685,6 +685,58 @@ allJobs.push(doc.data());
 
 totalJobs.innerText =
 allJobs.length;
+
+const companies = new Set();
+allJobs.forEach(job=>{
+ if(job.company) companies.add(job.company);
+});
+
+totalCompanies.innerText = companies.size;
+
+const appSnapshot = await getDocs(collection(db,"applications"));
+
+let candidateCount = 0;
+let selectedCount = 0;
+
+appSnapshot.forEach((doc)=>{
+ candidateCount++;
+ const data = doc.data();
+ if(data.status === "Selected") selectedCount++;
+});
+
+totalCandidates.innerText = candidateCount;
+totalSelected.innerText = selectedCount;
+
+const locationSet = new Set();
+const categorySet = new Set();
+
+allJobs.forEach(job=>{
+ const loc = job.Location || job.location || "";
+ const cat = job.category || "";
+ if(loc) locationSet.add(loc);
+ if(cat) categorySet.add(cat);
+});
+
+const lf=document.getElementById('locationFilter');
+const cf=document.getElementById('categoryFilter');
+
+if(lf){
+ lf.innerHTML='<option value="">📍 All Locations</option>';
+ [...locationSet].sort().forEach(v=> lf.innerHTML += `<option>${v}</option>`);
+}
+
+if(cf){
+ cf.innerHTML='<option value="">💼 All Categories</option>';
+ [...categorySet].sort().forEach(v=> cf.innerHTML += `<option>${v}</option>`);
+}
+
+const companyFilterEl = document.getElementById("companyFilter");
+if(companyFilterEl){
+ companyFilterEl.innerHTML='<option value="">🏢 All Companies</option>';
+ [...companies].sort().forEach(c=>{
+   companyFilterEl.innerHTML += `<option>${c}</option>`;
+ });
+}
 
 displayJobs(allJobs);
 
@@ -784,6 +836,9 @@ document.getElementById("locationFilter");
 const categoryFilter =
 document.getElementById("categoryFilter");
 
+const companyFilter =
+document.getElementById("companyFilter");
+
 function filterJobs(){
 
 const searchValue =
@@ -794,6 +849,8 @@ locationFilter.value.toLowerCase();
 
 const categoryValue =
 categoryFilter.value.toLowerCase();
+
+const companyValue = companyFilter.value.toLowerCase();
 
 const filteredJobs =
 allJobs.filter((job)=>{
@@ -824,6 +881,11 @@ location.includes(locationValue))
 (categoryValue === "" ||
 category.includes(categoryValue))
 
+&&
+
+(companyValue === "" ||
+(job.company || "").toLowerCase().includes(companyValue))
+
 );
 
 });
@@ -837,6 +899,7 @@ searchInput.addEventListener("keyup",filterJobs);
 locationFilter.addEventListener("change",filterJobs);
 
 categoryFilter.addEventListener("change",filterJobs);
+companyFilter.addEventListener("change",filterJobs);
 
 window.openJobPage = function(company,job,location,salary,description){
 
@@ -890,8 +953,6 @@ document.getElementById("popup").style.display="none";
 
 }
 
-const scriptURL =
-"https://script.google.com/macros/s/AKfycbyAsqafWijN2RUII-Cz1dcGx5O2HC_La2HvEVy1PNxT-p7GPdjMKVFdK7lPNDDI4TGG/exec";
 
 const form =
 document.getElementById("jobForm");
@@ -899,47 +960,43 @@ document.getElementById("jobForm");
 const submitBtn =
 document.getElementById("submitBtn");
 
-let isSubmitting = false;
-
 form.addEventListener("submit", async (e)=>{
 
 e.preventDefault();
 
-if(isSubmitting) return;
-
-isSubmitting = true;
-
 submitBtn.disabled = true;
-
-submitBtn.innerText = "Submitting...";
+submitBtn.innerText = "Uploading...";
 
 try{
 
-await fetch(scriptURL,{
+await addDoc(collection(db,"applications"),{
+company: document.getElementById("companyName").value,
+jobRole: document.getElementById("jobRole").value,
+location: document.getElementById("jobLocation").value,
+name: form.name.value,
+phone: form.phone.value,
+email: form.email.value,
+dob: form.dob.value,
+gender: form.gender.value,
+qualification: form.qualification.value,
+experience: form.experience.value,
+address: form.address.value,
 
-method:"POST",
-
-body:new FormData(form)
-
+status:"New",
+createdAt: serverTimestamp()
 });
 
 alert("Application Submitted Successfully ✅");
-
 form.reset();
-
 closePopup();
 
 }catch(error){
-
-alert("Error Submitting Form ❌");
-
+console.log(error);
+alert("Submission Failed ❌");
 }
 
 submitBtn.disabled = false;
-
 submitBtn.innerText = "Submit Application";
-
-isSubmitting = false;
 
 });
 
