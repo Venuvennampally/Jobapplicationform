@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VenuHR Job Status</title>
+<style>
+body{font-family:Arial;background:#f4f7fb;padding:20px}
+.card{max-width:700px;margin:auto;background:#fff;padding:20px;border-radius:16px}
+input,button{width:100%;padding:12px;margin:8px 0;box-sizing:border-box}
+button{background:#2563eb;color:#fff;border:none;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Check Job Request Status</h2>
+<input id="mobile" placeholder="Enter Mobile Number">
+<button onclick="checkStatus()">Check Status</button>
+<div id="result"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore,collection,getDocs,query,where } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyARjD6pxfDGkQQSWGZ-T3bOZiu4qa_SJkk",
+authDomain:"vsr--staffing.firebaseapp.com",
+projectId:"vsr--staffing",
+storageBucket:"vsr--staffing.firebasestorage.app",
+messagingSenderId:"105296080631",
+appId:"1:105296080631:web:29a610f720cfa60032edf2"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+window.checkStatus=async()=>{
+ const num=document.getElementById('mobile').value.trim();
+
+ const q=query(collection(db,'pending_jobs'),where('whatsapp','==',num));
+ const snap=await getDocs(q);
+
+ if(snap.empty){
+   result.innerHTML='❌ No request found for this mobile number';
+   return;
+ }
+
+ const d=snap.docs[0].data();
+ const status=d.status || d.Status || 'Pending';
+
+ if(status==='Approved'){
+   result.innerHTML=`
+   <h3>🟢 Approved</h3>
+   <p>Your job is now live on VenuHR.</p>
+   <a href="${d.liveLink||'#'}" target="_blank">
+   <button>View Live Job</button>
+   </a>`;
+ }else if(status==='Rejected'){
+   result.innerHTML=`
+   <h3>🔴 Rejected</h3>
+   <p>Your request was not approved.</p>
+   <a href="job-request.html">
+   <button>Submit New Request</button>
+   </a>`;
+ }else{
+   result.innerHTML=`
+   <h3>🟡 Pending Approval</h3>
+   <p>Our HR team is reviewing your request.</p>`;
+ }
+}
+</script>
+</body>
+</html>

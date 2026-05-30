@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VenuHR Job Request</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f7fb;margin:0;padding:15px}
+.container{max-width:700px;margin:auto}
+.card{background:#fff;padding:20px;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.08)}
+input,textarea,button{width:100%;padding:14px;margin:8px 0;box-sizing:border-box;border:1px solid #ddd;border-radius:10px}
+button{background:#2563eb;color:#fff;border:none;font-weight:bold;cursor:pointer}
+#success{display:none;text-align:center}
+</style>
+</head>
+<body>
+<div class="container">
+<div id="formCard" class="card">
+<h2>Company Job Request Form</h2>
+<input id="companyName" placeholder="Company Name" required>
+<input id="hrName" placeholder="HR Name" required>
+<input id="whatsapp" placeholder="WhatsApp Number" required>
+<input id="email" placeholder="Email" required>
+<input id="title" placeholder="Job Title" required>
+<input id="jobLocation" placeholder="Location" required>
+<input id="salary" placeholder="Salary">
+<input id="openings" placeholder="Openings">
+<textarea id="description" placeholder="Job Description"></textarea>
+<button id="submitBtn" type="button">Submit Request</button>
+<div id="msg"></div>
+</div>
+
+<div id="success" class="card">
+<h2>✅ Job Request Submitted Successfully</h2>
+<p>Your job request has been received.</p>
+<p><b>HR will activate your job posting soon.</b></p>
+<a href="job-status-mobile.html">Check Job Status</a>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore,collection,addDoc,serverTimestamp,getDocs,query,where } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyARjD6pxfDGkQQSWGZ-T3bOZiu4qa_SJkk",
+authDomain:"vsr--staffing.firebaseapp.com",
+projectId:"vsr--staffing",
+storageBucket:"vsr--staffing.firebasestorage.app",
+messagingSenderId:"105296080631",
+appId:"1:105296080631:web:29a610f720cfa60032edf2"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+document.getElementById("submitBtn").addEventListener("click", async ()=>{
+ try{
+   const email=document.getElementById("email").value.trim().toLowerCase();
+
+   const q=query(collection(db,"pending_jobs"),where("email","==",email));
+   const existing=await getDocs(q);
+
+   if(!existing.empty){
+      document.getElementById("msg").innerHTML="⚠️ Email already registered. Check your status page.";
+      return;
+   }
+
+   await addDoc(collection(db,"pending_jobs"),{
+      companyName: document.getElementById("companyName").value,
+      hrName: document.getElementById("hrName").value,
+      whatsapp: document.getElementById("whatsapp").value,
+      email: email,
+      title: document.getElementById("title").value,
+      location: document.getElementById("jobLocation").value,
+      salary: document.getElementById("salary").value,
+      openings: document.getElementById("openings").value,
+      description: document.getElementById("description").value,
+      status:"Pending",
+      createdAt:serverTimestamp()
+   });
+
+   document.getElementById("formCard").style.display="none";
+   document.getElementById("success").style.display="block";
+ }catch(e){
+   document.getElementById("msg").innerHTML="❌ "+e.message;
+ }
+});
+</script>
+</body>
+</html>
