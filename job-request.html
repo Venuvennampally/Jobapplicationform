@@ -26,50 +26,90 @@ button{background:#2563eb;color:#fff;border:none;font-weight:bold;cursor:pointer
 <div class="card" id="formCard">
 <h2>Submit Job Requirement</h2>
 
-<form onsubmit="return validateForm()">
-<input id="company" placeholder="Company Name *" required>
-<input id="mobile" placeholder="Contact Number *" maxlength="10" required>
-<input id="title" placeholder="Job Title *" required>
-<textarea id="desc" placeholder="Job Description *" required></textarea>
-<input id="location" placeholder="Job Location *" required>
+<input id="company" placeholder="Company Name *">
+<input id="mobile" placeholder="Contact Number *" maxlength="10">
+<input id="title" placeholder="Job Title *">
+<textarea id="desc" placeholder="Job Description *"></textarea>
+<input id="location" placeholder="Job Location *">
 
-<button type="submit">Submit Request</button>
-</form>
+<button id="submitBtn">Submit Request</button>
 
 <hr>
-
 <h3>Already Submitted?</h3>
 <p class="note">Check your request status using your mobile number.</p>
-
-<a href="job-status.html">
-<button type="button" class="statusBtn">🔍 Check Status</button>
-</a>
+<a href="job-status.html"><button type="button" class="statusBtn">🔍 Check Status</button></a>
+<div id="msg"></div>
 </div>
 
 <div class="card" id="success">
 <h2>✅ Request Submitted Successfully</h2>
 <p>Your request has been submitted.</p>
 <p>Use your mobile number to check status.</p>
-<a href="job-status.html">
-<button>Check My Status</button>
-</a>
+<a href="job-status.html"><button>Check My Status</button></a>
 </div>
 </div>
 
-<script>
-function validateForm(){
- const mobile=document.getElementById('mobile').value.trim();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore,collection,addDoc,serverTimestamp,getDocs,query,where } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
- if(!/^[6-9]\d{9}$/.test(mobile)){
-   alert('Enter valid 10 digit mobile number');
-   return false;
+const firebaseConfig={
+apiKey:"AIzaSyARjD6pxfDGkQQSWGZ-T3bOZiu4qa_SJkk",
+authDomain:"vsr--staffing.firebaseapp.com",
+projectId:"vsr--staffing",
+storageBucket:"vsr--staffing.firebasestorage.app",
+messagingSenderId:"105296080631",
+appId:"1:105296080631:web:29a610f720cfa60032edf2"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+document.getElementById("submitBtn").addEventListener("click", async ()=>{
+ const msg=document.getElementById("msg");
+
+ try{
+   const company=document.getElementById("company").value.trim();
+   const mobile=document.getElementById("mobile").value.trim();
+   const title=document.getElementById("title").value.trim();
+   const desc=document.getElementById("desc").value.trim();
+   const location=document.getElementById("location").value.trim();
+
+   if(!company || !mobile || !title || !desc || !location){
+      msg.innerHTML="⚠️ Fill all fields";
+      return;
+   }
+
+   if(!/^[6-9]\d{9}$/.test(mobile)){
+      msg.innerHTML="⚠️ Enter valid 10 digit mobile number";
+      return;
+   }
+
+   const q=query(collection(db,"pending_jobs"),where("whatsapp","==",mobile));
+   const existing=await getDocs(q);
+
+   if(!existing.empty){
+      msg.innerHTML="⚠️ Request already exists. Check Status.";
+      return;
+   }
+
+   await addDoc(collection(db,"pending_jobs"),{
+      companyName:company,
+      whatsapp:mobile,
+      title:title,
+      description:desc,
+      location:location,
+      status:"Pending",
+      createdAt:serverTimestamp()
+   });
+
+   document.getElementById("formCard").style.display="none";
+   document.getElementById("success").style.display="block";
+
+ }catch(e){
+   msg.innerHTML="❌ "+e.message;
  }
-
- document.getElementById('formCard').style.display='none';
- document.getElementById('success').style.display='block';
-
- return false;
-}
+});
 </script>
 </body>
 </html>
