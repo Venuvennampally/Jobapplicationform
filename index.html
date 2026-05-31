@@ -614,7 +614,22 @@
             .top-announcement { justify-content: center; }
             .top-announcement div:last-child { display: none; }
         }
-    html{scroll-behavior:smooth;} </style>
+    html{scroll-behavior:smooth;} 
+.mobile-menu-btn{display:none;background:none;border:none;font-size:24px;cursor:pointer}
+@media(max-width:640px){
+.mobile-menu-btn{display:block}
+.nav-links-cluster{display:none;position:absolute;top:75px;left:0;width:100%;background:#fff;padding:15px;flex-direction:column;gap:15px;border-top:1px solid #ddd}
+.nav-links-cluster.show{display:flex}
+.header-navbar{position:sticky}
+.search-node-input select{
+background:#fff;
+border-radius:10px;
+padding:10px;
+border:1px solid #e2e8f0;
+}
+}
+
+</style>
 </head>
 
 <body>
@@ -626,7 +641,7 @@
 
     <header class="header-navbar">
         <a href="#" class="logo">Venu<span>HR</span></a>
-        <ul class="nav-links-cluster">
+        <button class="mobile-menu-btn" onclick="toggleMenu()"><i class="fa fa-bars"></i></button><ul class="nav-links-cluster" id="navMenu">
             <li><a href="#jobs-section" class="active">Jobs</a></li>
             <li><a href="#companies-section">Companies</a></li>
             <li><a href="#support-section">Support</a></li>
@@ -666,15 +681,15 @@
             </div>
             <div class="search-node-input">
                 <i class="fa-solid fa-location-dot"></i>
-                <select id="locationFilter"><option value="">Select Location</option></select>
+                <select id="locationFilter"><option value="">All Locations</option></select>
             </div>
             <div class="search-node-input">
                 <i class="fa-solid fa-layer-group"></i>
-                <select id="categoryFilter"><option value="">Select Category</option></select>
+                <select id="categoryFilter"><option value="">All Categories</option></select>
             </div>
             <div class="search-node-input">
                 <i class="fa-solid fa-building"></i>
-                <select id="companyFilter"><option value="">Select Company</option></select>
+                <select id="companyFilter"><option value="">All Companies</option></select>
             </div>
         </div>
     </div>
@@ -1043,6 +1058,11 @@
 
         setupDynamicGreetings();
         loadJobs();
-    </script>
+    
+window.toggleMenu=function(){
+document.getElementById('navMenu').classList.toggle('show');
+}
+
+</script>
 </body>
 </html>
