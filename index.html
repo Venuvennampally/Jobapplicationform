@@ -665,25 +665,6 @@ animation:heroRotate 15s infinite;
 .hero-slide p{max-width:800px;margin:auto}
 </style>
 
-
-<style>
-.analytics-matrix{grid-template-columns:repeat(3,1fr)!important}
-.cards-vertical-stack{gap:14px!important}
-.luxury-job-row{
-border-radius:16px!important;
-padding:20px!important;
-box-shadow:0 2px 10px rgba(0,0,0,.05)!important;
-}
-.brief-desc-text{display:none!important}
-.pill-labels-group{display:none!important}
-.badge-pill-row{margin-bottom:8px!important}
-.job-main-heading{font-size:20px!important}
-.action-cta-trigger{border-radius:10px!important}
-@media(max-width:768px){
-.analytics-matrix{grid-template-columns:1fr!important}
-}
-</style>
-
 </head>
 
 <body>
@@ -739,7 +720,6 @@ box-shadow:0 2px 10px rgba(0,0,0,.05)!important;
             <div class="matrix-icon-housing"><i class="fa-solid fa-users"></i></div>
             <div class="matrix-meta"><h3 id="totalCandidates">0</h3><p>Applicants</p></div>
         </div>
-        
     </div>
 
     <div class="search-engine-wrap">
@@ -825,7 +805,7 @@ box-shadow:0 2px 10px rgba(0,0,0,.05)!important;
                 </div>
                 <div class="input-row-block">
                     <label>Mobile Number *</label>
-                    <input type="text" name="phone" placeholder="10-digit mobile sequence" required>
+                    <input type="tel" name="phone" id="phone" maxlength="10" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter 10 Digit Mobile Number" required>
                 </div>
                 <div class="input-row-block">
                     <label>Email</label>
@@ -844,13 +824,46 @@ box-shadow:0 2px 10px rgba(0,0,0,.05)!important;
                     </select>
                 </div>
                 <div class="input-row-block">
-                    <label>Qualification</label>
-                    <select name="qualification">
-                        <option>10th</option>
-                        <option>Inter</option>
-                        <option>Degree</option>
-                        <option>BTech</option>
-                    </select>
+                    <label>Qualification *</label>
+                    <select name="qualification" required>
+<option value="">Select Qualification</option>
+<option>SSC</option>
+<option>Intermediate</option>
+<option>ITI</option>
+<option>Diploma</option>
+<option>BA</option>
+<option>B.Com</option>
+<option>B.Sc</option>
+<option>BBA</option>
+<option>BCA</option>
+<option>B.Tech</option>
+<option>BE</option>
+<option>LLB</option>
+<option>B.Pharmacy</option>
+<option>D.Pharmacy</option>
+<option>B.Ed</option>
+<option>BHM</option>
+<option>B.Arch</option>
+<option>MBA</option>
+<option>MCA</option>
+<option>M.Tech</option>
+<option>M.Sc</option>
+<option>M.Com</option>
+<option>MA</option>
+<option>LLM</option>
+<option>CA</option>
+<option>CS</option>
+<option>CMA</option>
+<option>MBBS</option>
+<option>BDS</option>
+<option>BAMS</option>
+<option>BHMS</option>
+<option>BPT</option>
+<option>Nursing</option>
+<option>PhD</option>
+<option>Other</option>
+</select>
+<input type="text" name="specialization" placeholder="Specialization (CSE, HR, Finance, Computers etc)">
                 </div>
                 <div class="input-row-block">
                     <label>Experience</label>
@@ -930,18 +943,13 @@ box-shadow:0 2px 10px rgba(0,0,0,.05)!important;
 
                 const appSnapshot = await getDocs(collection(db, "applications"));
                 let candidateCount = 0;
-                let selectedCount = 0;
-
-                appSnapshot.forEach((doc) => {
+appSnapshot.forEach((doc) => {
                     candidateCount++;
                     const data = doc.data();
-                    if (data.status === "Selected") selectedCount++;
-                });
+});
 
                 totalCandidates.innerText = candidateCount;
-                
-
-                const locationSet = new Set();
+const locationSet = new Set();
                 const categorySet = new Set();
 
                 allJobs.forEach(job => {
