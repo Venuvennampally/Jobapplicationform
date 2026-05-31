@@ -665,6 +665,33 @@ animation:heroRotate 15s infinite;
 .hero-slide p{max-width:800px;margin:auto}
 </style>
 
+
+<style>
+/* Mobile Form Fixes */
+@media (max-width:768px){
+  .luxury-modal-pod{width:95%!important;padding:18px!important;}
+  .input-row-block select,
+  .input-row-block input,
+  .input-row-block textarea{
+      width:100%!important;
+      min-height:48px!important;
+      font-size:16px!important;
+      border:1px solid #cbd5e1!important;
+      border-radius:12px!important;
+      background:#fff!important;
+      appearance:auto!important;
+      -webkit-appearance:menulist!important;
+  }
+  .input-row-block label{
+      display:block!important;
+      margin-bottom:8px!important;
+      font-weight:700!important;
+  }
+  .modal-cta-group{flex-direction:column!important;}
+  .search-engine-grid{grid-template-columns:1fr!important;}
+}
+</style>
+
 </head>
 
 <body>
@@ -744,16 +771,6 @@ animation:heroRotate 15s infinite;
     </div>
 
     
-<section id="companies-section" style="max-width:1140px;margin:40px auto;padding:0 20px;">
-<h2 style="margin-bottom:20px;color:#0f172a;">Hiring Companies</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;">
-<div style="background:#fff;padding:20px;border-radius:16px;border:1px solid #e2e8f0;text-align:center;">BPO Companies</div>
-<div style="background:#fff;padding:20px;border-radius:16px;border:1px solid #e2e8f0;text-align:center;">IT Companies</div>
-<div style="background:#fff;padding:20px;border-radius:16px;border:1px solid #e2e8f0;text-align:center;">Banking & Finance</div>
-<div style="background:#fff;padding:20px;border-radius:16px;border:1px solid #e2e8f0;text-align:center;">Sales Companies</div>
-</div>
-</section>
-
 <main id="jobs-section" class="main-feed-stream">
         <h2 class="feed-heading-title"><i class="fa-solid fa-sparkles" style="color:#a855f7;"></i> Latest Job Openings</h2>
         <div class="cards-vertical-stack" id="jobsGrid">
