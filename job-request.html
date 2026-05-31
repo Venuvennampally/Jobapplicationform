@@ -7,13 +7,13 @@
 <style>
 body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb}
 .header{background:linear-gradient(135deg,#0f172a,#2563eb);color:#fff;padding:30px 20px;text-align:center}
-.header h1{margin:0}
 .wrap{max-width:700px;margin:20px auto;padding:15px}
 .card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.08)}
 input,textarea,button{width:100%;padding:14px;margin:8px 0;box-sizing:border-box;border:1px solid #ddd;border-radius:10px}
 button{background:#2563eb;color:#fff;border:none;font-weight:bold;cursor:pointer}
 .statusBtn{background:#16a34a}
 .note{font-size:14px;color:#666;text-align:center}
+#success{display:none;text-align:center}
 </style>
 </head>
 <body>
@@ -23,14 +23,15 @@ button{background:#2563eb;color:#fff;border:none;font-weight:bold;cursor:pointer
 </div>
 
 <div class="wrap">
-<div class="card">
+<div class="card" id="formCard">
 <h2>Submit Job Requirement</h2>
 
 <form onsubmit="return validateForm()">
 <input id="company" placeholder="Company Name *" required>
 <input id="mobile" placeholder="Contact Number *" maxlength="10" required>
+<input id="title" placeholder="Job Title *" required>
 <textarea id="desc" placeholder="Job Description *" required></textarea>
-<textarea id="address" placeholder="Company Address *" required></textarea>
+<input id="location" placeholder="Job Location *" required>
 
 <button type="submit">Submit Request</button>
 </form>
@@ -43,7 +44,15 @@ button{background:#2563eb;color:#fff;border:none;font-weight:bold;cursor:pointer
 <a href="job-status.html">
 <button type="button" class="statusBtn">🔍 Check Status</button>
 </a>
+</div>
 
+<div class="card" id="success">
+<h2>✅ Request Submitted Successfully</h2>
+<p>Your request has been submitted.</p>
+<p>Use your mobile number to check status.</p>
+<a href="job-status.html">
+<button>Check My Status</button>
+</a>
 </div>
 </div>
 
@@ -56,7 +65,9 @@ function validateForm(){
    return false;
  }
 
- alert('Form validation passed. Connect Firestore submit code here.');
+ document.getElementById('formCard').style.display='none';
+ document.getElementById('success').style.display='block';
+
  return false;
 }
 </script>
