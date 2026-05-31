@@ -630,6 +630,24 @@ border:1px solid #e2e8f0;
 }
 
 </style>
+
+<style>
+.hero-slider-text{position:relative;height:170px;overflow:hidden}
+.hero-slide{
+position:absolute;width:100%;left:0;top:0;
+opacity:0;transform:translateX(40px);
+animation:heroRotate 15s infinite;
+}
+.hero-slide:nth-child(2){animation-delay:5s}
+.hero-slide:nth-child(3){animation-delay:10s}
+@keyframes heroRotate{
+0%,25%{opacity:1;transform:translateX(0)}
+33%,100%{opacity:0;transform:translateX(-40px)}
+}
+.hero-slide h1{margin-bottom:15px}
+.hero-slide p{max-width:800px;margin:auto}
+</style>
+
 </head>
 
 <body>
@@ -648,13 +666,31 @@ border:1px solid #e2e8f0;
         </ul>
     </header>
 
-    <div class="hero-billboard">
-        <div class="time-greeting" id="timeGreetingNode">Welcome Back</div>
-        <h1>Find the Right Job for <br><span>Your Career</span></h1>
-        <p>Find jobs from different companies and apply easily.</p>
-    </div>
+    
+<div class="hero-billboard">
+<div class="time-greeting" id="timeGreetingNode">Welcome to VenuHR</div>
+<div class="hero-slider-text">
 
-    <div class="analytics-matrix">
+<div class="hero-slide">
+<h1>Find the Right Job for <br><span>Your Career</span></h1>
+<p>Find jobs from different companies and apply easily.</p>
+</div>
+
+<div class="hero-slide">
+<h1>మీకు సరైన ఉద్యోగాన్ని <br><span>సులభంగా కనుగొనండి</span></h1>
+<p>వివిధ కంపెనీల ఉద్యోగాలను చూసి సులభంగా దరఖాస్తు చేయండి.</p>
+</div>
+
+<div class="hero-slide">
+<h1>Jobs Available Now <br><span>Apply Today</span></h1>
+<p>Freshers & Experienced candidates can apply now | ఫ్రెషర్స్ మరియు అనుభవం ఉన్నవారు దరఖాస్తు చేయవచ్చు.</p>
+</div>
+
+</div>
+</div>
+
+<div class="analytics-matrix">
+
         <div class="matrix-pod">
             <div class="matrix-icon-housing"><i class="fa-solid fa-briefcase"></i></div>
             <div class="matrix-meta"><h3 id="totalJobs">0</h3><p>Jobs</p></div>
@@ -840,7 +876,7 @@ border:1px solid #e2e8f0;
             else if (currentHour < 17) dynamicGreetingMsg = "Good Afternoon! Find Jobs";
             else dynamicGreetingMsg = "Good Evening! Find Jobs";
             
-            document.getElementById("timeGreetingNode").innerText = dynamicGreetingMsg;
+            const tg=document.getElementById("timeGreetingNode"); if(tg){tg.innerText=dynamicGreetingMsg;}
         }
 
         async function loadJobs() {
@@ -906,7 +942,7 @@ border:1px solid #e2e8f0;
                 displayJobs(allJobs);
             } catch (error) {
                 console.log(error);
-                jobsGrid.innerHTML = "<div class='no-job'>Unable to load jobs. Please refresh.</div>";
+                jobsGrid.innerHTML = "<div class='no-job'>Unable to load jobs. Check Firestore data/rules.</div>"; console.error(error);
             }
         }
 
