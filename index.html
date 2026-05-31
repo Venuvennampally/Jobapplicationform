@@ -665,6 +665,25 @@ animation:heroRotate 15s infinite;
 .hero-slide p{max-width:800px;margin:auto}
 </style>
 
+
+<style>
+.analytics-matrix{grid-template-columns:repeat(3,1fr)!important}
+.cards-vertical-stack{gap:14px!important}
+.luxury-job-row{
+border-radius:16px!important;
+padding:20px!important;
+box-shadow:0 2px 10px rgba(0,0,0,.05)!important;
+}
+.brief-desc-text{display:none!important}
+.pill-labels-group{display:none!important}
+.badge-pill-row{margin-bottom:8px!important}
+.job-main-heading{font-size:20px!important}
+.action-cta-trigger{border-radius:10px!important}
+@media(max-width:768px){
+.analytics-matrix{grid-template-columns:1fr!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -720,10 +739,7 @@ animation:heroRotate 15s infinite;
             <div class="matrix-icon-housing"><i class="fa-solid fa-users"></i></div>
             <div class="matrix-meta"><h3 id="totalCandidates">0</h3><p>Applicants</p></div>
         </div>
-        <div class="matrix-pod">
-            <div class="matrix-icon-housing"><i class="fa-solid fa-circle-check"></i></div>
-            <div class="matrix-meta"><h3 id="totalSelected">0</h3><p>Selected</p></div>
-        </div>
+        
     </div>
 
     <div class="search-engine-wrap">
@@ -882,7 +898,7 @@ animation:heroRotate 15s infinite;
         const totalJobs = document.getElementById("totalJobs");
         const totalCompanies = document.getElementById("totalCompanies");
         const totalCandidates = document.getElementById("totalCandidates");
-        const totalSelected = document.getElementById("totalSelected");
+        
         let allJobs = [];
 
         // Automated Intelligent Dynamic Greeting Selector System
@@ -923,7 +939,7 @@ animation:heroRotate 15s infinite;
                 });
 
                 totalCandidates.innerText = candidateCount;
-                totalSelected.innerText = selectedCount;
+                
 
                 const locationSet = new Set();
                 const categorySet = new Set();
