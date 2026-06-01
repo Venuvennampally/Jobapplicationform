@@ -692,6 +692,116 @@ animation:heroRotate 15s infinite;
 }
 </style>
 
+
+<style>
+.job-contact-preview{margin-top:8px;text-align:center;font-size:12px;color:#888}
+.job-contact-preview.applied{color:#16a34a;font-weight:700}
+
+.share-btn{
+width:48px;
+height:48px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+background:#f1f5f9;
+font-size:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.share-btn:hover{transform:scale(1.05);}
+.action-buttons-wrap{display:flex;gap:10px;align-items:center;}
+
+
+.job-action-row{display:flex;gap:10px;margin-top:12px;}
+.job-action-row .action-cta-trigger{flex:1;}
+.whatsapp-share-btn{
+flex:1;border:none;border-radius:14px;background:#25D366;color:#fff;
+font-weight:700;cursor:pointer;display:flex;align-items:center;
+justify-content:center;gap:8px;font-size:14px;padding:14px 20px;
+}
+.whatsapp-share-btn:hover{
+box-shadow:0 10px 20px rgba(37,211,102,.25);
+}
+@media(max-width:768px){
+.job-action-row{flex-direction:column;}
+}
+</style>
+
+
+<style>
+.job-action-row{display:flex;gap:10px;width:100%;}
+.job-action-row button{flex:1;}
+.whatsapp-share-btn{
+background:#25D366;color:#fff;border:none;border-radius:14px;
+padding:14px;font-weight:700;display:flex;align-items:center;
+justify-content:center;gap:8px;cursor:pointer;
+}
+@media (max-width:768px){
+.luxury-job-row{padding:16px!important;}
+.job-action-row{flex-direction:column!important;width:100%!important;}
+.job-action-row button{
+width:100%!important;
+min-height:50px!important;
+}
+.action-cta-trigger,.whatsapp-share-btn{
+font-size:15px!important;
+}
+}
+</style>
+
+
+<style>
+.action-dock-right{
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+gap:12px;
+min-width:320px;
+}
+
+.job-action-row{
+display:flex;
+gap:12px;
+width:100%;
+}
+
+.job-action-row button{
+flex:1;
+}
+
+.whatsapp-share-btn{
+background:#25D366;
+color:#fff;
+border:none;
+border-radius:14px;
+padding:14px 20px;
+font-size:14px;
+font-weight:700;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+}
+
+@media(max-width:768px){
+.action-dock-right{
+width:100%;
+min-width:100%;
+align-items:stretch;
+}
+.job-action-row{
+flex-direction:column;
+width:100%;
+}
+.job-action-row button{
+width:100%;
+min-height:52px;
+}
+}
+</style>
+
 </head>
 
 <body>
@@ -704,8 +814,8 @@ animation:heroRotate 15s infinite;
     <header class="header-navbar">
         <a href="#" class="logo">Venu<span>HR</span></a>
         <button class="mobile-menu-btn" onclick="toggleMenu()"><i class="fa fa-bars"></i></button><ul class="nav-links-cluster" id="navMenu">
-            <li><a href="#jobs-section" class="active">Jobs</a></li>
-            <li><a href="#companies-section">Companies</a></li>
+            <li><a href="admin.html">➕ Post a Job</a></li><li><a href="#jobs-section" class="active">Jobs</a></li>
+            
             <li><a href="#support-section">Support</a></li>
         </ul>
     </header>
@@ -753,7 +863,7 @@ animation:heroRotate 15s infinite;
         <div class="search-engine-grid">
             <div class="search-node-input">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Search jobs...">
+                <input type="text" id="searchInput" placeholder="Search Jobs, Companies, Categories...">
             </div>
             <div class="search-node-input">
                 <i class="fa-solid fa-location-dot"></i>
@@ -763,10 +873,7 @@ animation:heroRotate 15s infinite;
                 <i class="fa-solid fa-layer-group"></i>
                 <select id="categoryFilter"><option value="">All Categories</option></select>
             </div>
-            <div class="search-node-input">
-                <i class="fa-solid fa-building"></i>
-                <select id="companyFilter"><option value="">All Companies</option></select>
-            </div>
+            
         </div>
     </div>
 
@@ -793,7 +900,13 @@ animation:heroRotate 15s infinite;
             <p id="jobDescription" style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); background: #fafafa; padding: 20px; border-radius: 16px; margin-bottom: 24px; border: 1px dashed #cbd5e1; white-space: pre-line; min-height: 120px;"></p>
 
             <button class="action-cta-trigger" style="width:100%; background: var(--accent-glow); padding: 16px;" onclick="openApplyForm()">Apply for this Job</button>
-            <div class="modal-cta-group">
+<div id="contactPreview" style="margin-top:12px;text-align:center;color:#64748b;font-size:12px;">
+📞 Call HR &nbsp;&nbsp; 💬 WhatsApp Company
+<div>🔒 Apply to unlock HR contact options</div>
+</div>
+            <div class="modal-cta-group" id="afterApplyActions" style="display:none;">
+<a href="tel:6305232525" class="wa-premium-btn">📞 Call HR</a>
+<a id="companyWhatsappBtn" target="_blank" class="wa-premium-btn">💬 WhatsApp Company</a>
                 <a id="shareWhatsapp" target="_blank" class="wa-premium-btn"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</a>
             </div>
         </div>
@@ -884,11 +997,20 @@ animation:heroRotate 15s infinite;
                 </div>
                 <div class="input-row-block">
                     <label>Experience</label>
-                    <select name="experience">
-                        <option>Fresher</option>
-                        <option>1 Year</option>
-                        <option>2 Years</option>
-                    </select>
+                    <select name="experience" id="experience">
+<option>Fresher</option>
+<option>1 Year</option>
+<option>2 Years</option>
+<option>3 Years</option>
+<option>4 Years</option>
+<option>5 Years</option>
+<option>6 Years</option>
+<option>7+ Years</option>
+</select>
+<div class="input-row-block" id="relevantExpBlock" style="display:none;">
+<label>Relevant Experience</label>
+<input type="text" name="relevantExperience" placeholder="Example: 2 Years in Telecalling">
+</div>
                 </div>
                 <div class="input-row-block">
                     <label>Address</label>
@@ -900,7 +1022,7 @@ animation:heroRotate 15s infinite;
     </div>
 
     <footer id="support-section" class="terminal-footer">
-        <h4>VenuHR Placement Services</h4>
+        <h4>www.venuhr.com</h4>
         <p>&copy; 2026 VenuHR.com | All Rights Reserved.</p>
     </footer>
 
@@ -930,6 +1052,8 @@ animation:heroRotate 15s infinite;
         const totalCandidates = document.getElementById("totalCandidates");
         
         let allJobs = [];
+let currentJobKey='';
+let currentJobId='';
 
         // Automated Intelligent Dynamic Greeting Selector System
         function setupDynamicGreetings() {
@@ -947,7 +1071,7 @@ animation:heroRotate 15s infinite;
                 const querySnapshot = await getDocs(collection(db, "venu"));
                 allJobs = [];
                 querySnapshot.forEach((doc) => {
-                    allJobs.push(doc.data());
+                    allJobs.push({id: doc.id, ...doc.data()});
                 });
 
                 totalJobs.innerText = allJobs.length;
@@ -989,14 +1113,6 @@ const locationSet = new Set();
                     [...categorySet].sort().forEach(v => cf.innerHTML += `<option>${v}</option>`);
                 }
 
-                const companyFilterEl = document.getElementById("companyFilter");
-                if (companyFilterEl) {
-                    companyFilterEl.innerHTML = '<option value="">All Companies</option>';
-                    [...companies].sort().forEach(c => {
-                        companyFilterEl.innerHTML += `<option>${c}</option>`;
-                    });
-                }
-
                 displayJobs(allJobs);
             } catch (error) {
                 console.log(error);
@@ -1024,7 +1140,7 @@ const locationSet = new Set();
                             ${JSON.stringify(job.Title || job.title || "")},
                             ${JSON.stringify(job.Location || job.location || "")},
                             ${JSON.stringify(job.salary || "")},
-                            ${JSON.stringify(job.description || job.Description || "No Description Available")}
+                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}
                         )'>${job.Title || job.title || "Job Opening"}</div>
                         
                         <div class="corporate-branding-node"><i class="fa-solid fa-building-premium" style="color:var(--accent-glow)"></i> ${job.company || "Company"}</div>
@@ -1039,7 +1155,7 @@ const locationSet = new Set();
                             ${(job.description || job.Description || "Freshers and experienced candidates can apply.").substring(0, 160)}...
                         </div>
 
-                        <div class="pill-labels-group">
+                        <div class="pill-labels-group"><span class="label-node">👨‍👩‍👧 Both</span>
                             <span class="label-node">Communication Skills</span>
                             <span class="label-node">Immediate Joining</span>
                             <span class="label-node">Day Shift</span>
@@ -1053,9 +1169,11 @@ const locationSet = new Set();
                             ${JSON.stringify(job.Title || job.title || "")},
                             ${JSON.stringify(job.Location || job.location || "")},
                             ${JSON.stringify(job.salary || "")},
-                            ${JSON.stringify(job.description || job.Description || "No Description Available")}
+                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}
                         )'>Apply Now</button>
-                    </div>
+<button class="whatsapp-share-btn"
+onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.company||'').replace(/'/g,'&#39;')}','${(job.Location||job.location||'').replace(/'/g,'&#39;')}','${job.id||''}')"><i class="fa-brands fa-whatsapp"></i> Share Job</button>
+</div>
                 </div>`;
             });
         }
@@ -1064,18 +1182,16 @@ const locationSet = new Set();
             const searchValue = searchInput.value.toLowerCase();
             const locationValue = locationFilter.value.toLowerCase();
             const categoryValue = categoryFilter.value.toLowerCase();
-            const companyValue = companyFilter.value.toLowerCase();
-
             const filteredJobs = allJobs.filter((job) => {
                 const title = (job.Title || job.title || "").toLowerCase();
+                const company = (job.company || "").toLowerCase();
                 const location = (job.Location || job.location || "").toLowerCase();
                 const category = (job.category || "").toLowerCase();
 
                 return (
-                    title.includes(searchValue) &&
+                    (title.includes(searchValue) || company.includes(searchValue) || category.includes(searchValue)) &&
                     (locationValue === "" || location.includes(locationValue)) &&
-                    (categoryValue === "" || category.includes(categoryValue)) &&
-                    (companyValue === "" || (job.company || "").toLowerCase().includes(companyValue))
+                    (categoryValue === "" || category.includes(categoryValue)) 
                 );
             });
             displayJobs(filteredJobs);
@@ -1084,9 +1200,8 @@ const locationSet = new Set();
         searchInput.addEventListener("keyup", filterJobs);
         locationFilter.addEventListener("change", filterJobs);
         categoryFilter.addEventListener("change", filterJobs);
-        companyFilter.addEventListener("change", filterJobs);
-
-        window.openJobPage = function (company, job, location, salary, description) {
+        window.openJobPage = function (company, job, location, salary, description, jobId='') {
+            currentJobId = jobId;
             document.getElementById("jobPage").style.display = "flex";
             document.getElementById("jobPageTitle").innerText = job;
             document.getElementById("jobCompany").innerHTML = "<i class='fa-solid fa-building'></i> Company: " + company;
@@ -1099,6 +1214,14 @@ const locationSet = new Set();
 
             const whatsappText = `*Job Details from VenuHR*%0A%0A*Job Role:* ${job}%0A*Company:* ${company}%0A*Location:* ${location}%0A* CTC Matrix Layout:* ₹${salary}%0A%0AApply now through VenuHR.`;
             document.getElementById("shareWhatsapp").href = `https://wa.me/?text=${whatsappText}`;
+            const msg = `Hello,%0A%0AWe received your job posting from www.venuhr.com.%0A%0AI am interested in the position of ${job}.%0A%0APlease share further details.%0A%0AThank You.`;
+            const btn=document.getElementById("companyWhatsappBtn");
+            if(btn){ btn.href=`https://wa.me/?text=${msg}`; }
+currentJobKey = company + '_' + job;
+const applied = localStorage.getItem('applied_' + currentJobKey);
+document.getElementById('afterApplyActions').style.display = applied ? 'flex' : 'none';
+const cp=document.getElementById('contactPreview');
+if(cp) cp.style.display = applied ? 'none' : 'block';
         }
 
         window.closeJobPage = function () {
@@ -1122,8 +1245,47 @@ const locationSet = new Set();
             submitBtn.disabled = true;
             submitBtn.innerText = "Submitting...";
 
+            const phone = form.phone.value.trim();
+            const nameVal = form.name.value.trim();
+
+            if(nameVal.length < 3){
+                alert("Enter valid full name");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Application";
+                return;
+            }
+
+            if(!/^[6-9]\d{9}$/.test(phone)){
+                alert("Enter valid 10 digit mobile number");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Application";
+                return;
+            }
+
+
             try {
-                await addDoc(collection(db, "applications"), {
+                
+                const existingApps = await getDocs(collection(db, "applications"));
+                let alreadyApplied = false;
+
+                existingApps.forEach((d) => {
+                    const app = d.data();
+                    if (
+                        app.phone === form.phone.value &&
+                        app.jobRole === document.getElementById("jobRole").value
+                    ) {
+                        alreadyApplied = true;
+                    }
+                });
+
+                if (alreadyApplied) {
+                    alert("You have already applied for this job.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Submit Application";
+                    return;
+                }
+
+await addDoc(collection(db, "applications"), {
                     company: document.getElementById("companyName").value,
                     jobRole: document.getElementById("jobRole").value,
                     location: document.getElementById("jobLocation").value,
@@ -1139,8 +1301,13 @@ const locationSet = new Set();
                     createdAt: serverTimestamp()
                 });
 
-                document.body.insertAdjacentHTML("beforeend",`<div style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99999"><div style="background:#fff;padding:30px;border-radius:24px;text-align:center;max-width:350px"><h2 style="color:#10b981">✅ Application Submitted</h2><p><b>HR will contact you soon.</b><br><br>Good Luck!</p><button onclick="this.parentElement.parentElement.remove()" style="padding:10px 20px;border:none;border-radius:12px;background:#10b981;color:#fff">OK</button></div></div>`);
-                form.reset();
+                document.body.insertAdjacentHTML("beforeend",`<div style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99999"><div style="background:#fff;padding:30px;border-radius:24px;text-align:center;max-width:380px"><h2 style="color:#10b981">✅ Application Submitted</h2><p><b>HR will contact you soon.</b><br><br>Good Luck!</p><div style="display:flex;flex-direction:column;gap:10px;margin-top:15px"><a href="tel:6305232525" style="padding:12px;border-radius:12px;background:#2563eb;color:#fff;text-decoration:none">📞 Call HR</a><a href="https://wa.me/916305232525" target="_blank" style="padding:12px;border-radius:12px;background:#25d366;color:#fff;text-decoration:none">💬 WhatsApp HR</a><button onclick="this.parentElement.parentElement.parentElement.remove()" style="padding:12px;border:none;border-radius:12px;background:#10b981;color:#fff">OK</button></div></div></div>`);
+                document.getElementById('afterApplyActions').style.display='flex';
+localStorage.setItem('applied_' + currentJobKey,'true');
+document.getElementById('afterApplyActions').style.display='flex';
+const cp=document.getElementById('contactPreview');
+if(cp) cp.style.display='none';
+form.reset();
                 closePopup();
             } catch (error) {
                 console.log(error);
@@ -1150,8 +1317,45 @@ const locationSet = new Set();
             submitBtn.innerText = "Submit Application";
         });
 
-        setupDynamicGreetings();
-        loadJobs();
+        
+const expEl=document.getElementById('experience');
+if(expEl){
+expEl.addEventListener('change',function(){
+const b=document.getElementById('relevantExpBlock');
+if(!b) return;
+b.style.display=this.value==='Fresher'?'none':'block';
+});
+}
+setupDynamicGreetings();
+
+        
+window.shareJob = function(job, company, location, jobId){
+const shareLink = window.location.origin + window.location.pathname + '?job=' + encodeURIComponent(jobId);
+const text = `Job Details from VenuHR
+
+Job Role: ${job}
+Company: ${company}
+Location: ${location}
+
+Apply Now:
+${shareLink}`;
+window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+};
+
+window.addEventListener('load',()=>{
+const params=new URLSearchParams(window.location.search);
+const shareJobId=params.get('job');
+if(!shareJobId) return;
+const wait=setInterval(()=>{
+const job=allJobs.find(j=>String(j.id)===String(shareJobId));
+if(job){
+clearInterval(wait);
+openJobPage(job.company||'',job.Title||job.title||'',job.Location||job.location||'',job.salary||'',job.description||job.Description||'',job.id||'');
+}
+},500);
+});
+
+loadJobs();
     
 window.toggleMenu=function(){
 document.getElementById('navMenu').classList.toggle('show');
