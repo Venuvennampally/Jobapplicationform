@@ -752,52 +752,37 @@ font-size:15px!important;
 
 
 <style>
+/* Premium Apply & Share Layout Upgrade */
 .action-dock-right{
-display:flex;
-flex-direction:column;
-align-items:flex-end;
-gap:12px;
-min-width:320px;
+display:flex !important;
+flex-direction:column !important;
+gap:12px !important;
+width:240px !important;
+align-items:stretch !important;
 }
 
-.job-action-row{
-display:flex;
-gap:12px;
-width:100%;
-}
-
-.job-action-row button{
-flex:1;
+.action-cta-trigger,
+.whatsapp-share-btn{
+width:100% !important;
+height:54px !important;
+border-radius:16px !important;
+font-size:15px !important;
+font-weight:700 !important;
 }
 
 .whatsapp-share-btn{
-background:#25D366;
-color:#fff;
-border:none;
-border-radius:14px;
-padding:14px 20px;
-font-size:14px;
-font-weight:700;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:8px;
+background:#25D366 !important;
 }
 
 @media(max-width:768px){
 .action-dock-right{
-width:100%;
-min-width:100%;
-align-items:stretch;
+width:100% !important;
 }
-.job-action-row{
-flex-direction:column;
-width:100%;
-}
-.job-action-row button{
-width:100%;
-min-height:52px;
+.action-cta-trigger,
+.whatsapp-share-btn{
+width:100% !important;
+height:56px !important;
+font-size:16px !important;
 }
 }
 </style>
@@ -1218,7 +1203,7 @@ onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.
             const btn=document.getElementById("companyWhatsappBtn");
             if(btn){ btn.href=`https://wa.me/?text=${msg}`; }
 currentJobKey = company + '_' + job;
-const applied = localStorage.getItem('applied_' + currentJobKey);
+const applied = localStorage.getItem('applied_' + jobId);
 document.getElementById('afterApplyActions').style.display = applied ? 'flex' : 'none';
 const cp=document.getElementById('contactPreview');
 if(cp) cp.style.display = applied ? 'none' : 'block';
@@ -1272,7 +1257,8 @@ if(cp) cp.style.display = applied ? 'none' : 'block';
                     const app = d.data();
                     if (
                         app.phone === form.phone.value &&
-                        app.jobRole === document.getElementById("jobRole").value
+                        app.jobRole === document.getElementById("jobRole").value &&
+                        app.company === document.getElementById("companyName").value
                     ) {
                         alreadyApplied = true;
                     }
@@ -1303,12 +1289,14 @@ await addDoc(collection(db, "applications"), {
 
                 document.body.insertAdjacentHTML("beforeend",`<div style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99999"><div style="background:#fff;padding:30px;border-radius:24px;text-align:center;max-width:380px"><h2 style="color:#10b981">✅ Application Submitted</h2><p><b>HR will contact you soon.</b><br><br>Good Luck!</p><div style="display:flex;flex-direction:column;gap:10px;margin-top:15px"><a href="tel:6305232525" style="padding:12px;border-radius:12px;background:#2563eb;color:#fff;text-decoration:none">📞 Call HR</a><a href="https://wa.me/916305232525" target="_blank" style="padding:12px;border-radius:12px;background:#25d366;color:#fff;text-decoration:none">💬 WhatsApp HR</a><button onclick="this.parentElement.parentElement.parentElement.remove()" style="padding:12px;border:none;border-radius:12px;background:#10b981;color:#fff">OK</button></div></div></div>`);
                 document.getElementById('afterApplyActions').style.display='flex';
-localStorage.setItem('applied_' + currentJobKey,'true');
+localStorage.setItem('applied_' + currentJobId,'true');
 document.getElementById('afterApplyActions').style.display='flex';
 const cp=document.getElementById('contactPreview');
 if(cp) cp.style.display='none';
 form.reset();
-                closePopup();
+closePopup();
+document.getElementById("jobPage").style.display="flex";
+document.getElementById('afterApplyActions').style.display='flex';
             } catch (error) {
                 console.log(error);
                 alert("Application Failed ❌");
@@ -1330,7 +1318,7 @@ setupDynamicGreetings();
 
         
 window.shareJob = function(job, company, location, jobId){
-const shareLink = window.location.origin + window.location.pathname + '?job=' + encodeURIComponent(jobId);
+const shareLink = 'https://www.venuhr.com/?job=' + encodeURIComponent(jobId);
 const text = `Job Details from VenuHR
 
 Job Role: ${job}
