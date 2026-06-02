@@ -1,3 +1,4 @@
+<!-- BUGFIX_ANALYTICS_COLUMNS + JOB_SORT_READY -->
 <!DOCTYPE html>
 <html lang="te">
 <head>
@@ -187,6 +188,8 @@ function showPage(id, btn){
             <h3><i class="fa-solid fa-filter"></i> Search & Filters</h3>
             <div class="form-group">
                 <input id="searchCandidate" placeholder="🔍 Search Candidate by name or phone...">
+                <input id="jobFilter" placeholder="Filter by Job Title">
+                <input id="companyFilter" placeholder="Filter by Company">
                 <select id="statusFilter">
                     <option value="">All Statuses</option>
                     <option>New</option>
@@ -198,7 +201,7 @@ function showPage(id, btn){
             <div class="action-controls">
                 <button id="csvBtn" class="btn btn-secondary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
                 <button id="selectedOnlyBtn" class="btn btn-secondary"><i class="fa-solid fa-clipboard-check"></i> Selected Report</button>
-                <button id="refreshBtn" class="btn btn-primary"><i class="fa-solid fa-rotate"></i> Refresh Data</button>
+                
             </div>
         </div>
     </div>
@@ -224,7 +227,7 @@ function showPage(id, btn){
             </div>
             <div class="form-group">
                 <input id="salary" placeholder="Salary Package (e.g. 3.5 LPA)">
-                <input id="whatsapp" placeholder="Company WhatsApp number">
+                <input id="whatsapp" placeholder="Company WhatsApp number"><select id="gender"><option value="Both">Both</option><option value="Male">Male</option><option value="Female">Female</option></select>
             </div>
             <div style="margin-bottom: 20px;">
                 <textarea id="description" placeholder="Enter comprehensive job description here..."></textarea>
@@ -244,7 +247,7 @@ function showPage(id, btn){
                     <option>Warehouse</option><option>Accounts</option><option>Customer Support</option>
                     <option>Sales</option><option>Recruitment</option>
                 </select>
-                <input id="eWhatsapp" placeholder="WhatsApp">
+                <input id="eWhatsapp" placeholder="WhatsApp"><select id="eGender"><option>Both</option><option>Male</option><option>Female</option></select><select id="ePinned"><option value="false">Not Pinned</option><option value="true">Pinned</option></select>
             </div>
             <div style="margin-bottom: 20px;">
                 <textarea id="eDescription"></textarea>
@@ -256,7 +259,7 @@ function showPage(id, btn){
             <h3><i class="fa-solid fa-list"></i> Currently Posted Openings</h3>
             <div class="table-container">
                 <table>
-                    <thead><tr><th>Title</th><th>Company</th><th>Edit Action</th><th>Delete Action</th></tr></thead>
+                    <thead><tr><th>📌 Pin</th><th>Title</th><th>Company</th><th>Edit Action</th><th>Delete Action</th></tr></thead>
                     <tbody id="jobsTable"></tbody>
                 </table>
             </div>
@@ -326,7 +329,7 @@ VenuHR
             <div class="table-container">
                 <table>
                     <thead>
-                        <tr><th>Name</th><th>Phone</th><th>Applied Job</th><th>Status</th><th>Follow-up</th><th>Recruiter</th><th>Profile</th><th>Notes</th><th>Send</th><th>Resubmit</th><th>Delete</th></tr>
+                        <tr><th>Name</th><th>Phone</th><th>Applied Job</th><th>📞 Called</th><th>💬 Messaged</th><th>Status</th><th>Follow-up</th><th>Recruiter</th><th>Profile</th><th>Notes</th><th>Send</th><th>Resubmit</th><th>Delete</th></tr>
                     </thead>
                     <tbody id="appsTable"></tbody>
                 </table>
@@ -432,6 +435,22 @@ VenuHR
 
      let sel=0,rej=0;
      j.forEach(d=>jobs.push({id:d.id,...d.data()}));
+
+     jobs.sort((a,b)=>{
+       const ad=a.createdAt?.seconds||0;
+       const bd=b.createdAt?.seconds||0;
+       return bd-ad;
+     });
+
+     if(jobs.every(x => !x.createdAt)){
+       jobs.reverse();
+     }
+     jobs.sort((a,b)=>{
+       if((b.pinned?1:0)!==(a.pinned?1:0)){
+         return (b.pinned?1:0)-(a.pinned?1:0);
+       }
+       return 0;
+     });
      a.forEach(d=>{
        const x={id:d.id,...d.data()};
        apps.push(x);
@@ -454,6 +473,7 @@ VenuHR
      tb.innerHTML="";
      jobs.forEach(j=>{
      tb.innerHTML += `<tr>
+     <td><button class="btn btn-warning" onclick="togglePin('${j.id}', ${j.pinned ? 'false' : 'true'})">${j.pinned?'📌':'📍'}</button></td>
      <td><b>${j.Title||""}</b></td>
      <td>${j.company||""}</td>
      <td><button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;" onclick="editJob('${j.id}')"><i class="fa-solid fa-pen"></i> Edit</button></td>
@@ -464,19 +484,30 @@ VenuHR
 
     function renderApps(){
      const q=document.getElementById("searchCandidate").value.toLowerCase();
+     const jf=(document.getElementById("jobFilter")?.value||"").toLowerCase();
+     const cf=(document.getElementById("companyFilter")?.value||"").toLowerCase();
      const f=document.getElementById("statusFilter").value;
      const tb=document.getElementById("appsTable");
      tb.innerHTML="";
 
+     apps.sort((a,b)=>{
+       const ad=(a.createdAt?.seconds||0);
+       const bd=(b.createdAt?.seconds||0);
+       return bd-ad;
+     });
      apps.filter(a=>{
        const m=(a.name||"").toLowerCase().includes(q) || (a.phone||"").includes(q);
        const s=!f || (a.status||"New")===f;
-       return m && s;
+       const jobm=!jf || (a.jobRole||"").toLowerCase().includes(jf);
+       const compm=!cf || (a.company||"").toLowerCase().includes(cf);
+       return m && s && jobm && compm;
      }).forEach(a=>{
      tb.innerHTML += `<tr>
      <td><b>${a.name||""}</b></td>
      <td>${a.phone||""}</td>
      <td><span style="color:var(--primary); font-weight:500;">${a.jobRole||""}</span></td>
+     <td style="text-align:center;font-size:18px;" onclick="toggleCalled('${a.id}',${a.called? 'false':'true'})">${a.called?'✅':'❌'}</td>
+     <td style="text-align:center;font-size:18px;" onclick="toggleMessaged('${a.id}',${a.messaged? 'false':'true'})">${a.messaged?'✅':'❌'}</td>
      <td>
      <select onchange="changeStatus('${a.id}',this.value)" style="padding:4px; font-size:12px;">
      <option ${a.status==="New"?"selected":""}>New</option>
@@ -558,14 +589,14 @@ VenuHR
      document.getElementById("editBox").style.display="block";
      document.getElementById("eTitle").value=j.Title||""; document.getElementById("eCompany").value=j.company||"";
      document.getElementById("eLocation").value=j.Location||""; document.getElementById("eSalary").value=j.salary||""; document.getElementById("eCategory").value=j.category||"";
-     document.getElementById("eWhatsapp").value=j.companyWhatsapp||""; document.getElementById("eDescription").value=j.description||"";
+     document.getElementById("eWhatsapp").value=j.companyWhatsapp||""; document.getElementById("eGender").value=j.gender||"Both"; document.getElementById("ePinned").value=(j.pinned?"true":"false"); document.getElementById("eDescription").value=j.description||"";
      document.getElementById("editBox").scrollIntoView({behavior: 'smooth'});
     };
 
     document.getElementById("saveEdit").onclick=async()=>{
      await updateDoc(doc(db,"venu",editId),{
       Title:document.getElementById("eTitle").value, company:document.getElementById("eCompany").value, Location:document.getElementById("eLocation").value,
-      salary:document.getElementById("eSalary").value, category:document.getElementById("eCategory").value, companyWhatsapp:document.getElementById("eWhatsapp").value, description:document.getElementById("eDescription").value
+      salary:document.getElementById("eSalary").value, category:document.getElementById("eCategory").value, companyWhatsapp:document.getElementById("eWhatsapp").value, gender:document.getElementById("eGender").value, pinned:(document.getElementById("ePinned").value==="true"), description:document.getElementById("eDescription").value
      });
      alert("Job Matrix Safely Updated");
      document.getElementById("editBox").style.display="none";
@@ -588,7 +619,9 @@ VenuHR
        salary:document.getElementById('salary').value,
        category:document.getElementById('category').value,
        companyWhatsapp:document.getElementById('whatsapp').value,
-       description:document.getElementById('description').value
+       gender:document.getElementById('gender').value,
+       description:document.getElementById('description').value,
+       createdAt:new Date()
       });
       alert('Job Added Successfully');
       load();
@@ -598,12 +631,13 @@ VenuHR
     };
 
     document.getElementById('csvBtn').onclick=()=>{
-     let csv="Name,Phone,Email,DOB,Gender,Qualification,Experience,Address,Job Role,Status,Recruiter,Notes\n";
+     let csv="Name,Phone,Company,Job Role,Location,Email,DOB,Gender,Qualification,Experience,Address,Status,Recruiter,Notes\n";
      apps.forEach(a=>{
        csv += [
-        a.name||'',a.phone||'',a.email||'',a.dob||'',a.gender||'',
+        a.name||'',a.phone||'',a.company||'',a.jobRole||'',a.location||'',
+        a.email||'',a.dob||'',a.gender||'',
         a.qualification||'',a.experience||'',a.address||'',
-        a.jobRole||'',a.status||'',a.recruiter||'',a.note||''
+        a.status||'',a.recruiter||'',a.note||''
        ].map(v => '"'+String(v).replaceAll('"','""')+'"').join(',') + "\n";
      });
      const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
@@ -715,8 +749,28 @@ VenuHR`;
      window.location.href = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`;
     };
 
-    document.getElementById('searchCandidate').onkeyup=renderApps;
+    
+window.toggleCalled=async(id,val)=>{
+ await updateDoc(doc(db,"applications",id),{called:(val===true || val==='true')});
+ load();
+};
+
+window.toggleMessaged=async(id,val)=>{
+ await updateDoc(doc(db,"applications",id),{messaged:(val===true || val==='true')});
+ load();
+};
+
+
+window.togglePin=async(id,val)=>{
+ const pinValue = (val === true || val === 'true');
+ await updateDoc(doc(db,"venu",id),{pinned: pinValue});
+ await load();
+};
+
+document.getElementById('searchCandidate').onkeyup=renderApps;
     document.getElementById('statusFilter').onchange=renderApps;
+    if(document.getElementById('jobFilter')) document.getElementById('jobFilter').onkeyup=renderApps;
+    if(document.getElementById('companyFilter')) document.getElementById('companyFilter').onkeyup=renderApps;
     </script>
 
     <div id="followupsPage" class="crm-page" style="display:none">
