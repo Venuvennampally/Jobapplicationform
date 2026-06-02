@@ -1,3 +1,4 @@
+<!-- Latest Jobs First Fix Applied -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -787,6 +788,59 @@ font-size:16px !important;
 }
 </style>
 
+
+<style>
+/* VenuHR Mobile Search Upgrade */
+.search-engine-wrap{
+position:sticky;
+top:70px;
+z-index:999;
+}
+
+.search-result-count{
+font-size:14px;
+font-weight:700;
+margin:12px 0;
+color:#475569;
+}
+
+@media(max-width:768px){
+
+.search-engine-wrap{
+padding:0 12px !important;
+margin:20px auto !important;
+}
+
+.search-engine-grid{
+grid-template-columns:1fr !important;
+gap:10px !important;
+padding:12px !important;
+border-radius:18px !important;
+}
+
+.search-node-input{
+min-height:56px !important;
+padding:14px 16px !important;
+border-radius:14px !important;
+}
+
+.search-node-input input,
+.search-node-input select{
+font-size:16px !important;
+font-weight:600 !important;
+}
+
+.search-node-input i{
+font-size:18px !important;
+margin-right:10px !important;
+}
+
+.feed-heading-title{
+font-size:22px !important;
+}
+}
+</style>
+
 </head>
 
 <body>
@@ -865,7 +919,7 @@ font-size:16px !important;
     
 <main id="jobs-section" class="main-feed-stream">
         <h2 class="feed-heading-title"><i class="fa-solid fa-sparkles" style="color:#a855f7;"></i> Latest Job Openings</h2>
-        <div class="cards-vertical-stack" id="jobsGrid">
+        <div class="search-result-count" id="jobCountText">Showing Jobs...</div><div class="cards-vertical-stack" id="jobsGrid">
             <div class="no-job"><i class="fa-solid fa-circle-notch fa-spin"></i> Initializing real-time datastore synchronization...</div>
         </div>
     </main>
@@ -1106,6 +1160,8 @@ const locationSet = new Set();
         }
 
         function displayJobs(jobs) {
+const cnt=document.getElementById('jobCountText');
+if(cnt) cnt.innerText='Showing ' + jobs.length + ' Jobs';
             jobsGrid.innerHTML = "";
             if (jobs.length === 0) {
                 jobsGrid.innerHTML = "<div class='no-job'>No jobs found.</div>";
@@ -1140,7 +1196,7 @@ const locationSet = new Set();
                             ${(job.description || job.Description || "Freshers and experienced candidates can apply.").substring(0, 160)}...
                         </div>
 
-                        <div class="pill-labels-group"><span class="label-node">👨‍👩‍👧 Both</span>
+                        <div class="pill-labels-group"><span class="label-node">👨‍👩‍👧 ${job.gender || "Both"}</span>
                             <span class="label-node">Communication Skills</span>
                             <span class="label-node">Immediate Joining</span>
                             <span class="label-node">Day Shift</span>
