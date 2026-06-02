@@ -841,6 +841,51 @@ font-size:22px !important;
 }
 </style>
 
+
+<style>
+/* ChatGPT Mobile Responsive Fix */
+@media (max-width:768px){
+.search-engine-wrap{
+position:relative !important;
+top:auto !important;
+margin:10px auto 15px !important;
+z-index:1 !important;
+}
+
+.main-feed-stream{
+margin-top:20px !important;
+padding:0 10px !important;
+}
+
+.cards-vertical-stack{
+gap:12px !important;
+}
+
+.luxury-job-row{
+padding:14px !important;
+margin:0 !important;
+}
+
+.specs-meta-grid{
+gap:10px !important;
+font-size:12px !important;
+}
+
+.brief-desc-text{
+font-size:13px !important;
+}
+
+.action-dock-right{
+width:100% !important;
+margin-top:10px !important;
+}
+
+.search-result-count{
+margin:8px 0 !important;
+}
+}
+</style>
+
 </head>
 
 <body>
@@ -853,7 +898,7 @@ font-size:22px !important;
     <header class="header-navbar">
         <a href="#" class="logo">Venu<span>HR</span></a>
         <button class="mobile-menu-btn" onclick="toggleMenu()"><i class="fa fa-bars"></i></button><ul class="nav-links-cluster" id="navMenu">
-            <li><a href="admin.html">➕ Post a Job</a></li><li><a href="#jobs-section" class="active">Jobs</a></li>
+            <li><a href="#" onclick="openContactModal();return false;">➕ Post a Job</a></li><li><a href="#jobs-section" class="active">Jobs</a></li>
             
             <li><a href="#support-section">Support</a></li>
         </ul>
@@ -1450,5 +1495,25 @@ document.getElementById('navMenu').classList.toggle('show');
 }
 
 </script>
+
+<div id="contactModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;">
+<div style="background:#fff;width:90%;max-width:420px;padding:25px;border-radius:20px;text-align:center">
+<h2>Contact VenuHR</h2>
+<p style="margin:10px 0 20px">For Posting Jobs Contact<br><b>6305232525</b></p>
+<a href="tel:6305232525" style="display:block;background:#2563eb;color:#fff;padding:14px;border-radius:12px;text-decoration:none;margin-bottom:10px">📞 Call Now</a>
+<a href="https://wa.me/916305232525" target="_blank" style="display:block;background:#25D366;color:#fff;padding:14px;border-radius:12px;text-decoration:none;margin-bottom:10px">💬 WhatsApp</a>
+<button onclick="closeContactModal()" style="width:100%;padding:12px;border:none;border-radius:12px">Close</button>
+</div>
+</div>
+
+<script>
+function openContactModal(){
+ document.getElementById('contactModal').style.display='flex';
+}
+function closeContactModal(){
+ document.getElementById('contactModal').style.display='none';
+}
+</script>
+
 </body>
 </html>
