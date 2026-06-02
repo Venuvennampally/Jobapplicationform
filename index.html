@@ -1199,9 +1199,30 @@ onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.
 
             const whatsappText = `*Job Details from VenuHR*%0A%0A*Job Role:* ${job}%0A*Company:* ${company}%0A*Location:* ${location}%0A* CTC Matrix Layout:* ₹${salary}%0A%0AApply now through VenuHR.`;
             document.getElementById("shareWhatsapp").href = `https://wa.me/?text=${whatsappText}`;
-            const msg = `Hello,%0A%0AWe received your job posting from www.venuhr.com.%0A%0AI am interested in the position of ${job}.%0A%0APlease share further details.%0A%0AThank You.`;
+            const msg = `Hello,
+
+I am interested in the position of ${job} at ${company}.
+
+Please share more details regarding the job.
+
+Thank You.`;
             const btn=document.getElementById("companyWhatsappBtn");
-            if(btn){ btn.href=`https://wa.me/?text=${msg}`; }
+            if(btn){
+   const applicant = JSON.parse(localStorage.getItem('lastApplicant') || '{}');
+   const fullMsg = applicant.name ?
+`New Job Application
+
+Name: ${applicant.name}
+Phone: ${applicant.phone}
+Qualification: ${applicant.qualification}
+Experience: ${applicant.experience}
+
+Applied For: ${applicant.job}
+Company: ${applicant.company}
+Location: ${applicant.location}` : msg;
+
+   btn.href=`https://wa.me/916305232525?text=${encodeURIComponent(fullMsg)}`;
+}
 currentJobKey = company + '_' + job;
 const applied = localStorage.getItem('applied_' + jobId);
 document.getElementById('afterApplyActions').style.display = applied ? 'flex' : 'none';
@@ -1290,6 +1311,29 @@ await addDoc(collection(db, "applications"), {
                 document.body.insertAdjacentHTML("beforeend",`<div style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99999"><div style="background:#fff;padding:30px;border-radius:24px;text-align:center;max-width:380px"><h2 style="color:#10b981">✅ Application Submitted</h2><p><b>HR will contact you soon.</b><br><br>Good Luck!</p><div style="display:flex;flex-direction:column;gap:10px;margin-top:15px"><a href="tel:6305232525" style="padding:12px;border-radius:12px;background:#2563eb;color:#fff;text-decoration:none">📞 Call HR</a><a href="https://wa.me/916305232525" target="_blank" style="padding:12px;border-radius:12px;background:#25d366;color:#fff;text-decoration:none">💬 WhatsApp HR</a><button onclick="this.parentElement.parentElement.parentElement.remove()" style="padding:12px;border:none;border-radius:12px;background:#10b981;color:#fff">OK</button></div></div></div>`);
                 document.getElementById('afterApplyActions').style.display='flex';
 localStorage.setItem('applied_' + currentJobId,'true');
+const hrMsg = `New Job Application
+
+Name: ${form.name.value}
+Phone: ${form.phone.value}
+Qualification: ${form.qualification.value}
+Experience: ${form.experience.value}
+
+Applied For: ${document.getElementById("jobRole").value}
+Company: ${document.getElementById("companyName").value}
+Location: ${document.getElementById("jobLocation").value}`;
+
+localStorage.setItem('lastApplicant', JSON.stringify({
+name: form.name.value,
+phone: form.phone.value,
+qualification: form.qualification.value,
+experience: form.experience.value,
+job: document.getElementById("jobRole").value,
+company: document.getElementById("companyName").value,
+location: document.getElementById("jobLocation").value
+}));
+
+window.open('https://wa.me/916305232525?text=' + encodeURIComponent(hrMsg), '_blank');
+
 document.getElementById('afterApplyActions').style.display='flex';
 const cp=document.getElementById('contactPreview');
 if(cp) cp.style.display='none';
