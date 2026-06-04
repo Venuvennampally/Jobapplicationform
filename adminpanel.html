@@ -329,7 +329,7 @@ VenuHR
             <div class="table-container">
                 <table>
                     <thead>
-                        <tr><th>Name</th><th>Phone</th><th>Applied Job</th><th>📞 Called</th><th>💬 Messaged</th><th>Status</th><th>Follow-up</th><th>Recruiter</th><th>Profile</th><th>Notes</th><th>Send</th><th>Resubmit</th><th>Delete</th></tr>
+                        <tr><th>Name</th><th>Phone</th><th>Applied Job</th><th>Company</th><th>Call</th><th>WhatsApp</th><th>📞 Called</th><th>💬 Messaged</th><th>Status</th><th>Follow-up</th><th>Recruiter</th><th>Profile</th><th>Notes</th><th>Send</th><th>Resubmit</th><th>Delete</th></tr>
                     </thead>
                     <tbody id="appsTable"></tbody>
                 </table>
@@ -508,8 +508,15 @@ loadCompanyAnalytics();
      <td><b>${a.name||""}</b></td>
      <td>${a.phone||""}</td>
      <td><span style="color:var(--primary); font-weight:500;">${a.jobRole||""}</span></td>
-     <td style="text-align:center;font-size:18px;" onclick="toggleCalled('${a.id}',${a.called? 'false':'true'})">${a.called?'✅':'❌'}</td>
-     <td style="text-align:center;font-size:18px;" onclick="toggleMessaged('${a.id}',${a.messaged? 'false':'true'})">${a.messaged?'✅':'❌'}</td>
+     <td>${a.company || (jobs.find(j=>(j.Title||'')===(a.jobRole||''))?.company) || '-'}</td>
+     <td style="text-align:center;">
+       <a href="tel:${a.phone||''}" onclick="toggleCalled('${a.id}','true')" class="btn btn-success" style="padding:6px 10px;font-size:11px;">${a.called?'✅':'📞'}</a>
+     </td>
+     <td style="text-align:center;">
+       <a href="https://wa.me/91${String(a.phone||'').replace(/\D/g,'')}" target="_blank" onclick="toggleMessaged('${a.id}','true')" class="btn btn-primary" style="padding:6px 10px;font-size:11px;">${a.messaged?'✅':'💬'}</a>
+     </td>
+     <td style="text-align:center;font-size:18px;">${a.called?'✅':'❌'}</td>
+     <td style="text-align:center;font-size:18px;">${a.messaged?'✅':'❌'}</td>
      <td>
      <select onchange="changeStatus('${a.id}',this.value)" style="padding:4px; font-size:12px;">
      <option ${a.status==="New"?"selected":""}>New</option>
