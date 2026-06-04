@@ -1138,6 +1138,8 @@ margin:8px 0 !important;
         let allJobs = [];
 let currentJobKey='';
 let currentJobId='';
+let currentWhatsapp='';
+let currentJobGender='Both';
 
         // Automated Intelligent Dynamic Greeting Selector System
         function setupDynamicGreetings() {
@@ -1156,6 +1158,12 @@ let currentJobId='';
                 allJobs = [];
                 querySnapshot.forEach((doc) => {
                     allJobs.push({id: doc.id, ...doc.data()});
+                });
+
+                allJobs.sort((a,b)=>{
+                    const da=a.createdAt?.seconds||0;
+                    const db=b.createdAt?.seconds||0;
+                    return db-da;
                 });
 
                 totalJobs.innerText = allJobs.length;
@@ -1226,7 +1234,7 @@ if(cnt) cnt.innerText='Showing ' + jobs.length + ' Jobs';
                             ${JSON.stringify(job.Title || job.title || "")},
                             ${JSON.stringify(job.Location || job.location || "")},
                             ${JSON.stringify(job.salary || "")},
-                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}
+                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}, ${JSON.stringify(job.companyWhatsapp || "")}, ${JSON.stringify(job.gender || "Both")}
                         )'>${job.Title || job.title || "Job Opening"}</div>
                         
                         <div class="corporate-branding-node"><i class="fa-solid fa-building-premium" style="color:var(--accent-glow)"></i> ${job.company || "Company"}</div>
@@ -1255,7 +1263,7 @@ if(cnt) cnt.innerText='Showing ' + jobs.length + ' Jobs';
                             ${JSON.stringify(job.Title || job.title || "")},
                             ${JSON.stringify(job.Location || job.location || "")},
                             ${JSON.stringify(job.salary || "")},
-                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}
+                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}, ${JSON.stringify(job.companyWhatsapp || "")}, ${JSON.stringify(job.gender || "Both")}
                         )'>Apply Now</button>
 <button class="whatsapp-share-btn"
 onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.company||'').replace(/'/g,'&#39;')}','${(job.Location||job.location||'').replace(/'/g,'&#39;')}','${job.id||''}')"><i class="fa-brands fa-whatsapp"></i> Share Job</button>
@@ -1286,7 +1294,7 @@ onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.
         searchInput.addEventListener("keyup", filterJobs);
         locationFilter.addEventListener("change", filterJobs);
         categoryFilter.addEventListener("change", filterJobs);
-        window.openJobPage = function (company, job, location, salary, description, jobId='') {
+        window.openJobPage = function (company, job, location, salary, description, jobId='', companyWhatsapp='', gender='Both') { currentWhatsapp=companyWhatsapp; currentJobGender=gender;
             currentJobId = jobId;
             document.getElementById("jobPage").style.display = "flex";
             document.getElementById("jobPageTitle").innerText = job;
@@ -1322,7 +1330,7 @@ Applied For: ${applicant.job}
 Company: ${applicant.company}
 Location: ${applicant.location}` : msg;
 
-   btn.href=`https://wa.me/916305232525?text=${encodeURIComponent(fullMsg)}`;
+   btn.href=`https://wa.me/${currentWhatsapp}?text=${encodeURIComponent(fullMsg)}`;
 }
 currentJobKey = company + '_' + job;
 const applied = localStorage.getItem('applied_' + jobId);
@@ -1370,7 +1378,18 @@ if(cp) cp.style.display = applied ? 'none' : 'block';
             }
 
 
-            try {
+            
+const candidateGender = (form.gender.value || '').trim().toLowerCase();
+const allowedGender = (currentJobGender || 'Both').trim().toLowerCase();
+
+if(allowedGender !== 'both' && candidateGender !== allowedGender){
+    alert('❌ This job is for ' + currentJobGender + ' candidates only.');
+    submitBtn.disabled = false;
+    submitBtn.innerText = 'Submit Application';
+    return;
+}
+
+try {
                 
                 const existingApps = await getDocs(collection(db, "applications"));
                 let alreadyApplied = false;
@@ -1433,7 +1452,7 @@ company: document.getElementById("companyName").value,
 location: document.getElementById("jobLocation").value
 }));
 
-window.open('https://wa.me/916305232525?text=' + encodeURIComponent(hrMsg), '_blank');
+if(currentWhatsapp){window.open('https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(hrMsg), '_blank');}
 
 document.getElementById('afterApplyActions').style.display='flex';
 const cp=document.getElementById('contactPreview');
