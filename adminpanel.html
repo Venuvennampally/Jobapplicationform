@@ -151,7 +151,7 @@ td select { padding: 6px 12px; background: #f1f5f9; border: none; font-weight: 5
         <button onclick="showPage('requestLinkPage', this)"><i class="fa-solid fa-paper-plane"></i> <span>Request Link</span></button>
         <button onclick="showPage('followupsPage', this)"><i class="fa-solid fa-calendar-days"></i> <span>Follow-ups</span></button>
         <button onclick="showPage('bulkSharePage', this)"><i class="fa-solid fa-share-nodes"></i> <span>Bulk Share</span></button>
-        <button onclick="showPage('companyAnalyticsPage', this)"><i class="fa-solid fa-chart-column"></i> <span>Analytics</span></button><button onclick="showPage('reportsPage', this)"><i class="fa-solid fa-chart-line"></i> <span>Reports</span></button>
+        <button onclick="showPage('companyAnalyticsPage', this)"><i class="fa-solid fa-chart-column"></i> <span>Analytics</span></button><button onclick="showPage('reportsPage', this)"><i class="fa-solid fa-chart-line"></i> <span>Reports</span></button><button onclick="showPage('placementPage', this)"><i class="fa-solid fa-indian-rupee-sign"></i> <span>Placements</span></button>
         <button onclick="showPage('settingsPage', this)"><i class="fa-solid fa-gear"></i> <span>Settings</span></button>
         <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></button>
     </div>
@@ -467,7 +467,7 @@ loadCompanyAnalytics();
      renderJobs();
      renderApps();
      loadJobRequests();
-     setTimeout(()=>{if(window.loadCompanyAnalytics) loadCompanyAnalytics();},500);
+     window.jobs=jobs; window.apps=apps; setTimeout(()=>{if(window.loadCompanyAnalytics) loadCompanyAnalytics();},500);
     }
 
     function renderJobs(){
@@ -910,6 +910,71 @@ document.getElementById('searchCandidate').onkeyup=renderApps;
             <p style="color:var(--text-muted);">Configure algorithmic limits, backup triggers, and default API configurations.</p>
         </div>
     </div>
+<div id="placementPage" class="crm-page" style="display:none">
+<div class="card">
+<h3>💰 Placement & Revenue Dashboard</h3>
+<div class="grid">
+<div class="card"><h2 id="totalPlacements">0</h2><p>Total Placements</p></div>
+<div class="card"><h2 id="totalRevenue">₹0</h2><p>Total Revenue</p></div>
+<div class="card"><h2 id="pendingRevenue">₹0</h2><p>Pending Payments</p></div>
+</div>
+
+<div class="form-group">
+<input id="pCandidate" placeholder="Candidate Name">
+<input id="pCompany" placeholder="Company">
+<input id="pSalary" placeholder="Salary">
+<input id="pBilling" placeholder="Billing Amount">
+</div>
+<button class="btn btn-primary" onclick="addPlacementLocal()">Add Placement</button>
+
+<div class="table-container" style="margin-top:15px;">
+<table>
+<thead><tr><th>Candidate</th><th>Company</th><th>Salary</th><th>Billing</th><th>Actions</th></tr></thead>
+<tbody id="placementTable"></tbody>
+</table>
+</div>
+</div>
+</div>
+<script>
+window.placements = JSON.parse(localStorage.getItem('venuhr_placements')||'[]');
+
+window.renderPlacements=function(){
+ const tb=document.getElementById('placementTable');
+ if(!tb) return;
+ tb.innerHTML='';
+ let revenue=0;
+ placements.forEach(p=>{
+   revenue += Number(p.billing||0);
+   tb.innerHTML += `<tr>
+<td>${p.candidate}</td>
+<td>${p.company}</td>
+<td>${p.salary}</td>
+<td>₹${p.billing}</td>
+<td>
+<button class="btn btn-primary" onclick="placementEdit(${placements.indexOf(p)})">Edit</button>
+<button class="btn btn-danger" onclick="placementDelete(${placements.indexOf(p)})">Delete</button>
+</td>
+</tr>`;
+ });
+ document.getElementById('totalPlacements').textContent=placements.length;
+ document.getElementById('totalRevenue').textContent='₹'+revenue;
+ document.getElementById('pendingRevenue').textContent='₹0';
+};
+
+window.addPlacementLocal=function(){
+ const p={
+  candidate:document.getElementById('pCandidate').value,
+  company:document.getElementById('pCompany').value,
+  salary:document.getElementById('pSalary').value,
+  billing:document.getElementById('pBilling').value
+ };
+ placements.push(p);
+ localStorage.setItem('venuhr_placements',JSON.stringify(placements));
+ renderPlacements();
+};
+
+setTimeout(()=>{ if(window.renderPlacements) renderPlacements(); },1000);
+</script>
 </div>
 
 <div id="profileModal" class="modal-overlay">
@@ -1015,5 +1080,185 @@ if(companyBtn){
    link.click();
  };
 }
-</script></body>
+</script>
+<!-- VenuHR CRM Future Upgrade Notes
+ADD:
+1. Duplicate candidate check by phone number before application save.
+2. Resume upload field and Firestore resumeURL.
+3. Interview scheduler fields: interviewDate, interviewTime, interviewStatus.
+4. Placements collection with billing tracking.
+5. Revenue dashboard cards.
+6. WhatsApp templates.
+-->
+
+
+
+
+
+<script>
+window.placementAction=function(action,index){
+ if(action==='delete'){
+   placements.splice(index,1);
+   localStorage.setItem('venuhr_placements',JSON.stringify(placements));
+   renderPlacements();
+ }
+ if(action==='edit'){
+   const p=placements[index];
+   const billing=prompt('Billing Amount',p.billing);
+   if(billing!==null){
+      p.billing=billing;
+      localStorage.setItem('venuhr_placements',JSON.stringify(placements));
+      renderPlacements();
+   }
+ }
+}
+</script>
+
+
+<script>
+window.placementEdit=function(index){
+ const p=placements[index];
+ if(!p) return;
+ const candidate=prompt('Candidate Name',p.candidate||'');
+ if(candidate===null) return;
+ const company=prompt('Company',p.company||'');
+ const salary=prompt('Salary',p.salary||'');
+ const billing=prompt('Billing',p.billing||'');
+ placements[index]={candidate,company,salary,billing};
+ localStorage.setItem('venuhr_placements',JSON.stringify(placements));
+ renderPlacements();
+};
+
+window.placementDelete=function(index){
+ if(!confirm('Delete placement?')) return;
+ placements.splice(index,1);
+ localStorage.setItem('venuhr_placements',JSON.stringify(placements));
+ renderPlacements();
+};
+
+document.addEventListener('click',function(e){
+ if(e.target && e.target.id==='exportExcelBtn'){
+   alert('Export Excel button clicked');
+ }
+ if(e.target && e.target.id==='companyCsvBtn'){
+   alert('Download Candidates button clicked');
+ }
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+
+const btn=document.getElementById('companyCsvBtn');
+if(btn){
+btn.onclick=function(){
+ try{
+   const company=document.getElementById('analyticsCompany').value;
+   if(!company){ alert('Select Company'); return; }
+
+   const companyJobs=(window.jobs||[]).filter(j=>(j.company||'')===company);
+   const titles=companyJobs.map(j=>j.Title||'');
+   const rows=(window.apps||[]).filter(a=>titles.includes(a.jobRole||''));
+
+   let csv="Name,Phone,Job,Company,Status\n";
+   rows.forEach(a=>{
+      csv += `"${a.name||''}","${a.phone||''}","${a.jobRole||''}","${company}","${a.status||''}"\n`;
+   });
+
+   const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+   const link=document.createElement('a');
+   link.href=URL.createObjectURL(blob);
+   link.download=company+'_candidates.csv';
+   document.body.appendChild(link);
+   link.click();
+   link.remove();
+ }catch(e){ alert('Download Error: '+e.message); }
+};
+}
+
+const excel=document.getElementById('exportExcelBtn');
+if(excel){
+excel.onclick=function(){
+ const company=document.getElementById('analyticsCompany').value || 'analytics';
+ const blob=new Blob(['Company Analytics Export'],{type:'text/csv'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download=company+'_analytics.csv';
+ a.click();
+};
+}
+
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+ const btn=document.getElementById('companyCsvBtn');
+ if(btn){
+   btn.onclick=function(){
+     try{
+       const rows=document.querySelectorAll('#appsTable tr');
+       let csv="Name,Phone,Job,Company\n";
+       rows.forEach(r=>{
+         const td=r.querySelectorAll('td');
+         if(td.length>=4){
+           csv += `"${td[0].innerText}","${td[1].innerText}","${td[2].innerText}","${td[3].innerText}"\n`;
+         }
+       });
+       const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+       const a=document.createElement('a');
+       a.href=URL.createObjectURL(blob);
+       a.download='candidates_export.csv';
+       a.click();
+     }catch(e){
+       alert('Download Error: '+e.message);
+     }
+   };
+ }
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const btn=document.getElementById('companyCsvBtn');
+ if(!btn) return;
+
+ btn.onclick=function(){
+   try{
+     const company=document.getElementById('analyticsCompany').value;
+     if(!company){ alert('Select Company'); return; }
+
+     const jobsArr=window.jobs||[];
+     const appsArr=window.apps||[];
+
+     const companyJobs=jobsArr.filter(j=>(j.company||'')===company);
+     const titles=companyJobs.map(j=>j.Title||'');
+     const rows=appsArr.filter(a=>titles.includes(a.jobRole||''));
+
+     let csv="Name,Phone,Job Role,Company,Status,Email,Qualification,Experience\n";
+     rows.forEach(a=>{
+       csv += [
+        a.name||'',a.phone||'',a.jobRole||'',company,a.status||'',
+        a.email||'',a.qualification||'',a.experience||''
+       ].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',') + "\n";
+     });
+
+     const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+     const link=document.createElement('a');
+     link.href=URL.createObjectURL(blob);
+     link.download=company+'_candidates.csv';
+     document.body.appendChild(link);
+     link.click();
+     link.remove();
+   }catch(e){
+     alert('Download Error: '+e.message);
+   }
+ };
+});
+</script>
+
+</body>
 </html>
