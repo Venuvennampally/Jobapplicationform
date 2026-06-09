@@ -152,6 +152,7 @@ td select { padding: 6px 12px; background: #f1f5f9; border: none; font-weight: 5
         <button onclick="showPage('followupsPage', this)"><i class="fa-solid fa-calendar-days"></i> <span>Follow-ups</span></button>
         <button onclick="showPage('bulkSharePage', this)"><i class="fa-solid fa-share-nodes"></i> <span>Bulk Share</span></button>
         <button onclick="showPage('companyAnalyticsPage', this)"><i class="fa-solid fa-chart-column"></i> <span>Analytics</span></button><button onclick="showPage('reportsPage', this)"><i class="fa-solid fa-chart-line"></i> <span>Reports</span></button><button onclick="showPage('placementPage', this)"><i class="fa-solid fa-indian-rupee-sign"></i> <span>Placements</span></button>
+        <button onclick="showPage('trackerPage', this)"><i class="fa-solid fa-bullseye"></i> <span>Tracker</span></button>
         <button onclick="showPage('settingsPage', this)"><i class="fa-solid fa-gear"></i> <span>Settings</span></button>
         <button onclick="logout()" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></button>
     </div>
@@ -975,7 +976,36 @@ window.addPlacementLocal=function(){
 
 setTimeout(()=>{ if(window.renderPlacements) renderPlacements(); },1000);
 </script>
+
+<div id="trackerPage" class="crm-page" style="display:none">
+<div class="card">
+<h3>🎯 Company Requirement Tracker</h3>
+<p>Company-wise target vs received profiles tracking.</p>
+<div class="grid">
+<div class="card"><h2 id="totalTarget">0</h2><p>Total Target</p></div>
+<div class="card"><h2 id="totalReceived">0</h2><p>Total Received</p></div>
+<div class="card"><h2 id="totalAchieved">0%</h2><p>Achieved</p></div>
 </div>
+
+<table>
+<thead>
+<tr>
+<th>Company</th>
+<th>Target</th>
+<th>Received</th>
+<th>Pending</th>
+<th>Fill %</th>
+<th>Status</th>
+<th>Boost</th>
+</tr>
+</thead>
+<tbody id="trackerTable">
+<tr><td colspan="7">Tracker Ready - integrate Firebase targets here</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
 
 <div id="profileModal" class="modal-overlay">
     <div class="modal-window">
@@ -1238,10 +1268,16 @@ document.addEventListener('DOMContentLoaded',()=>{
      const titles=companyJobs.map(j=>j.Title||'');
      const rows=appsArr.filter(a=>titles.includes(a.jobRole||''));
 
-     let csv="Name,Phone,Job Role,Company,Status,Email,Qualification,Experience\n";
+     let csv="Name,Phone,Job Role,Company,Status,Applied Date,Download Date,Email,Qualification,Experience\n";
+     const downloadDate = new Date().toLocaleString('en-IN');
      rows.forEach(a=>{
+       let appliedDate='';
+       if(a.createdAt?.seconds){
+         appliedDate = new Date(a.createdAt.seconds * 1000).toLocaleString('en-IN');
+       }
        csv += [
         a.name||'',a.phone||'',a.jobRole||'',company,a.status||'',
+        appliedDate,downloadDate,
         a.email||'',a.qualification||'',a.experience||''
        ].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',') + "\n";
      });
@@ -1260,5 +1296,101 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 
+
+<script>
+window.trackerData = JSON.parse(localStorage.getItem('venuhr_tracker')||'{}');
+
+function saveTracker(){
+ localStorage.setItem('venuhr_tracker',JSON.stringify(window.trackerData));
+}
+
+window.updateTrackerTarget=function(company,val){
+ if(!window.trackerData[company]) window.trackerData[company]={};
+ window.trackerData[company].target=Number(val||0);
+ saveTracker();
+ renderTracker();
+};
+
+window.boostCompany=function(company){
+ const boosted=JSON.parse(localStorage.getItem('venuhr_boosted')||'{}');
+ boosted[company]=Date.now();
+ localStorage.setItem('venuhr_boosted',JSON.stringify(boosted));
+ alert(company+' boosted successfully');
+};
+
+window.renderTracker=function(){
+ const tb=document.getElementById('trackerTable');
+ if(!tb || !window.jobs || !window.apps) return;
+
+ const companies=[...new Set(window.jobs.map(j=>j.company).filter(Boolean))];
+ let totalTarget=0,totalReceived=0;
+ tb.innerHTML='';
+
+ companies.forEach(company=>{
+   const target=Number(window.trackerData[company]?.target||0);
+   const titles=window.jobs.filter(j=>j.company===company).map(j=>j.Title||'');
+   const received=window.apps.filter(a=>titles.includes(a.jobRole||'')).length;
+   const pending=Math.max(target-received,0);
+   const fill=target>0?Math.round((received/target)*100):0;
+
+   let status='Critical';
+   if(fill>=100) status='Good';
+   else if(fill>=50) status='Medium';
+
+   totalTarget+=target;
+   totalReceived+=received;
+
+   tb.innerHTML += `<tr>
+   <td>${company}</td>
+   <td><input type="number" value="${target}" onchange="updateTrackerTarget('${company}',this.value)"></td>
+   <td>${received}</td>
+   <td>${pending}</td>
+   <td>${fill}%</td>
+   <td>${status}</td>
+   <td><button class="btn btn-primary" onclick="boostCompany('${company}')">🚀 Boost</button></td>
+   </tr>`;
+ });
+
+ document.getElementById('totalTarget').textContent=totalTarget;
+ document.getElementById('totalReceived').textContent=totalReceived;
+ document.getElementById('totalAchieved').textContent=(totalTarget?Math.min(Math.round((totalReceived/totalTarget)*100),100):0)+'%';
+};
+
+setInterval(()=>{try{renderTracker()}catch(e){}},2000);
+</script>
+
 </body>
 </html>
+
+<script>
+// FIXED TRACKER + BOOST
+window.boostCompany=function(company){
+ const boosted=JSON.parse(localStorage.getItem('venuhr_boosted')||'{}');
+ boosted[company]=Date.now();
+ localStorage.setItem('venuhr_boosted',JSON.stringify(boosted));
+
+ if(window.jobs){
+   window.jobs.sort((a,b)=>{
+      const ba=boosted[a.company]||0;
+      const bb=boosted[b.company]||0;
+      return bb-ba;
+   });
+   if(typeof renderJobs==='function') renderJobs();
+ }
+ alert(company+' moved to top');
+};
+
+const oldRenderTracker=window.renderTracker;
+window.renderTracker=function(){
+ if(oldRenderTracker) oldRenderTracker();
+
+ document.querySelectorAll('#trackerTable tr').forEach(tr=>{
+   const statusCell=tr.cells && tr.cells[5];
+   if(!statusCell) return;
+   const v=statusCell.textContent.trim();
+   if(v==='Good') statusCell.style.color='green';
+   if(v==='Medium') statusCell.style.color='orange';
+   if(v==='Critical') statusCell.style.color='red';
+ });
+};
+</script>
