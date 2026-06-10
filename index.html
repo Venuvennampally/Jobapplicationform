@@ -114,7 +114,7 @@
             background: radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.15), transparent 40%),
                         radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1), transparent 40%),
                         #0b0f19;
-            padding: 60px 20px 80px;
+            padding: 120px 20px 160px;
             text-align: center;
             color: #ffffff;
             border-bottom-left-radius: 60px;
@@ -134,7 +134,7 @@
         }
 
         .hero-billboard h1 {
-            font-size: 44px;
+            font-size: 56px;
             font-weight: 800;
             letter-spacing: -2px;
             line-height: 1.1;
@@ -632,10 +632,9 @@ border:1px solid #e2e8f0;
 
 
 @media (max-width:768px){
-.hero-billboard{padding:40px 15px 60px!important;}
-.hero-billboard h1{font-size:28px!important;line-height:1.2!important;}
+.hero-billboard{padding:80px 15px 120px!important;}
+.hero-billboard h1{font-size:32px!important;line-height:1.2!important;}
 .hero-billboard p{font-size:15px!important;}
-.hero-slider-text{height:140px!important;}
 .analytics-matrix{grid-template-columns:1fr 1fr!important;gap:12px!important;}
 .luxury-job-row{padding:18px!important;}
 .luxury-modal-pod{padding:20px!important;max-height:90vh!important;}
@@ -885,46 +884,6 @@ margin-top:10px !important;
 margin:8px 0 !important;
 }
 }
-
-/* Analytics Compact Responsive Upgrade */
-.analytics-matrix{
-    margin:-40px auto 0 !important;
-    gap:15px !important;
-}
-.matrix-pod{
-    padding:18px !important;
-    border-radius:18px !important;
-}
-.matrix-icon-housing{
-    width:48px !important;
-    height:48px !important;
-    font-size:18px !important;
-}
-.matrix-meta h3{font-size:24px !important;}
-.matrix-meta p{font-size:13px !important;}
-
-@media(max-width:768px){
-.analytics-matrix{
-    grid-template-columns:repeat(3,1fr)!important;
-    margin:-25px auto 0 !important;
-    padding:0 10px !important;
-    gap:10px !important;
-}
-.matrix-pod{
-    flex-direction:column !important;
-    text-align:center !important;
-    gap:6px !important;
-    padding:10px !important;
-}
-.matrix-icon-housing{
-    width:42px !important;
-    height:42px !important;
-    font-size:16px !important;
-}
-.matrix-meta h3{font-size:18px !important;}
-.matrix-meta p{font-size:12px !important;}
-}
-
 </style>
 
 
@@ -998,7 +957,7 @@ gtag('config', 'G-587ZQNQ11Z');
         <div class="search-engine-grid">
             <div class="search-node-input">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Search Jobs...">
+                <input type="text" id="searchInput" placeholder="Search Jobs, Companies, Categories...">
             </div>
             <div class="search-node-input">
                 <i class="fa-solid fa-location-dot"></i>
@@ -1586,43 +1545,6 @@ function closeContactModal(){
  document.getElementById('contactModal').style.display='none';
 }
 </script>
-
-
-<!-- V30 Ultra Stable Mobile Patch -->
-<script>
-window.addEventListener('load',()=>{
- document.documentElement.style.scrollBehavior='smooth';
-});
-
-/* Simple offline cache */
-async function venuhrCacheSave(jobs){
- try{localStorage.setItem('venuhr_jobs_cache',JSON.stringify(jobs));}catch(e){}
-}
-function venuhrCacheLoad(){
- try{return JSON.parse(localStorage.getItem('venuhr_jobs_cache')||'[]');}
- catch(e){return [];}
-}
-</script>
-
-<style>
-@media(max-width:768px){
-body{overflow-x:hidden!important;}
-.hero-billboard{padding:30px 12px 45px!important;}
-.analytics-matrix{grid-template-columns:repeat(3,1fr)!important;gap:8px!important;}
-.search-engine-wrap,.main-feed-stream{width:100%!important;}
-.feed-heading-title{font-size:20px!important;}
-.luxury-job-row{padding:12px!important;border-radius:16px!important;}
-.specs-meta-grid{display:block!important;}
-.specs-meta-grid span{display:block!important;margin:6px 0!important;}
-.action-dock-right,.action-cta-trigger,.whatsapp-share-btn{
-width:100%!important;
-}
-}
-@media(max-width:480px){
-.analytics-matrix{grid-template-columns:1fr!important;}
-.matrix-pod{padding:8px!important;}
-}
-</style>
 
 </body>
 </html>
