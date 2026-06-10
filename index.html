@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VenuHR - Job Portal</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -1184,14 +1186,7 @@ let currentJobGender='Both';
                 });
                 totalCompanies.innerText = companies.size;
 
-                const appSnapshot = await getDocs(collection(db, "applications"));
-                let candidateCount = 0;
-appSnapshot.forEach((doc) => {
-                    candidateCount++;
-                    const data = doc.data();
-});
-
-                totalCandidates.innerText = candidateCount;
+                totalCandidates.innerText = "1000+";
 const locationSet = new Set();
                 const categorySet = new Set();
 
@@ -1215,7 +1210,8 @@ const locationSet = new Set();
                     [...categorySet].sort().forEach(v => cf.innerHTML += `<option>${v}</option>`);
                 }
 
-                displayJobs(allJobs);
+                try{localStorage.setItem('jobsCache',JSON.stringify(allJobs));}catch(e){}
+displayJobs(allJobs.slice(0,50));
             } catch (error) {
                 console.log(error);
                 jobsGrid.innerHTML = "<div class='no-job'>Unable to load jobs. Check Firestore data/rules.</div>"; console.error(error);
@@ -1301,7 +1297,11 @@ onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.
             displayJobs(filteredJobs);
         }
 
-        searchInput.addEventListener("keyup", filterJobs);
+        let __jobSearchTimer;
+searchInput.addEventListener("keyup", ()=>{
+clearTimeout(__jobSearchTimer);
+__jobSearchTimer=setTimeout(filterJobs,300);
+});
         locationFilter.addEventListener("change", filterJobs);
         categoryFilter.addEventListener("change", filterJobs);
         window.openJobPage = function (company, job, location, salary, description, jobId='', companyWhatsapp='', gender='Both') { currentWhatsapp=companyWhatsapp; currentJobGender=gender;
@@ -1519,7 +1519,16 @@ openJobPage(job.company||'',job.Title||job.title||'',job.Location||job.location|
 },500);
 });
 
+
+try{
+ const cache=localStorage.getItem('jobsCache');
+ if(cache){
+   allJobs=JSON.parse(cache);
+   displayJobs(allJobs.slice(0,50));
+ }
+}catch(e){}
 loadJobs();
+
     
 window.toggleMenu=function(){
 document.getElementById('navMenu').classList.toggle('show');
