@@ -1350,20 +1350,30 @@ Thank You.`;
             if(currentWhatsapp.startsWith('91')===false && currentWhatsapp.length===10){currentWhatsapp='91'+currentWhatsapp;}
             const btn=document.getElementById("companyWhatsappBtn");
             if(btn){
-   const applicant = JSON.parse(localStorage.getItem('lastApplicant') || '{}');
-   const fullMsg = applicant.name ?
+   const applicant = JSON.parse(localStorage.getItem('applicant_' + currentJobId) || '{}');
+   const fullMsg =
 `New Application From VenuHR Portal
 
-Name: ${applicant.name}
-Phone: ${applicant.phone}
-Qualification: ${applicant.qualification}
-Experience: ${applicant.experience}
+Candidate Details
 
-Applied For: ${applicant.job}
-Company: ${applicant.company}
-Location: ${applicant.location}` : msg;
+Name: ${applicant.name || ''}
+Phone: ${applicant.phone || ''}
+Qualification: ${applicant.qualification || ''}
+Experience: ${applicant.experience || ''}
 
-   btn.href=`https://wa.me/${currentWhatsapp}?text=${encodeURIComponent(fullMsg)}`;
+Job Details
+
+Applied For: ${applicant.job || job}
+Company: ${applicant.company || company}
+Location: ${applicant.location || location}
+
+Source: www.venuhr.com`;
+
+   btn.onclick=function(){
+window.open('https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(fullMsg),'_blank');
+return false;
+};
+btn.href='javascript:void(0)';
 }
 currentJobKey = company + '_' + job;
 const applied = localStorage.getItem('applied_' + jobId);
@@ -1475,7 +1485,7 @@ Applied For: ${document.getElementById("jobRole").value}
 Company: ${document.getElementById("companyName").value}
 Location: ${document.getElementById("jobLocation").value}`;
 
-localStorage.setItem('lastApplicant', JSON.stringify({
+localStorage.setItem('applicant_' + currentJobId, JSON.stringify({
 name: form.name.value,
 phone: form.phone.value,
 qualification: form.qualification.value,
