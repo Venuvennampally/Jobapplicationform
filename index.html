@@ -898,6 +898,27 @@ gtag('js', new Date());
 gtag('config', 'G-587ZQNQ11Z');
 </script>
 
+<style>
+/* Universal Mobile Responsive Fix */
+@media screen and (max-width:768px){
+body{overflow-x:hidden;}
+.hero-billboard{padding:70px 15px 100px !important;}
+.hero-billboard h1{font-size:28px !important;line-height:1.3 !important;}
+.hero-billboard p{font-size:14px !important;padding:0 10px;}
+.analytics-matrix{grid-template-columns:1fr !important;gap:12px !important;padding:0 12px !important;}
+.search-engine-wrap{padding:0 10px !important;}
+.search-engine-grid{grid-template-columns:1fr !important;}
+.main-feed-stream{padding:0 10px !important;}
+.luxury-job-row{padding:14px !important;flex-direction:column !important;}
+.job-main-heading{font-size:18px !important;}
+.specs-meta-grid{flex-direction:column !important;gap:8px !important;}
+.action-dock-right{width:100% !important;}
+.action-cta-trigger,.whatsapp-share-btn{width:100% !important;height:52px !important;font-size:15px !important;}
+.luxury-modal-pod{width:95% !important;padding:18px !important;max-height:90vh !important;}
+.input-row-block input,.input-row-block select,.input-row-block textarea{font-size:16px !important;width:100% !important;}
+.fixed-wa-desk{right:10px !important;bottom:10px !important;padding:12px 15px !important;font-size:13px !important;}
+}
+</style>
 </head>
 
 <body>
@@ -997,12 +1018,12 @@ gtag('config', 'G-587ZQNQ11Z');
 
             <button class="action-cta-trigger" style="width:100%; background: var(--accent-glow); padding: 16px;" onclick="openApplyForm()">Apply for this Job</button>
 <div id="contactPreview" style="margin-top:12px;text-align:center;color:#64748b;font-size:12px;">
-📞 Call HR &nbsp;&nbsp; 💬 WhatsApp Company
+📞 Call HR &nbsp;&nbsp; 💬 Chat to HR
 <div>🔒 Apply to unlock HR contact options</div>
 </div>
             <div class="modal-cta-group" id="afterApplyActions" style="display:none;">
-<a href="tel:6305232525" class="wa-premium-btn">📞 Call HR</a>
-<a id="companyWhatsappBtn" target="_blank" class="wa-premium-btn">💬 WhatsApp Company</a>
+
+<a id="companyWhatsappBtn" target="_blank" class="wa-premium-btn">💬 Chat to HR</a>
                 <a id="shareWhatsapp" target="_blank" class="wa-premium-btn"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</a>
             </div>
         </div>
@@ -1464,7 +1485,11 @@ company: document.getElementById("companyName").value,
 location: document.getElementById("jobLocation").value
 }));
 
-if(currentWhatsapp){window.open('https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(hrMsg), '_blank');}
+if(currentWhatsapp && currentWhatsapp.length>=10){
+window.open('https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(hrMsg), '_blank');
+}else{
+alert('Company WhatsApp number not configured for this job.');
+}
 
 document.getElementById('afterApplyActions').style.display='flex';
 const cp=document.getElementById('contactPreview');
