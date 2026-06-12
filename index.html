@@ -1162,13 +1162,13 @@
             
             const btn=document.getElementById("companyWhatsappBtn");
             if(btn){
-                const applicant = JSON.parse(localStorage.getItem('applicant_' + currentJobId) || '{}');
-                const fullMsg = `New Application From VenuHR Portal
+                btn.onclick=function(){
+                    const applicant = JSON.parse(localStorage.getItem('applicant_' + currentJobId) || '{}');
+                    const fullMsg = `New Application From VenuHR Portal
 Name: ${applicant.name || ''}
 Phone: ${applicant.phone || ''}
 Applied For: ${job}
 Company: ${company}`;
-                btn.onclick=function(){
                     window.open('https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(fullMsg),'_blank');
                     return false;
                 };
