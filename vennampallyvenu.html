@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vennampally Venu | Personal Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary: #10b981; /* Emerald Accent */
+            --primary-hover: #059669;
+            --dark-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        /* --- Hero Section --- */
+        header {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: var(--primary);
+            font-size: 40px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 32px;
+            font-weight: 400;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .cta-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        /* --- Layout Container --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        section {
+            margin-bottom: 80px;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 40px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* --- About & Vision Sections --- */
+        .card-large {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .card-large p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .card-large b {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* --- Responsive Grids --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card-feature {
+            background: var(--bg-card);
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: var(--transition);
+        }
+
+        .card-feature:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .card-feature .icon-box {
+            width: 48px;
+            height: 48px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-feature h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card-feature p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- Skills Section --- */
+        .skills-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
+            background: var(--bg-card);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            background: var(--dark-gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Dashboard Stats/Highlights Section --- */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            padding: 30px 24px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            position: relative;
+        }
+
+        .stat-box h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .stat-box p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* --- Contact Section --- */
+        .contact-card {
+            background: var(--dark-gradient);
+            color: white;
+            border-radius: 24px;
+            padding: 48px 32px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+        }
+
+        .contact-card h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .contact-card .subtitle {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 32px;
+            font-size: 1rem;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .contact-item:hover {
+            color: white;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #0f172a;
+            color: #64748b;
+            text-align: center;
+            padding: 30px 24px;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        /* --- Responsive Design Media Queries --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 80px 20px;
+            }
+            header h1 {
+                font-size: 2.25rem;
+            }
+            .container {
+                padding: 48px 20px;
+            }
+            section {
+                margin-bottom: 56px;
+            }
+            .contact-details {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="profile-avatar">VV</div>
+        <h1>Vennampally Venu</h1>
+        <p>Founder of VenuHR • Psychology Student • Law Student • HR Professional</p>
+        <a href="https://www.venuhr.com" target="_blank" class="cta-btn">
+            Visit VenuHR <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+    </header>
+
+    <div class="container">
+
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="card-large">
+                <p>
+                    Hello! I'm <b>Vennampally Venu</b>, Founder of <b>VenuHR</b>. I am deeply passionate about Human Resources, Recruitment, Psychology, Law, Career Guidance, and Technology. My ongoing mission is to bridge the gap in the employment landscape—helping job seekers secure genuine career opportunities while seamlessly supporting companies in discovering the right talent.
+                </p>
+            </div>
+        </section>
+
+        <section id="qualifications">
+            <h2 class="section-title">Qualifications</h2>
+            <div class="grid-3">
+                <div class="card-feature">
+                    <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
+                    <h3>M.Sc. Psychology</h3>
+                    <p>Dr. B.R. Ambedkar Open University, Hyderabad</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <h3>LL.B.</h3>
+                    <p>Currently pursuing higher education in legal studies and research.</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-box"><i class="fa-solid fa-user-tie"></i></div>
+                    <h3>HR & Recruitment</h3>
+                    <p>Expertise in structured talent acquisition, global sourcing strategies, and strategic hiring.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="grid-3">
+                <div class="card-feature">
+                    <div class="icon-box"><i class="fa-solid fa-briefcase"></i></div>
+                    <h3>Founder — VenuHR</h3>
+                    <p>Building India's trusted ecosystem connecting aspiring candidates with genuine nationwide non-IT opportunities.</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-box"><i class="fa-solid fa-compass"></i></div>
+                    <h3>Career Guidance</h3>
+                    <p>Empowering job seekers by enhancing industry readiness and mapping optimal paths to recruiters.</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-box"><i class="fa-solid fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Architecting and managing customized job portals, HR platforms, and digital recruitment mechanisms.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="skills-flex">
+                <div class="skill-tag">Recruitment</div>
+                <div class="skill-tag">Human Resources</div>
+                <div class="skill-tag">Psychology</div>
+                <div class="skill-tag">Legal Studies</div>
+                <div class="skill-tag">Career Counseling</div>
+                <div class="skill-tag">Communication</div>
+                <div class="skill-tag">Web Development</div>
+                <div class="skill-tag">Digital Marketing</div>
+            </div>
+        </section>
+
+        <section id="focus">
+            <h2 class="section-title">Core Focus Areas</h2>
+            <div class="grid-4">
+                <div class="stat-box">
+                    <h2>VenuHR</h2>
+                    <p>Platform Administration</p>
+                </div>
+                <div class="stat-box">
+                    <h2>HR Focus</h2>
+                    <p>End-to-End Recruitment</p>
+                </div>
+                <div class="stat-box">
+                    <h2>Law Focus</h2>
+                    <p>Legal & Compliance Research</p>
+                </div>
+                <div class="stat-box">
+                    <h2>Psychology</h2>
+                    <p>Human Behavior Dynamics</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision">
+            <h2 class="section-title">Vision</h2>
+            <div class="card-large" style="border-left: 4px solid var(--primary);">
+                <p>
+                    To establish one of India's premier, highly trusted Non-IT job platforms, expanding equal employment access while enriching job seekers with structural knowledge and sustainable career acceleration.
+                </p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact-card">
+                <h3>Vennampally Venu</h3>
+                <p class="subtitle">Founder — VenuHR</p>
+                <div class="contact-details">
+                    <a href="https://www.venuhr.com" target="_blank" class="contact-item">
+                        <i class="fa-solid fa-globe"></i> www.venuhr.com
+                    </a>
+                    <span class="contact-item">
+                        <i class="fa-solid fa-location-dot"></i> Hyderabad, Telangana, India
+                    </span>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Vennampally Venu | Personal Portfolio Website
+    </footer>
+
+</body>
+</html>
