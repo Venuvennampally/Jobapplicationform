@@ -839,6 +839,7 @@
         <div class="cards-vertical-stack" id="jobsGrid">
             <div class="no-job"><i class="fa-solid fa-circle-notch fa-spin"></i> Initializing real-time datastore synchronization...</div>
         </div>
+        <div id="pagination" style="display:flex;gap:10px;justify-content:center;margin-top:20px;"></div>
     </main>
 
     <div class="overlay-screen-blur" id="jobPage">
@@ -987,7 +988,7 @@
         const totalCompanies = document.getElementById("totalCompanies");
         const totalCandidates = document.getElementById("totalCandidates");
         
-        let allJobs = [];
+        let allJobs = []; let currentPage=1; const jobsPerPage=20;
         let currentJobKey='';
         let currentJobId='';
         let currentWhatsapp='';
@@ -1050,13 +1051,33 @@
                 }
 
                 try{localStorage.setItem('jobsCache',JSON.stringify(allJobs));}catch(e){}
-                displayJobs(allJobs.slice(0,50));
+                renderPage(1);
             } catch (error) {
                 jobsGrid.innerHTML = "<div class='no-job'>Unable to load jobs. Check Firestore data/rules.</div>";
             }
         }
 
-        function displayJobs(jobs) {
+        
+function renderPage(page){
+    currentPage=page;
+    const start=(page-1)*jobsPerPage;
+    const end=start+jobsPerPage;
+    displayJobs(allJobs.slice(start,end));
+    renderPagination();
+}
+function renderPagination(){
+    const totalPages=Math.ceil(allJobs.length/jobsPerPage);
+    const el=document.getElementById('pagination');
+    if(!el) return;
+    el.innerHTML='';
+    if(totalPages<=1) return;
+    el.innerHTML += `<button onclick="renderPage(${currentPage-1})" ${currentPage===1?'disabled':''}>Previous</button>`;
+    el.innerHTML += `<span style="padding:8px 12px">Page ${currentPage} of ${totalPages}</span>`;
+    el.innerHTML += `<button onclick="renderPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>Next</button>`;
+}
+window.renderPage=renderPage;
+
+function displayJobs(jobs) {
             const cnt=document.getElementById('jobCountText');
             if(cnt) cnt.innerText='Showing ' + jobs.length + ' Jobs';
             jobsGrid.innerHTML = "";
@@ -1078,7 +1099,7 @@
                             ${JSON.stringify(job.Title || job.title || "")},
                             ${JSON.stringify(job.Location || job.location || "")},
                             ${JSON.stringify(job.salary || "")},
-                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}, ${JSON.stringify(job.companyWhatsapp || "")}, ${JSON.stringify(job.gender || "Both")}
+                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}, ${JSON.stringify(job.companyWhatsapp || job.whatsapp || "")}, ${JSON.stringify(job.gender || "Both")}
                         )'>${job.Title || job.title || "Job Opening"}</div>
                         
                         <div class="corporate-branding-node"><i class="fa-solid fa-building" style="color:var(--accent-glow)"></i> ${job.company || "Company"}</div>
@@ -1106,7 +1127,7 @@
                             ${JSON.stringify(job.Title || job.title || "")},
                             ${JSON.stringify(job.Location || job.location || "")},
                             ${JSON.stringify(job.salary || "")},
-                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}, ${JSON.stringify(job.companyWhatsapp || "")}, ${JSON.stringify(job.gender || "Both")}
+                            ${JSON.stringify(job.description || job.Description || "No Description Available")}, ${JSON.stringify(job.id || "")}, ${JSON.stringify(job.companyWhatsapp || job.whatsapp || "")}, ${JSON.stringify(job.gender || "Both")}
                         )'>Apply Now</button>
                         <button class="whatsapp-share-btn" onclick="shareJob('${(job.Title||job.title||'').replace(/'/g,'&#39;')}','${(job.company||'').replace(/'/g,'&#39;')}','${(job.Location||job.location||'').replace(/'/g,'&#39;')}','${job.id||''}')"><i class="fa-brands fa-whatsapp"></i> Share Job</button>
                     </div>
@@ -1130,7 +1151,17 @@
                     (categoryValue === "" || category.includes(categoryValue)) 
                 );
             });
-            displayJobs(filteredJobs);
+            
+window.filteredJobs = filteredJobs;
+currentPage=1;
+const start=0;
+displayJobs(filteredJobs.slice(start,jobsPerPage));
+const el=document.getElementById('pagination');
+if(el){
+ const totalPages=Math.ceil(filteredJobs.length/jobsPerPage);
+ el.innerHTML=`<button disabled>Previous</button><span style="padding:8px 12px">Page 1 of ${totalPages||1}</span><button ${totalPages<=1?'disabled':''} onclick="(function(){})()">Next</button>`;
+}
+
         }
 
         let __jobSearchTimer;
@@ -1303,7 +1334,7 @@ Company: ${document.getElementById("companyName").value}`;
 
         try{
             const cache=localStorage.getItem('jobsCache');
-            if(cache){ allJobs=JSON.parse(cache); displayJobs(allJobs.slice(0,50)); }
+            if(cache){ allJobs=JSON.parse(cache); renderPage(1); }
         }catch(e){}
         loadJobs();
 
