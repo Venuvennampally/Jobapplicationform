@@ -1283,14 +1283,7 @@ Company: ${company}`;
                     })
                 );
                 
-                const hrMsg = `New Application From VenuHR Portal
-Name: ${form.name.value}
-Phone: ${phone}
-Applied For: ${document.getElementById("jobRole").value}
-Company: ${document.getElementById("companyName").value}`;
-                if(currentWhatsapp && currentWhatsapp.length>=10){
-                    window.open('https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(hrMsg), '_blank');
-                }
+                alert('Application Submitted Successfully');
 
                 form.reset(); closePopup();
                 document.getElementById("jobPage").style.display="flex";
