@@ -228,7 +228,7 @@ function showPage(id, btn){
             </div>
             <div class="form-group">
                 <input id="salary" placeholder="Salary Package (e.g. 3.5 LPA)">
-                <input id="whatsapp" placeholder="Company WhatsApp number"><select id="gender"><option value="Both">Both</option><option value="Male">Male</option><option value="Female">Female</option></select>
+                <input id="whatsapp" placeholder="Company WhatsApp number"><select id="jobType"><option>Full Time</option><option>Part Time</option></select><select id="gender"><option value="Both">Both</option><option value="Male">Male</option><option value="Female">Female</option></select>
             </div>
             <div style="margin-bottom: 20px;">
                 <textarea id="description" placeholder="Enter comprehensive job description here..."></textarea>
@@ -248,7 +248,7 @@ function showPage(id, btn){
                     <option>Warehouse</option><option>Accounts</option><option>Customer Support</option>
                     <option>Sales</option><option>Recruitment</option>
                 </select>
-                <input id="eWhatsapp" placeholder="WhatsApp"><select id="eGender"><option>Both</option><option>Male</option><option>Female</option></select><select id="ePinned"><option value="false">Not Pinned</option><option value="true">Pinned</option></select>
+                <input id="eWhatsapp" placeholder="WhatsApp"><select id="eJobType"><option>Full Time</option><option>Part Time</option></select><select id="eGender"><option>Both</option><option>Male</option><option>Female</option></select><select id="ePinned"><option value="false">Not Pinned</option><option value="true">Pinned</option></select>
             </div>
             <div style="margin-bottom: 20px;">
                 <textarea id="eDescription"></textarea>
@@ -394,7 +394,9 @@ VenuHR
       Location:x.location||x.Location||'',
       salary:x.salary||'',
       description:x.description||'',
-      companyWhatsapp:x.whatsapp||x.Whatsapp||''
+      companyWhatsapp:x.whatsapp||x.Whatsapp||'',
+      jobType:x.jobType||'Full Time',
+      gender:x.gender||'Both'
      });
      await updateDoc(doc(db,"pending_jobs",id),{status:"Approved",Status:"Approved"});
      loadJobRequests();
@@ -590,7 +592,7 @@ Kindly review the profile and share your feedback.
 Regards,
 VenuHR
 6305232525`;
-     window.open(wa?`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`);
+     if(!wa){alert('This company does not have a WhatsApp number.');return;} window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`,'_blank');
     };
 
     window.editJob=(id)=>{
@@ -599,14 +601,14 @@ VenuHR
      document.getElementById("editBox").style.display="block";
      document.getElementById("eTitle").value=j.Title||""; document.getElementById("eCompany").value=j.company||"";
      document.getElementById("eLocation").value=j.Location||""; document.getElementById("eSalary").value=j.salary||""; document.getElementById("eCategory").value=j.category||"";
-     document.getElementById("eWhatsapp").value=j.companyWhatsapp||""; document.getElementById("eGender").value=j.gender||"Both"; document.getElementById("ePinned").value=(j.pinned?"true":"false"); document.getElementById("eDescription").value=j.description||"";
+     document.getElementById("eWhatsapp").value=j.companyWhatsapp||""; document.getElementById("eJobType").value=j.jobType||"Full Time"; document.getElementById("eGender").value=j.gender||"Both"; document.getElementById("ePinned").value=(j.pinned?"true":"false"); document.getElementById("eDescription").value=j.description||"";
      document.getElementById("editBox").scrollIntoView({behavior: 'smooth'});
     };
 
     document.getElementById("saveEdit").onclick=async()=>{
      await updateDoc(doc(db,"venu",editId),{
       Title:document.getElementById("eTitle").value, company:document.getElementById("eCompany").value, Location:document.getElementById("eLocation").value,
-      salary:document.getElementById("eSalary").value, category:document.getElementById("eCategory").value, companyWhatsapp:document.getElementById("eWhatsapp").value, gender:document.getElementById("eGender").value, pinned:(document.getElementById("ePinned").value==="true"), description:document.getElementById("eDescription").value
+      salary:document.getElementById("eSalary").value, category:document.getElementById("eCategory").value, companyWhatsapp:document.getElementById("eWhatsapp").value, jobType:document.getElementById("eJobType").value, gender:document.getElementById("eGender").value, pinned:(document.getElementById("ePinned").value==="true"), description:document.getElementById("eDescription").value
      });
      alert("Job Matrix Safely Updated");
      document.getElementById("editBox").style.display="none";
@@ -629,6 +631,7 @@ VenuHR
        salary:document.getElementById('salary').value,
        category:document.getElementById('category').value,
        companyWhatsapp:document.getElementById('whatsapp').value,
+       jobType:document.getElementById('jobType').value,
        gender:document.getElementById('gender').value,
        description:document.getElementById('description').value,
        createdAt:new Date()
