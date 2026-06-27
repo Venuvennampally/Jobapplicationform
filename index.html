@@ -195,7 +195,7 @@
         }
 
         /* Analytics Matrix */
-        .analytics-matrix {
+        .analytics-matrix { display:none !important; 
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
@@ -693,7 +693,7 @@
         
         @media (max-width: 960px) {
             .hero-slide h1 { font-size: 38px; }
-            .analytics-matrix { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+            .analytics-matrix { display:none !important;  grid-template-columns: repeat(3, 1fr); gap: 16px; }
             .search-engine-grid { grid-template-columns: 1.5fr 1fr 1fr; }
             .luxury-job-row { padding: 24px; }
         }
@@ -726,7 +726,7 @@
             .hero-slide h1 { font-size: 28px !important; line-height: 1.3; }
             .hero-slide p { font-size: 14px; }
 
-            .analytics-matrix { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; padding: 0 12px !important; margin-top: -45px; }
+            .analytics-matrix { display:none !important;  grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; padding: 0 12px !important; margin-top: -45px; }
             .matrix-pod { padding: 12px 8px !important; flex-direction: column; gap: 8px; text-align: center; border-radius: 14px; }
             .matrix-icon-housing { width: 40px; height: 40px; font-size: 16px; border-radius: 10px; }
             .matrix-meta h3 { font-size: 18px !important; }
@@ -755,7 +755,7 @@
         }
 
         @media (max-width: 480px) {
-            .analytics-matrix { gap: 6px !important; padding: 0 8px !important; }
+            .analytics-matrix { display:none !important;  gap: 6px !important; padding: 0 8px !important; }
             .matrix-pod { padding: 10px 4px !important; }
             .matrix-meta h3 { font-size: 16px !important; }
             .matrix-meta p { font-size: 10px !important; }
@@ -763,7 +763,18 @@
             .luxury-job-row { padding: 16px !important; }
             .specs-meta-grid { flex-direction: column; gap: 6px !important; }
         }
-    </style>
+    
+/* Simple mobile-first improvements */
+.search-engine-wrap{max-width:900px!important;margin:20px auto!important}
+.search-engine-grid{padding:16px!important;border-radius:18px!important}
+.main-feed-stream{margin-top:28px!important}
+@media(max-width:768px){
+  .search-engine-grid{display:flex!important;flex-direction:column!important}
+  .search-node-input{min-height:54px!important}
+  .feed-heading-title{margin-top:8px!important}
+}
+
+</style>
 </head>
 
 <body>
@@ -777,46 +788,21 @@
         <a href="#" class="logo">Venu<span>HR</span></a>
         <button class="mobile-menu-btn" onclick="toggleMenu()"><i class="fa fa-bars"></i></button>
         <ul class="nav-links-cluster" id="navMenu">
-            <li><a href="#" onclick="openContactModal();return false;">➕ Post a Job</a></li>
+            <li><a href="javascript:void(0)" onclick="openContactModal()">➕ Post a Job</a></li>
             <li><a href="#jobs-section" class="active">Jobs</a></li>
             <li><a href="#support-section">Support</a></li>
         </ul>
     </header>
 
-    <div class="hero-billboard">
-        <div class="time-greeting" id="timeGreetingNode">Welcome to VenuHR</div>
-        <div class="hero-slider-text">
-            <div class="hero-slide">
-                <h1>Find the Right Job for <br><span>Your Career</span></h1>
-                <p>Find jobs from different companies and apply easily.</p>
-            </div>
-            <div class="hero-slide">
-                <h1>మీకు సరైన ఉద్యోగాన్ని <br><span>సులభంగా కనుగొనండి</span></h1>
-                <p>వివిధ కంపెనీల ఉద్యోగాలను చూసి సులభంగా దరఖాస్తు చేయండి.</p>
-            </div>
-            <div class="hero-slide">
-                <h1>Jobs Available Now <br><span>Apply Today</span></h1>
-                <p>Freshers & Experienced candidates can apply now | ఫ్రెషర్స్ మరియు అనుభవం ఉన్నవారు దరఖాస్తు చేయవచ్చు.</p>
-            </div>
-        </div>
-    </div>
+    
 
-    <div class="analytics-matrix">
-        <div class="matrix-pod">
-            <div class="matrix-icon-housing"><i class="fa-solid fa-briefcase"></i></div>
-            <div class="matrix-meta"><h3 id="totalJobs">0</h3><p>Jobs</p></div>
-        </div>
-        <div class="matrix-pod">
-            <div class="matrix-icon-housing"><i class="fa-solid fa-building"></i></div>
-            <div class="matrix-meta"><h3 id="totalCompanies">0</h3><p>Companies</p></div>
-        </div>
-        <div class="matrix-pod">
-            <div class="matrix-icon-housing"><i class="fa-solid fa-users"></i></div>
-            <div class="matrix-meta"><h3 id="totalCandidates">0</h3><p>Applicants</p></div>
-        </div>
-    </div>
+<div style="max-width:900px;margin:20px auto 8px;padding:0 16px;text-align:center;">
+    <h1 style="font-size:36px;color:#0f172a;font-weight:800;margin-bottom:6px;">Find Jobs</h1>
+    <p style="color:#64748b;font-size:16px;">Search and apply for the latest jobs.</p>
+</div>
 
-    <div class="search-engine-wrap">
+
+            <div class="search-engine-wrap">
         <div class="search-engine-grid">
             <div class="search-node-input">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -960,12 +946,18 @@
 
     <footer id="support-section" class="terminal-footer">
         <h4>www.venuhr.com</h4>
+
+        <a href="https://wa.me/916305232525"
+           target="_blank"
+           style="display:inline-block;background:#25D366;color:white;padding:12px 20px;border-radius:30px;text-decoration:none;font-weight:700;margin:15px 0;">
+           <i class="fa-brands fa-whatsapp"></i> WhatsApp Support
+        </a>
+
+        <p style="margin-bottom:8px;">Follow Instagram: @walkins_updates</p>
         <p>&copy; 2026 VenuHR.com | All Rights Reserved.</p>
     </footer>
 
-    <a href="https://wa.me/916305232525" class="fixed-wa-desk">
-        <i class="fa-brands fa-whatsapp" style="font-size:18px;"></i> WhatsApp Support
-    </a>
+    
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
@@ -1013,19 +1005,22 @@
                 });
 
                 allJobs.sort((a,b)=>{
-                    const da=a.createdAt?.seconds||0;
-                    const db=b.createdAt?.seconds||0;
+                    const da=a.createdAt?.seconds || 0;
+                    const db=b.createdAt?.seconds || 0;
                     return db-da;
                 });
+                if(allJobs.every(j => !j.createdAt)){
+                    allJobs.reverse();
+                }
 
-                totalJobs.innerText = allJobs.length;
+                if(totalJobs) totalJobs.innerText = allJobs.length;
 
                 const companies = new Set();
                 allJobs.forEach(job => {
                     if (job.company) companies.add(job.company);
                 });
-                totalCompanies.innerText = companies.size;
-                totalCandidates.innerText = "1000+";
+                if(totalCompanies) totalCompanies.innerText = companies.size;
+                if(totalCandidates) totalCandidates.innerText = "1000+";
 
                 const locationSet = new Set();
                 const categorySet = new Set();
@@ -1053,7 +1048,9 @@
                 try{localStorage.setItem('jobsCache',JSON.stringify(allJobs));}catch(e){}
                 renderPage(1);
             } catch (error) {
-                jobsGrid.innerHTML = "<div class='no-job'>Unable to load jobs. Check Firestore data/rules.</div>";
+                console.error('Firestore Load Error:', error);
+                jobsGrid.innerHTML =
+                    "<div class='no-job'>Unable to load jobs: " + (error.message || error) + "</div>";
             }
         }
 
@@ -1284,6 +1281,20 @@ Company: ${company}`;
                 );
                 
                 alert('Application Submitted Successfully');
+
+                const autoMsg = `New Application From VenuHR Portal
+
+Name: ${form.name.value}
+Phone: ${phone}
+Applied For: ${document.getElementById("jobRole").value}
+Company: ${document.getElementById("companyName").value}`;
+
+                if(currentWhatsapp){
+                    window.open(
+                        'https://wa.me/' + currentWhatsapp + '?text=' + encodeURIComponent(autoMsg),
+                        '_blank'
+                    );
+                }
 
                 form.reset(); closePopup();
                 document.getElementById("jobPage").style.display="flex";
