@@ -29,6 +29,9 @@ button{background:#2563eb;color:#fff;border:none;font-weight:bold;cursor:pointer
 <input id="company" placeholder="Company Name *">
 <input id="mobile" placeholder="Contact Number *" maxlength="10">
 <input id="title" placeholder="Job Title *">
+<input id="salary" placeholder="Salary *">
+<select id="gender"><option value="Both">Both</option><option value="Male">Male</option><option value="Female">Female</option></select>
+<select id="jobType"><option value="Full Time">Full Time</option><option value="Part Time">Part Time</option></select>
 <textarea id="desc" placeholder="Job Description *"></textarea>
 <input id="location" placeholder="Job Location *">
 
@@ -72,10 +75,13 @@ document.getElementById("submitBtn").addEventListener("click", async ()=>{
    const company=document.getElementById("company").value.trim();
    const mobile=document.getElementById("mobile").value.trim();
    const title=document.getElementById("title").value.trim();
+   const salary=document.getElementById("salary").value.trim();
+   const gender=document.getElementById("gender").value;
+   const jobType=document.getElementById("jobType").value;
    const desc=document.getElementById("desc").value.trim();
    const location=document.getElementById("location").value.trim();
 
-   if(!company || !mobile || !title || !desc || !location){
+   if(!company || !mobile || !title || !salary || !desc || !location){
       msg.innerHTML="⚠️ Fill all fields";
       return;
    }
@@ -97,6 +103,9 @@ document.getElementById("submitBtn").addEventListener("click", async ()=>{
       companyName:company,
       whatsapp:mobile,
       title:title,
+      salary:salary,
+      gender:gender,
+      jobType:jobType,
       description:desc,
       location:location,
       status:"Pending",
