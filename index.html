@@ -2,10 +2,10 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
 <title>FreeWalkins by VenuHR - Advanced AI Edition</title>
 
-<!-- PWA Manifest & Meta Tags -->
+<!-- PWA Meta Tags & Manifest -->
 <link rel="manifest" href='data:application/json;charset=utf-8,{"name":"FreeWalkins by VenuHR","short_name":"FreeWalkins","start_url":"/","display":"standalone","background_color":"%230b0f19","theme_color":"%2310b981","icons":[{"src":"https://img.icons8.com/color/192/000000/work.png","sizes":"192x192","type":"image/png"},{"src":"https://img.icons8.com/color/512/000000/work.png","sizes":"512x512","type":"image/png"}]}'>
 <meta name="theme-color" content="#10b981">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,21 +19,25 @@
 :root {
   --primary: #10b981;
   --primary-hover: #059669;
-  --primary-light: rgba(16, 185, 129, 0.08);
+  --primary-light: rgba(16, 185, 129, 0.06);
+  --primary-light-hover: rgba(16, 185, 129, 0.12);
   --whatsapp: #22c55e;
+  --whatsapp-hover: #16a34a;
   --danger: #ef4444;
+  --danger-hover: #dc2626;
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --bg-input: #f1f5f9;
   --text-main: #0f172a;
   --text-muted: #64748b;
   --border: rgba(15, 23, 42, 0.08);
+  --border-focus: rgba(16, 185, 129, 0.5);
   --radius-lg: 20px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
   --highlight: #fef08a;
-  --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.03);
-  --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.02);
+  --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
   --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.1);
   --premium-grad: linear-gradient(135deg, #10b981, #3b82f6);
 }
@@ -45,43 +49,51 @@
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --border: rgba(255, 255, 255, 0.06);
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --border-focus: rgba(16, 185, 129, 0.4);
+  --primary-light: rgba(16, 185, 129, 0.06);
+  --primary-light-hover: rgba(16, 185, 129, 0.12);
+  --highlight: #451a03;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.5);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
-  padding: 24px 16px;
+  padding: 32px 16px;
   line-height: 1.6;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
 }
 
 .wrapper {
   width: 100%;
-  max-width: 540px;
+  max-width: 560px;
   margin: 0 auto;
 }
 
 .modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(5, 8, 16, 0.75);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 16, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 999;
 }
 
-/* ప్రొఫెషనల్ అండ్ నీట్ హెడర్ డిజైన్ */
 .header {
   background: var(--bg-card);
-  padding: 24px 20px;
+  padding: 32px 24px;
   border-radius: var(--radius-lg);
   text-align: center;
   margin-bottom: 20px;
@@ -90,145 +102,464 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-.utility-actions-group {
-  display: flex; gap: 8px; position: absolute; top: 16px; left: 16px; align-items: center;
-}
-
-.theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn {
-  background: var(--bg-input); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); font-size: 15px; cursor: pointer;
-  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s ease;
-}
-.theme-toggle:hover, .notification-bell:hover, .ai-assistant-btn:hover { border-color: var(--primary); transform: translateY(-1px); }
-
 .header h1 {
-  font-size: 28px; font-weight: 800;
+  font-size: 32px;
+  font-weight: 800;
   background: var(--premium-grad);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  letter-spacing: -1px; margin-top: 6px; margin-bottom: 2px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+  margin-top: 10px;
 }
 
 .header p {
-  font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.notification-container { position: relative; cursor: pointer; display: inline-block; }
+.utility-actions-group {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover, .notification-bell:hover, .notification-back-btn:hover, .ai-assistant-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.notification-container {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  z-index: 10;
+}
 
 .notification-badge {
-  position: absolute; top: -4px; right: -4px;
-  background-color: var(--danger); color: white; border-radius: 50%;
-  min-width: 16px; height: 16px; padding: 0 4px; font-size: 9px; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: var(--danger);
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
 }
 
 .magic-toast {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%) scale(0.9);
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff;
-  padding: 10px 20px; border-radius: 50px; font-size: 13px; font-weight: 700; z-index: 99999; opacity: 0; pointer-events: none;
-  box-shadow: var(--shadow-lg);
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.magic-toast.fly-effect { animation: magicFlyIn 2.5s ease forwards; }
+
+.magic-toast.fly-effect {
+  animation: magicFlyIn 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
 
 @keyframes magicFlyIn {
-  0% { opacity: 0; transform: translateX(-50%) scale(0.8) translateY(-10px); }
+  0% { opacity: 0; transform: translateX(-50%) scale(0.8) translateY(-20px); }
   20% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
   80% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
-  100% { opacity: 0; transform: translateX(-50%) scale(0.9) translateY(-10px); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9) translateY(-20px); }
+}
+
+/* Custom Notification Permission Prompt Styles */
+.custom-notif-banner {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 480px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  z-index: 999999;
+  animation: slideUpBanner 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpBanner {
+  from { opacity: 0; transform: translate(-50%, 30px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.custom-notif-content h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-notif-content p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.custom-notif-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-notif-yes {
+  background: linear-gradient(135deg, var(--primary), #059669);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.btn-notif-no {
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
 }
 
 .btn-edit-profile {
-  position: absolute; top: 16px; right: 16px;
-  background: var(--primary-light); color: var(--primary);
-  border: 1px solid rgba(16, 185, 129, 0.3); font-size: 11px; padding: 6px 14px;
-  border-radius: 50px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: none;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  font-size: 12px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-weight: 700;
+  width: auto;
+  min-height: auto;
+  transition: all 0.25s ease;
 }
-.btn-edit-profile:hover { background: var(--primary); color: #fff; }
+.btn-edit-profile:hover {
+  background: var(--primary);
+  color: #fff;
+}
 
 @keyframes blinkBtn {
   0% { transform: scale(1); }
-  50% { transform: scale(1.03); background: #f59e0b; color: #fff; }
+  50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
   100% { transform: scale(1); }
 }
-.blink-active { animation: blinkBtn 0.8s ease-in-out 4; }
+.blink-active {
+  animation: blinkBtn 0.8s ease-in-out 5;
+  z-index: 9999;
+}
 
 .premium-marquee {
   background: linear-gradient(90deg, #059669, #10b981, #059669);
-  color: #fff; padding: 10px 14px; font-weight: 700; font-size: 12px; border-radius: var(--radius-md); margin-bottom: 16px;
+  color: #fff;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+  margin: 16px 0;
   box-shadow: var(--shadow-sm);
 }
 
 .filter-box {
-  background: var(--bg-card); padding: 18px; border-radius: var(--radius-lg);
-  margin-bottom: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px;
-  box-shadow: var(--shadow-sm);
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-md);
 }
 
-.filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 
 input, select, textarea {
-  width: 100%; padding: 12px 14px; border: 1px solid var(--border);
-  border-radius: var(--radius-md); font-family: inherit; font-size: 13px; font-weight: 500;
-  color: var(--text-main); background-color: var(--bg-input); outline: none; min-height: 46px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  background-color: var(--bg-input);
+  outline: none;
+  min-height: 48px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); background-color: var(--bg-card); }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-light);
+  background-color: var(--bg-card);
+}
 
-.hint-text { font-size: 11px; color: #f59e0b; display: block; margin-top: 4px; font-weight: 600; }
-.section-title { font-size: 18px; font-weight: 800; margin: 20px 0 12px 0; color: var(--text-main); }
-.recommended-title { font-size: 16px; font-weight: 800; margin: 20px 0 12px 0; color: #3b82f6; border-left: 3px solid #3b82f6; padding-left: 10px; }
+.hint-text {
+  font-size: 12px;
+  color: #f59e0b;
+  display: block;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 20px 0 16px 0;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.recommended-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 24px 0 16px 0;
+  color: #3b82f6;
+  border-left: 4px solid #3b82f6;
+  padding-left: 12px;
+  letter-spacing: -0.5px;
+}
 
 .category-group-header {
-  font-size: 14px; font-weight: 800; color: var(--primary); background: var(--primary-light);
-  padding: 10px 14px; border-radius: var(--radius-md); margin: 16px 0 12px 0; border-left: 4px solid var(--primary);
-  display: flex; justify-content: space-between; align-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin: 20px 0 12px 0;
+  border-left: 4px solid var(--primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.strength-meter-container { background: var(--bg-input); padding: 14px; border-radius: var(--radius-md); margin-bottom: 14px; border: 1px solid var(--border); }
-.strength-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
-.strength-bar-bg { background: var(--border); height: 6px; border-radius: 50px; overflow: hidden; }
-.strength-bar-fill { background: var(--danger); width: 0%; height: 100%; border-radius: 50px; transition: width 0.4s ease; }
+.strength-meter-container {
+  background: var(--bg-input);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.strength-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.strength-bar-bg {
+  background: var(--border);
+  height: 8px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.strength-bar-fill {
+  background: var(--danger);
+  width: 0%;
+  height: 100%;
+  border-radius: 50px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
 .profile-summary-badge {
-  background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2);
-  padding: 14px; color: #3b82f6; border-radius: var(--radius-md); font-size: 12px; font-weight: 600; margin-bottom: 16px; display: none;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  padding: 14px 16px;
+  color: #3b82f6;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: none;
+  line-height: 1.6;
 }
 
-.suggestions-wrapper { position: relative; width: 100%; }
+.suggestions-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .suggestions-box {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-card);
-  border: 1px solid var(--border); border-radius: var(--radius-md); max-height: 200px; overflow-y: auto; z-index: 2000; display: none; box-shadow: var(--shadow-lg);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 2000;
+  display: none;
+  box-shadow: var(--shadow-lg);
 }
-.suggestion-item {
-  padding: 10px 14px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-main);
-  display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);
-}
-.suggestion-item:hover { background: var(--primary-light); color: var(--primary); }
-.suggestion-header-label { background: var(--bg-input); font-size: 10px; font-weight: 800; color: var(--text-muted); padding: 8px 14px; text-transform: uppercase; }
 
-.chips-output-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.skill-chip {
-  background: var(--primary-light); color: var(--primary); border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 5px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;
+.suggestion-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
 }
-.skill-chip span { cursor: pointer; color: var(--danger); font-weight: 800; font-size: 15px; }
+.suggestion-item:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.suggestion-header-label {
+  background: var(--bg-input);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  padding: 10px 16px;
+  pointer-events: none;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.chips-output-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.skill-chip {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.skill-chip span {
+  cursor: pointer;
+  color: var(--danger);
+  font-weight: 800;
+  font-size: 16px;
+}
 
 .job-card {
-  background: var(--bg-card); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px;
-  border: 1px solid var(--border); position: relative; overflow: hidden; box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.job-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.job-card.mismatch { opacity: 0.6; border-left: 4px solid var(--danger); background: var(--bg-input); }
+.job-card:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.job-card.mismatch {
+  opacity: 0.6;
+  border-left: 4px solid var(--danger);
+  background: var(--bg-input);
+}
 
 .ai-gender-warning {
-  background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #d97706;
-  padding: 8px 12px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; margin-bottom: 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #d97706;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
-  font-size: 10px; padding: 4px 12px; position: absolute; top: 0; right: 0; border-bottom-left-radius: var(--radius-md); font-weight: 800; color: white;
+  font-size: 11px;
+  padding: 6px 14px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: var(--radius-sm);
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.5px;
 }
 .mismatch-tag { background: #475569; }
 .score-tag-100 { background: linear-gradient(135deg, #10b981, #059669); }
@@ -237,129 +568,312 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 .score-tag-low { background: #64748b; }
 
 .new-job-badge-tag {
-  background: #ef4444; color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-left: 6px; text-transform: uppercase; vertical-align: middle;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-left: 8px;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
-.job-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; color: var(--text-main); line-height: 1.3; padding-right: 80px; }
-.company-name { font-size: 13px; color: var(--primary); font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.job-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  line-height: 1.4;
+  padding-right: 90px;
+}
 
-.job-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.company-name {
+  font-size: 14px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.job-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
 .detail-badge {
-  background: var(--bg-input); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
-  color: var(--text-muted); display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  background: var(--bg-input);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.proximity-badge { color: #3b82f6 !important; background: rgba(59, 130, 246, 0.08) !important; }
 
-.job-skills-list { font-size: 12px; margin-bottom: 12px; color: var(--text-muted); }
-.job-skills-list b { color: var(--text-main); }
+.proximity-badge {
+  color: #3b82f6 !important;
+  font-weight: 700;
+  background: rgba(59, 130, 246, 0.06) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.job-skills-list {
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+.job-skills-list b {
+  color: var(--text-main);
+}
+
 .job-expiry-alert {
-  font-size: 11px; font-weight: 700; color: #ef4444; background: rgba(239, 68, 68, 0.05);
-  border: 1px dashed rgba(239, 68, 68, 0.25); padding: 8px; border-radius: var(--radius-sm); margin-bottom: 14px; text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px dashed rgba(239, 68, 68, 0.25);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  text-align: center;
 }
 
-.actions-flex { display: flex; gap: 8px; width: 100%; }
-button, .btn-link-view-site {
-  font-family: inherit; font-size: 13px; font-weight: 700; border: none; border-radius: var(--radius-md);
-  cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; gap: 6px; flex: 1; min-height: 44px; text-decoration: none;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
+.actions-flex {
+  display: flex;
+  gap: 10px;
+  width: 100%;
 }
-button:active { transform: scale(0.98); }
-.btn-primary { background: linear-gradient(135deg, var(--primary), #059669); color: #fff; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-.btn-primary:disabled { background: var(--border) !important; color: var(--text-muted) !important; box-shadow: none !important; cursor: not-allowed; opacity: 0.5; }
-.btn-whatsapp { background: linear-gradient(135deg, var(--whatsapp), #16a34a); color: #fff; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
-.btn-whatsapp:disabled { background: var(--border) !important; color: var(--text-muted) !important; box-shadow: none !important; cursor: not-allowed; opacity: 0.5; }
-.btn-link-view-site { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-.btn-link-view-site.disabled { background: var(--border) !important; color: var(--text-muted) !important; box-shadow: none !important; pointer-events: none; opacity: 0.5; }
+
+button, .btn-link-view-site {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  gap: 8px;
+  flex: 1;
+  min-height: 46px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+button:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #059669);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+.btn-primary:disabled {
+  background: var(--border) !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, var(--whatsapp), #16a34a);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+}
+.btn-whatsapp:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.35);
+}
+.btn-whatsapp:disabled {
+  background: var(--border) !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn-link-view-site {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.btn-link-view-site.disabled {
+  background: var(--border) !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+}
 
 .container {
-  display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 92%; max-width: 440px; max-height: 90vh; overflow-y: auto; background: var(--bg-card);
-  border-radius: var(--radius-lg); padding: 28px 20px; z-index: 1000; border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%;
+  max-width: 460px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  z-index: 1000;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
 }
-.modal-close-btn { position: absolute; top: 16px; right: 18px; font-size: 26px; color: var(--text-muted); cursor: pointer; border: none; background: none; display: none; }
-.conditional-exp-block { display: none; flex-direction: column; gap: 10px; border-left: 3px solid var(--primary); padding-left: 12px; margin: 6px 0; }
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 28px;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  display: none;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.conditional-exp-block {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 3px solid var(--primary);
+  padding-left: 14px;
+  margin: 6px 0;
+}
 
 .popup {
-  display: none; position: fixed; inset: 0; background: rgba(5, 8, 16, 0.7);
-  backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 9999; padding: 16px;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 16, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 16px;
 }
+
 .popup-content {
-  background: var(--bg-card); padding: 28px 20px; border-radius: var(--radius-lg);
-  text-align: center; width: 100%; max-width: 360px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); position: relative;
+  background: var(--bg-card);
+  padding: 32px 24px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  position: relative;
 }
 
-.custom-prompt-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); z-index: 99999;
-  justify-content: center; align-items: center; padding: 16px;
-}
-.custom-prompt-box {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 28px 20px; width: 100%; max-width: 360px; text-align: center; box-shadow: var(--shadow-lg);
+.premium-loader-container {
+  width: 100%;
+  background: var(--border);
+  height: 6px;
+  border-radius: 50px;
+  margin: 20px 0;
+  overflow: hidden;
+  position: relative;
 }
 
-.premium-loader-container { width: 100%; background: var(--border); height: 5px; border-radius: 50px; margin: 16px 0; overflow: hidden; }
-.premium-loader-bar { width: 0%; height: 100%; background: var(--premium-grad); border-radius: 50px; transition: width 1.5s linear; }
+.premium-loader-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--premium-grad);
+  border-radius: 50px;
+  transition: width 1.5s linear;
+}
 
 .success-checkmark-glow {
-  width: 54px; height: 54px; background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
-  border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
 }
-.success-checkmark-glow span { font-size: 28px; }
+.success-checkmark-glow span { font-size: 32px; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-@media (max-width: 640px) {
-  body { padding: 12px 8px; }
-  .header { padding: 48px 16px 20px 16px; }
-  .utility-actions-group { top: 14px; left: 14px; }
-  .btn-edit-profile { top: 14px; right: 14px; }
-  .filter-grid, .job-details-grid { grid-template-columns: 1fr; gap: 8px; }
+@media (max-width: 768px) {
+  body { padding: 16px 12px; }
+  .header { padding: 64px 16px 20px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
+  .header h1 { font-size: 26px; }
+  .utility-actions-group { top: 16px; left: 16px; }
+  .theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn { width: 38px; height: 38px; }
+  .btn-edit-profile { top: 16px; right: 16px; font-size: 11px; padding: 8px 14px; }
+  .filter-box { padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px; gap: 10px; }
+  .filter-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  input, select, textarea { font-size: 14px; padding: 10px 14px; min-height: 44px; }
+  .job-card { padding: 20px; border-radius: var(--radius-md); margin-bottom: 14px; }
+  .job-card h3 { font-size: 16px; padding-right: 0; margin-top: 20px; }
+  .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low { left: 0; right: 0; border-bottom-left-radius: 0; text-align: center; padding: 5px; font-size: 10px; }
+  .job-details-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .detail-badge { padding: 8px 10px; font-size: 12px; }
+  .actions-flex { flex-direction: row; gap: 10px; }
+  button, .btn-link-view-site { min-height: 44px; font-size: 13px; padding: 10px 8px; }
+  .container { width: 94% !important; max-width: 400px !important; padding: 24px 20px !important; border-radius: var(--radius-lg) !important; }
 }
 
-.job-card h3, .company-name, .detail-badge, button, input, select, textarea, .btn-link-view-site {
-  white-space: normal !important; word-break: break-word; overflow-wrap: break-word;
+.job-card h3,.company-name,.detail-badge,button,input,select,textarea,.btn-link-view-site{
+  white-space:normal!important;
+  word-break:break-word;
+  overflow-wrap:break-word;
 }
-.actions-flex button, .actions-flex .btn-link-view-site { flex: 1; min-width: 0; }
+.actions-flex button, .actions-flex .btn-link-view-site{flex:1;min-width:0;}
 </style>
 </head>
 
 <body>
 <div class="modal-overlay" id="modalOverlay"></div>
-
-<!-- Custom App Install Prompt (5 Secs Delay) -->
-<div class="custom-prompt-overlay" id="appInstallPopup">
-  <div class="custom-prompt-box">
-    <div style="font-size: 38px; margin-bottom: 10px;">📲</div>
-    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text-main);">Install FreeWalkins App</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5;">Do you want to install this app on your device for quick access and better experience?</p>
-    <div style="display: flex; gap: 10px;">
-      <button class="btn-primary" id="acceptInstallBtn" style="padding: 10px;">Yes, Install</button>
-      <button style="background: var(--border); color: var(--text-main); border-radius: var(--radius-md); font-weight: 700; border: none; cursor: pointer; padding: 10px;" onclick="closeInstallPopupAndShowNotification()">No, Thanks</button>
-    </div>
-  </div>
-</div>
-
-<!-- Custom Notification Prompt -->
-<div class="custom-prompt-overlay" id="notificationPopup">
-  <div class="custom-prompt-box">
-    <div style="font-size: 38px; margin-bottom: 10px;">🔔</div>
-    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text-main);">Enable Notifications</h3>
-    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5;">Would you like to receive instant alerts when new walk-in jobs are posted?</p>
-    <div style="display: flex; gap: 10px;">
-      <button class="btn-primary" style="padding: 10px;" onclick="handleNotificationChoice(true)">Yes, Enable</button>
-      <button style="background: var(--border); color: var(--text-main); border-radius: var(--radius-md); font-weight: 700; border: none; cursor: pointer; padding: 10px;" onclick="handleNotificationChoice(false)">No, Skip</button>
-    </div>
-  </div>
-</div>
-
 <div class="wrapper">
+
   <div class="magic-toast" id="magicToastAlert">🚀 New Jobs Added! 🔔</div>
+
+  <!-- Custom Notification Permission Banner (Popup) -->
+  <div class="custom-notif-banner" id="customNotifBanner">
+    <div class="custom-notif-content">
+      <h4>🔔 Get New Job Alerts?</h4>
+      <p>Would you like to receive instant notifications on your mobile/desktop when new walk-in jobs are posted?</p>
+      <div class="custom-notif-actions">
+        <button class="btn-notif-yes" onclick="handleAcceptNotifications()">YES</button>
+        <button class="btn-notif-no" onclick="handleRejectNotifications()">NO</button>
+      </div>
+    </div>
+  </div>
 
   <div class="header">
     <div class="utility-actions-group">
-      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleThemeMode()" title="Toggle Theme">🌓</button>
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleThemeMode()">🌓</button>
       <button class="ai-assistant-btn" id="aiAssistantTriggerBtn" onclick="triggerMagicalAiAssistant()" title="Magical AI Job Assistant">✨</button>
-      <div class="notification-container" id="bellContainer" onclick="filterNewJobsOnly()" title="New Jobs">
+      <div class="notification-container" id="bellContainer" onclick="filterNewJobsOnly()">
         <button class="notification-bell">🔔</button>
         <span class="notification-badge" id="newJobsBadge" style="display: none;">0</span>
       </div>
@@ -368,6 +882,7 @@ button:active { transform: scale(0.98); }
     
     <h1>FreeWalkins</h1>
     <p id="lblAppSubtitle">by VenuHR</p>
+    
     <button id="editProfileBtn" class="btn-edit-profile" onclick="openFormModal(true)">✏️ Edit Profile</button>
   </div>
 
@@ -377,39 +892,44 @@ button:active { transform: scale(0.98); }
     </marquee>
 
     <div class="filter-box">
-      <input id="searchInput" placeholder="🔍 Search keywords (e.g. Java, Python)..." oninput="renderJobs()">
+      <input id="searchInput" placeholder="🔍 Search keywords (e.g. Java, Python, HR, Sales)..." oninput="renderJobs()">
+      
       <div class="filter-grid">
         <select id="filterCategory" onchange="renderJobs()">
           <option value="" id="optAllCategories">All Categories</option>
         </select>
+
         <div class="suggestions-wrapper">
-          <input type="text" id="filterLocationSearch" placeholder="📍 Search Area..." autocomplete="off" onfocus="handleLocationInputFocus()" oninput="handleLocationInputTyped()">
+          <input type="text" id="filterLocationSearch" placeholder="📍 All Areas / Search Area..." autocomplete="off" onfocus="handleLocationInputFocus()" oninput="handleLocationInputTyped()">
           <div class="suggestions-box" id="locationSuggestionsBox"></div>
           <input type="hidden" id="filterLocation" value="" onchange="renderJobs()">
         </div>
       </div>
     </div>
+
     <div class="profile-summary-badge" id="profileBadge">🎯 Showing best matching jobs for your profile.</div>
   </div>
 
   <div id="dynamicJobsOutput">
      <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
      <div id="jobsContainer">
-       <div style="text-align:center; padding:40px;"><div style="width: 28px; height: 28px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
+       <div style="text-align:center; padding:40px;"><div style="width: 32px; height: 32px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
      </div>
   </div>
 
   <div class="container" id="formContainer">
     <span class="modal-close-btn" id="modalCloseBtn" onclick="closeFormModalBack()">&times;</span>
-    <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:2px; font-weight: 800;">👤 Create Profile</h2>
-    <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:14px; font-weight: 500;">Create your profile once to apply instantly.</p>
+    <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:4px; font-weight: 800;">👤 Create Profile</h2>
+    <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-bottom:16px; font-weight: 500;">Create your profile once to apply for jobs instantly.</p>
 
     <div class="strength-meter-container">
       <div class="strength-header">
         <span>Profile Completion Score:</span>
         <span id="strengthLabel" style="color:var(--danger)">0% Completed</span>
       </div>
-      <div class="strength-bar-bg"><div id="strengthBar" class="strength-bar-fill"></div></div>
+      <div class="strength-bar-bg">
+        <div id="strengthBar" class="strength-bar-fill"></div>
+      </div>
     </div>
 
     <form id="candidateForm">
@@ -417,23 +937,27 @@ button:active { transform: scale(0.98); }
         <div><input type="text" id="name" placeholder="Full Name" required style="text-transform: capitalize;"></div>
         <div><input type="tel" id="mobile" placeholder="WhatsApp Number" required maxlength="10" pattern="[6-9][0-9]{9}"></div>
         <div><input type="email" id="email" placeholder="Email Address" required></div>
+
         <div>
-          <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px; text-transform: uppercase;">Date of Birth</label>
+          <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px; text-transform: uppercase; letter-spacing: 0.5px;">Date of Birth</label>
           <input type="date" id="dob" required>
         </div>
+
         <div>
           <select id="gender" required>
             <option value="">Select Gender</option>
             <option>Male</option><option>Female</option>
           </select>
         </div>
+
         <div>
           <div class="suggestions-wrapper">
-            <input type="text" id="qualificationSearchInput" placeholder="Highest Qualification..." autocomplete="off" onfocus="handleQualificationInputFocus()" oninput="handleQualificationInputTyped()" required>
+            <input type="text" id="qualificationSearchInput" placeholder="Highest Qualification (Type to add custom)..." autocomplete="off" onfocus="handleQualificationInputFocus()" oninput="handleQualificationInputTyped()" required>
             <div class="suggestions-box" id="qualificationSuggestionsBox"></div>
           </div>
           <input type="hidden" id="qualification" required>
         </div>
+
         <div>
           <select id="candidateExperience" required>
             <option value="">Experience Status</option>
@@ -441,37 +965,43 @@ button:active { transform: scale(0.98); }
             <option value="Experienced">Yes, I have Experience</option>
           </select>
         </div>
+
         <div class="conditional-exp-block" id="experienceDetailsBlock">
           <input type="text" id="prevCompany" placeholder="Last Company Name">
           <input type="text" id="prevRole" placeholder="Job Role (e.g. Recruiter)">
           <input type="text" id="lastCtc" placeholder="Last Annual Salary (CTC)">
         </div>
+
         <div>
           <select id="jobCategory" class="dynamic-category-select" required onchange="handleRoleCategoryChange()">
-            <option value="">Job Category looking for?</option>
+            <option value="">Which job category are you looking for?</option>
             <option value="Any">Any Category / Open to All</option>
           </select>
         </div>
+
         <div>
-          <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px; text-transform: uppercase;">Select Skills (Max 4 Only):</label>
+          <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform: uppercase; letter-spacing: 0.5px;">Select your skills here (Max 4 Only):</label>
           <div class="suggestions-wrapper">
-            <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions..." autocomplete="off" onfocus="handleSkillsInputFocus()">
+            <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions from list..." autocomplete="off" onfocus="handleSkillsInputFocus()">
             <div class="suggestions-box" id="suggestionsBox"></div>
           </div>
           <span class="hint-text" id="skillsCountHint">💡 Selected Skills: 0 / 4</span>
           <div class="selected-skills-chips" id="chipsContainer"></div>
         </div>
+
         <div>
           <div class="suggestions-wrapper">
-            <input type="text" id="candidateAreaSearchInput" placeholder="Your Area in Hyderabad..." autocomplete="off" onfocus="handleCandidateAreaInputFocus()" oninput="handleCandidateAreaInputTyped()" required>
+            <input type="text" id="candidateAreaSearchInput" placeholder="Your Area in Hyderabad (Type to add custom)..." autocomplete="off" onfocus="handleCandidateAreaInputFocus()" oninput="handleCandidateAreaInputTyped()" required>
             <div class="suggestions-box" id="candidateAreaSuggestionsBox"></div>
           </div>
           <input type="hidden" id="candidateArea" required>
         </div>
+
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
       </div>
-      <div style="display: flex; margin-top: 16px;">
-        <button type="submit" class="btn-primary" style="padding:12px; width: 100%; flex: initial;" id="btnFormSubmit">👤 Save Details & View Jobs</button>
+      
+      <div style="display: flex; margin-top: 20px;">
+        <button type="submit" class="btn-primary" style="padding:14px; width: 100%; flex: initial;" id="btnFormSubmit">👤 Save Details & View Jobs</button>
       </div>
     </form>
   </div>
@@ -479,78 +1009,73 @@ button:active { transform: scale(0.98); }
 
 <div class="popup" id="successPopup">
   <div class="popup-content">
-    <span class="modal-close-btn" style="display: block; top: 10px; right: 14px;" onclick="document.getElementById('successPopup').style.display='none'">&times;</span>
+    <span class="modal-close-btn" style="display: block; top: 12px; right: 16px;" onclick="document.getElementById('successPopup').style.display='none'">&times;</span>
     <div id="popupAnimationIcon"></div>
-    <h3 id="popupTitle" style="font-size: 18px; font-weight: 800; color: var(--text-main);">Submitting...</h3>
+    <h3 id="popupTitle" style="font-size: 20px; font-weight: 800; color: var(--text-main);">Submitting...</h3>
+    
     <div id="popupLoaderWrapper">
-      <div class="premium-loader-container"><div class="premium-loader-bar" id="premiumBar"></div></div>
+      <div class="premium-loader-container">
+        <div class="premium-loader-bar" id="premiumBar"></div>
+      </div>
     </div>
-    <p id="popupMessage" style="margin: 10px 0 16px 0; font-size: 13px; color: var(--text-muted); font-weight: 500;"></p>
-    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: var(--radius-md); font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
+    
+    <p id="popupMessage" style="margin: 12px 0 20px 0; font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.6;"></p>
+    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 12px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-});
-
-// 5 Seconds Delay App Install & Notification Popup Logic
-setTimeout(() => {
-  if (!localStorage.getItem('appPromptShown')) {
-    document.getElementById('appInstallPopup').style.display = 'flex';
-  }
-}, 5000);
-
-window.closeInstallPopupAndShowNotification = function() {
-  document.getElementById('appInstallPopup').style.display = 'none';
-  localStorage.setItem('appPromptShown', 'true');
-  document.getElementById('notificationPopup').style.display = 'flex';
-}
-
-document.getElementById('acceptInstallBtn').addEventListener('click', async () => {
-  document.getElementById('appInstallPopup').style.display = 'none';
-  localStorage.setItem('appPromptShown', 'true');
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-  }
-  setTimeout(() => {
-    document.getElementById('notificationPopup').style.display = 'flex';
-  }, 500);
-});
-
-window.handleNotificationChoice = async function(isYes) {
-  document.getElementById('notificationPopup').style.display = 'none';
-  if (isYes) {
-    if ("Notification" in window) {
-      let permission = await Notification.requestPermission();
-      if (permission === "granted") {
-        alert("Success! You will now receive alerts for new jobs.");
-      }
-    }
-  }
-}
-
+// Register Service Worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const swCode = `
-      self.addEventListener('install', (e) => { self.skipWaiting(); });
+      self.addEventListener('install', (e) => {
+        self.skipWaiting();
+      });
       self.addEventListener('fetch', (e) => {
-        e.respondWith(caches.match(e.request).then((response) => { return response || fetch(e.request); }));
+        e.respondWith(
+          caches.match(e.request).then((response) => {
+            return response || fetch(e.request);
+          })
+        );
       });
     `;
     const blob = new Blob([swCode], { type: 'text/javascript' });
     const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(() => {});
+    navigator.serviceWorker.register(swUrl)
+      .then((reg) => { console.log('PWA Service Worker Registered', reg); })
+      .catch((err) => { console.log('PWA Registration Failed', err); });
   });
 }
+
+// వెబ్‌సైట్ ఓపెన్ చేసిన 2.5 సెకండ్ల తర్వాత కస్టమ్ పాప్-అప్ (YES/NO) చూపించడానికి
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if ("Notification" in window && Notification.permission === "default") {
+      document.getElementById('customNotifBanner').style.display = 'block';
+    }
+  }, 2500);
+});
+
+window.handleAcceptNotifications = async function() {
+  document.getElementById('customNotifBanner').style.display = 'none';
+  if ("Notification" in window) {
+    let permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      new Notification("🚀 FreeWalkins Notifications Enabled!", {
+        body: "You will now receive instant alerts whenever new jobs are posted.",
+        icon: "https://img.icons8.com/color/192/000000/work.png"
+      });
+    }
+  }
+};
+
+window.handleRejectNotifications = function() {
+  document.getElementById('customNotifBanner').style.display = 'none';
+};
 
 const firebaseConfig = {
   apiKey: "AIzaSyAC8cxjgdG7ABnR5Nt7HaVuXWV9iznUAl0",
@@ -573,6 +1098,7 @@ let filterNewJobsActive = false;
 let readNewJobsArray = [];
 let categoryLimits = {};
 let uniqueAndSortedAreas = [];
+let isInitialLoad = true;
 
 const multiTierSkillsMapping = {
   "IT / Software": ["Java", "Python", "HTML/CSS", "JavaScript", "React JS", "Node.js", "SQL Database", "C++", "PHP", "Android UI", "Software Testing", "AWS Cloud", "UI/UX Design", "Git Control", "Data Structures", "TypeScript", "Angular", "Vue.js", "Docker", "Kubernetes", "Cyber Security", "DevOps Ops", "Django", "Machine Learning", "Data Analysis"],
@@ -594,6 +1120,7 @@ const multiTierSkillsMapping = {
 
 const masterAllSkills = Array.from(new Set(Object.values(multiTierSkillsMapping).flat())).sort();
 let dynamicJobCategories = Object.keys(multiTierSkillsMapping);
+
 const masterQualifications = ["SSC", "Intermediate", "Diploma", "ITI", "Degree", "B.Com", "B.Sc", "BA", "BBA", "BCA", "B.Tech", "B.Pharmacy", "MBA", "MCA", "M.Tech", "Ph.D", "CA", "LLB", "B.Ed", "M.Sc", "M.Com"];
 
 const hyderabadAreas = [
@@ -617,15 +1144,20 @@ const savedUser = localStorage.getItem("registeredCandidate");
 if(savedUser) {
   registeredCandidate = JSON.parse(savedUser);
   const savedApplied = localStorage.getItem("appliedCompanies");
-  if(savedApplied) appliedCompanies = JSON.parse(savedApplied);
+  if(savedApplied) {
+    appliedCompanies = JSON.parse(savedApplied);
+  }
 }
 
 const savedReadNewJobs = localStorage.getItem("readNewJobsArray");
-if(savedReadNewJobs) readNewJobsArray = JSON.parse(savedReadNewJobs);
+if(savedReadNewJobs) {
+  readNewJobsArray = JSON.parse(savedReadNewJobs);
+}
 
 window.toggleThemeMode = function() {
   const currentTheme = document.documentElement.getAttribute('data-theme');
-  document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+  const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', targetTheme);
 }
 
 window.triggerMagicalAiAssistant = function() {
@@ -638,47 +1170,68 @@ window.triggerMagicalAiAssistant = function() {
   popupBtn.style.display = "none";
   loaderWrapper.style.display = "block";
   premiumBar.style.width = "0%";
-  animIcon.innerHTML = `<div style="width: 36px; height: 36px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px auto;"></div>`;
+  animIcon.innerHTML = `<div style="width: 44px; height: 44px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px auto;"></div>`;
+  
   document.getElementById('popupTitle').innerText = "✨ AI Assistant Scanning...";
-  document.getElementById('popupMessage').innerText = "Magically analyzing your qualification, skills, and location parameters...";
+  document.getElementById('popupMessage').innerText = "Magically analyzing your qualification, skills, and manual location parameters...";
   popup.style.display = "flex";
 
-  setTimeout(() => { premiumBar.style.width = "100%"; }, 50);
+  setTimeout(() => {
+    premiumBar.style.width = "100%";
+  }, 50);
+
   setTimeout(() => {
     loaderWrapper.style.display = "none";
     animIcon.innerHTML = `<div class="success-checkmark-glow"><span>🪄</span></div>`;
+    
     if(!registeredCandidate) {
       document.getElementById('popupTitle').innerText = "✨ AI Profile Recommendation";
-      document.getElementById('popupMessage').innerText = "No profile found yet! Please set up your qualification & skills first.";
+      document.getElementById('popupMessage').innerText = "No profile found yet! Please set up your qualification, skills & location manually so the AI assistant can magically match jobs for you.";
       popupBtn.style.display = "block";
-      popupBtn.onclick = function() { popup.style.display = 'none'; openFormModal(false); };
+      popupBtn.onclick = function() {
+        popup.style.display = 'none';
+        openFormModal(false);
+      };
       popupBtn.innerText = "Setup Profile Now";
     } else {
-      let advisoryText = `• Qualification: ${registeredCandidate.qualification} \n• Gender: ${registeredCandidate.gender}\n• Skills: ${registeredCandidate.skills}\n• Location: ${registeredCandidate.area}`;
-      document.getElementById('popupTitle').innerText = "✨ Magical AI Insights";
-      document.getElementById('popupMessage').innerHTML = `Evaluated based on your profile inputs!<br><br><div style="text-align:left; background:var(--bg-input); padding:8px; border-radius:6px; font-size:11px; font-weight:600;">${advisoryText.replace(/\n/g, '<br>')}</div>`;
+      let q = registeredCandidate.qualification;
+      let s = registeredCandidate.skills || "None";
+      let loc = registeredCandidate.area || "Hyderabad";
+      let gender = registeredCandidate.gender;
+
+      let advisoryText = `• Qualification: ${q} \n• Gender Filter: ${gender}\n• Skills: ${s}\n• Location: ${loc}`;
+
+      document.getElementById('popupTitle').innerText = "✨ Magical Advanced AI Insights";
+      document.getElementById('popupMessage').innerHTML = `Successfully evaluated based on your manual inputs!<br><br><div style="text-align:left; background:var(--bg-input); padding:10px; border-radius:8px; font-size:12px; font-weight:600;">${advisoryText.replace(/\n/g, '<br>')}</div>`;
+      
       popupBtn.style.display = "block";
-      popupBtn.innerText = "View Job Matches!";
-      popupBtn.onclick = function() { popup.style.display = 'none'; renderJobs(); };
+      popupBtn.innerText = "View Magical Job Matches!";
+      popupBtn.onclick = function() {
+        popup.style.display = 'none';
+        renderJobs();
+      };
     }
-  }, 1400);
+  }, 1600);
 }
 
 function setupDropdownUI() {
   const fCat = document.getElementById('filterCategory');
   const formCat = document.getElementById('jobCategory');
+
   const categoriesFromJobs = allJobs.map(j => j.category).filter(Boolean);
   dynamicJobCategories = Array.from(new Set([...Object.keys(multiTierSkillsMapping), ...categoriesFromJobs])).sort();
 
   fCat.innerHTML = '<option value="">All Categories</option>';
-  formCat.innerHTML = '<option value="">Job Category looking for?</option><option value="Any">Any Category / Open to All</option>';
+  formCat.innerHTML = '<option value="">Which job category are you looking for?</option><option value="Any">Any Category / Open to All</option>';
+
   dynamicJobCategories.forEach(c => {
     fCat.innerHTML += `<option value="${c}">${c}</option>`;
     formCat.innerHTML += `<option value="${c}">${c}</option>`;
   });
 
   const liveJobLocations = allJobs.map(j => j.location).filter(Boolean);
-  uniqueAndSortedAreas = Array.from(new Set([...hyderabadAreas, ...liveJobLocations])).sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b));
+  const totalCombinedAreas = Array.from(new Set([...hyderabadAreas, ...liveJobLocations]));
+  uniqueAndSortedAreas = totalCombinedAreas.sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b));
 }
 
 const locSearchInput = document.getElementById('filterLocationSearch');
@@ -687,25 +1240,37 @@ const hiddenLocInput = document.getElementById('filterLocation');
 
 window.handleLocationInputFocus = function() { renderLocationSuggestions(); };
 window.handleLocationInputTyped = function() {
-  if (locSearchInput.value.trim() === '') { hiddenLocInput.value = ''; renderJobs(); }
+  const query = locSearchInput.value.trim();
+  if (query === '') {
+    hiddenLocInput.value = '';
+    renderJobs();
+  }
   renderLocationSuggestions();
 };
 
 function renderLocationSuggestions() {
   const query = locSearchInput.value.toLowerCase().trim();
-  let filteredAreas = query === '' ? uniqueAndSortedAreas : uniqueAndSortedAreas.filter(a => a.toLowerCase().includes(query));
+  let filteredAreas = uniqueAndSortedAreas;
+  
+  if (query !== '') {
+    filteredAreas = uniqueAndSortedAreas.filter(a => a.toLowerCase().includes(query));
+  }
+
   let htmlContent = `<div class="suggestion-item" data-value=""><span>📍 All Areas</span></div>`;
   if (filteredAreas.length > 0) {
     htmlContent += filteredAreas.map(area => `<div class="suggestion-item" data-value="${area}"><span>📍 ${area}</span></div>`).join('');
   } else {
-    htmlContent += `<div class="suggestion-item" data-value="${query}"><span>✨ Add Custom: "${locSearchInput.value}"</span></div>`;
+    htmlContent += `<div class="suggestion-item" data-value="${query}"><span>✨ Add Custom Location: "${locSearchInput.value}"</span></div>`;
   }
+
   locSugBox.innerHTML = htmlContent;
   locSugBox.style.display = 'block';
 }
 
 document.addEventListener('click', (e) => {
-  if(!locSearchInput.contains(e.target) && !locSugBox.contains(e.target)) locSugBox.style.display = 'none';
+  if(!locSearchInput.contains(e.target) && !locSugBox.contains(e.target)) {
+    locSugBox.style.display = 'none';
+  }
 });
 
 locSugBox.addEventListener('click', (e) => {
@@ -713,7 +1278,7 @@ locSugBox.addEventListener('click', (e) => {
   if(matchingItem) {
     const val = matchingItem.getAttribute('data-value') || '';
     hiddenLocInput.value = val;
-    locSearchInput.value = val;
+    locSearchInput.value = val ? val : '';
     locSugBox.style.display = 'none';
     renderJobs();
   }
@@ -728,11 +1293,19 @@ window.handleCandidateAreaInputTyped = function() { renderCandAreaSuggestions();
 
 function renderCandAreaSuggestions() {
   const query = candAreaSearchInput.value.toLowerCase().trim();
-  let filteredAreas = query === '' ? uniqueAndSortedAreas : uniqueAndSortedAreas.filter(a => a.toLowerCase().includes(query));
-  let htmlContent = filteredAreas.map(area => `<div class="suggestion-item" data-value="${area}"><span>📍 ${area}</span></div>`).join('');
-  if(query !== '' && !uniqueAndSortedAreas.map(x=>x.toLowerCase()).includes(query)) {
-    htmlContent += `<div class="suggestion-item" data-value="${candAreaSearchInput.value}"><span>✨ Add: "${candAreaSearchInput.value}"</span></div>`;
+  let filteredAreas = uniqueAndSortedAreas;
+  if(query !== '') {
+    filteredAreas = uniqueAndSortedAreas.filter(a => a.toLowerCase().includes(query));
   }
+
+  let htmlContent = '';
+  if(filteredAreas.length > 0) {
+    htmlContent = filteredAreas.map(area => `<div class="suggestion-item" data-value="${area}"><span>📍 ${area}</span></div>`).join('');
+  }
+  if(query !== '' && !uniqueAndSortedAreas.map(x=>x.toLowerCase()).includes(query)) {
+    htmlContent += `<div class="suggestion-item" data-value="${candAreaSearchInput.value}"><span>✨ Add Custom Area: "${candAreaSearchInput.value}"</span></div>`;
+  }
+
   candAreaSugBox.innerHTML = htmlContent;
   candAreaSugBox.style.display = 'block';
 }
@@ -749,7 +1322,9 @@ candAreaSugBox.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click', (e) => {
-  if(!candAreaSearchInput.contains(e.target) && !candAreaSugBox.contains(e.target)) candAreaSugBox.style.display = 'none';
+  if(!candAreaSearchInput.contains(e.target) && !candAreaSugBox.contains(e.target)) {
+    candAreaSugBox.style.display = 'none';
+  }
 });
 
 const qualSearchInput = document.getElementById('qualificationSearchInput');
@@ -761,11 +1336,19 @@ window.handleQualificationInputTyped = function() { renderQualSuggestions(); };
 
 function renderQualSuggestions() {
   const query = qualSearchInput.value.toLowerCase().trim();
-  let filteredQuals = query === '' ? masterQualifications : masterQualifications.filter(q => q.toLowerCase().includes(query));
-  let htmlContent = filteredQuals.map(q => `<div class="suggestion-item" data-value="${q}"><span>🎓 ${q}</span></div>`).join('');
-  if(query !== '' && !masterQualifications.map(x=>x.toLowerCase()).includes(query)) {
-    htmlContent += `<div class="suggestion-item" data-value="${qualSearchInput.value}"><span>✨ Add: "${qualSearchInput.value}"</span></div>`;
+  let filteredQuals = masterQualifications;
+  if(query !== '') {
+    filteredQuals = masterQualifications.filter(q => q.toLowerCase().includes(query));
   }
+
+  let htmlContent = '';
+  if(filteredQuals.length > 0) {
+    htmlContent = filteredQuals.map(q => `<div class="suggestion-item" data-value="${q}"><span>🎓 ${q}</span></div>`).join('');
+  }
+  if(query !== '' && !masterQualifications.map(x=>x.toLowerCase()).includes(query)) {
+    htmlContent += `<div class="suggestion-item" data-value="${qualSearchInput.value}"><span>✨ Add Custom Qualification: "${qualSearchInput.value}"</span></div>`;
+  }
+
   qualSugBox.innerHTML = htmlContent;
   qualSugBox.style.display = 'block';
 }
@@ -782,7 +1365,9 @@ qualSugBox.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click', (e) => {
-  if(!qualSearchInput.contains(e.target) && !qualSugBox.contains(e.target)) qualSugBox.style.display = 'none';
+  if(!qualSearchInput.contains(e.target) && !qualSugBox.contains(e.target)) {
+    qualSugBox.style.display = 'none';
+  }
 });
 
 function calculateLiveStrengthScore() {
@@ -800,10 +1385,11 @@ function calculateLiveStrengthScore() {
 
   const fill = document.getElementById('strengthBar');
   const lbl = document.getElementById('strengthLabel');
+  
   fill.style.width = score + "%";
   if(score < 40) { fill.style.backgroundColor = "var(--danger)"; lbl.innerText = `${score}% (Weak Info)`; }
-  else if(score < 80) { fill.style.backgroundColor = "#f59e0b"; lbl.innerText = `${score}% (Stable)`; }
-  else { fill.style.backgroundColor = "var(--primary)"; lbl.innerText = `${score}% (Optimal)`; }
+  else if(score < 80) { fill.style.backgroundColor = "#f59e0b"; lbl.innerText = `${score}% (Stable Profile)`; }
+  else { fill.style.backgroundColor = "var(--primary)"; lbl.innerText = `${score}% (Optimal Setup)`; }
 }
 
 document.getElementById('candidateForm').addEventListener('input', calculateLiveStrengthScore);
@@ -829,8 +1415,10 @@ const hintText = document.getElementById('skillsCountHint');
 
 function renderSkillsSuggestionsEngine() {
   if(candidateSkills.length >= 4) { sugBox.style.display = 'none'; return; }
+
   const query = skillsInput.value.toLowerCase().trim();
   const selectedRoleCategory = document.getElementById('jobCategory').value;
+  
   let targetedRoleSkills = (selectedRoleCategory && multiTierSkillsMapping[selectedRoleCategory]) ? multiTierSkillsMapping[selectedRoleCategory] : [];
   
   let roleSuggestedHTML = '';
@@ -838,28 +1426,38 @@ function renderSkillsSuggestionsEngine() {
 
   const filteredRoleSkills = targetedRoleSkills.filter(s => !candidateSkills.includes(s) && (query === '' || s.toLowerCase().includes(query)));
   if(filteredRoleSkills.length > 0) {
-    roleSuggestedHTML = `<div class="suggestion-header-label">CATEGORY SKILLS</div>` + 
-                         filteredRoleSkills.map(s => `<div class="suggestion-item" data-value="${s}"><span>✨ ${s}</span></div>`).join('');
+    roleSuggestedHTML = `<div class="suggestion-header-label"> CATEGORY SKILLS (${selectedRoleCategory || 'Default'})</div>` + 
+                         filteredRoleSkills.map(s => {
+                           let cleanLabel = s;
+                           if(query !== '') {
+                             const idx = s.toLowerCase().indexOf(query);
+                             if(idx >= 0) {
+                               cleanLabel = s.substring(0, idx) + `<b>${s.substring(idx, idx+query.length)}</b>` + s.substring(idx+query.length);
+                             }
+                           }
+                           return `<div class="suggestion-item" data-value="${s}"><span>✨ ${cleanLabel}</span><small style="color:var(--primary); font-size:11px;">Recommended</small></div>`;
+                         }).join('');
   }
 
   const filteredGlobalSkills = masterAllSkills.filter(s => !targetedRoleSkills.includes(s) && !candidateSkills.includes(s) && (query !== '' && s.toLowerCase().includes(query)));
   if(filteredGlobalSkills.length > 0) {
-    globalSuggestedHTML = `<div class="suggestion-header-label">ALL SKILLS</div>` + 
+    globalSuggestedHTML = `<div class="suggestion-header-label">ALL SKILLS LIST</div>` + 
                           filteredGlobalSkills.map(s => `<div class="suggestion-item" data-value="${s}"><span>🛠️ ${s}</span></div>`).join('');
   }
 
   if(query === '' && targetedRoleSkills.length === 0) {
-    const defaultBatch = masterAllSkills.filter(s => !candidateSkills.includes(s)).slice(0, 15);
-    globalSuggestedHTML = `<div class="suggestion-header-label">POPULAR SKILLS</div>` + 
+    const defaultBatch = masterAllSkills.filter(s => !candidateSkills.includes(s)).slice(0, 20);
+    globalSuggestedHTML = `<div class="suggestion-header-label">POPULAR SKILLS LIST</div>` + 
                           defaultBatch.map(s => `<div class="suggestion-item" data-value="${s}"><span>🛠️ ${s}</span></div>`).join('');
   }
 
   let customSkillHTML = '';
   if(query !== '' && !masterAllSkills.map(x=>x.toLowerCase()).includes(query)) {
-    customSkillHTML = `<div class="suggestion-item" data-value="${skillsInput.value.trim()}"><span>✨ Add: "${skillsInput.value.trim()}"</span></div>`;
+    customSkillHTML = `<div class="suggestion-item" data-value="${skillsInput.value.trim()}"><span>✨ Add Custom Skill: "${skillsInput.value.trim()}"</span></div>`;
   }
 
   const finalOutputCombined = customSkillHTML + roleSuggestedHTML + globalSuggestedHTML;
+
   if(finalOutputCombined.trim().length > 0) { sugBox.innerHTML = finalOutputCombined; sugBox.style.display = 'block'; } 
   else { sugBox.style.display = 'none'; }
 }
@@ -876,7 +1474,13 @@ sugBox.addEventListener('click', (e) => {
   const matchingItem = e.target.closest('.suggestion-item');
   if(matchingItem) {
     const chosenSkill = matchingItem.getAttribute('data-value');
-    if(candidateSkills.length >= 4) { alert("Max 4 skills allowed."); sugBox.style.display = 'none'; return; }
+    
+    if(candidateSkills.length >= 4) {
+      alert("⚠️ Maximum 4 skills allowed.");
+      sugBox.style.display = 'none';
+      return;
+    }
+
     candidateSkills.push(chosenSkill);
     skillsInput.value = '';
     sugBox.style.display = 'none';
@@ -898,7 +1502,8 @@ function updateSkillChips() {
 
 chipsDiv.addEventListener('click', (e) => {
   if(e.target.tagName === 'SPAN') {
-    candidateSkills = candidateSkills.filter(s => s !== e.target.getAttribute('data-skill'));
+    const sToRemove = e.target.getAttribute('data-skill');
+    candidateSkills = candidateSkills.filter(s => s !== sToRemove);
     updateSkillChips();
     renderSkillsSuggestionsEngine();
     calculateLiveStrengthScore();
@@ -907,9 +1512,27 @@ chipsDiv.addEventListener('click', (e) => {
 
 function updateNotificationBadge() {
   const badge = document.getElementById('newJobsBadge');
-  if (filterNewJobsActive) { badge.style.display = 'none'; return; }
-  const unseenNewJobs = allJobs.filter(j => (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company));
+  
+  if (filterNewJobsActive) {
+    badge.style.display = 'none';
+    return;
+  }
+
+  const unseenNewJobs = allJobs.filter(j => {
+    return (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company);
+  });
+  
   if (unseenNewJobs.length > 0) {
+    const previousCount = parseInt(badge.innerText) || 0;
+    if (!isInitialLoad && unseenNewJobs.length > previousCount) {
+      triggerMagicFlyingToast();
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("🚀 FreeWalkins: New Jobs Added!", {
+          body: `Check out ${unseenNewJobs.length} new walk-in job opportunities right now!`,
+          icon: "https://img.icons8.com/color/192/000000/work.png"
+        });
+      }
+    }
     badge.innerText = unseenNewJobs.length;
     badge.style.display = 'flex';
   } else {
@@ -917,8 +1540,20 @@ function updateNotificationBadge() {
   }
 }
 
+function triggerMagicFlyingToast() {
+  const toast = document.getElementById('magicToastAlert');
+  toast.classList.remove('fly-effect');
+  void toast.offsetWidth;
+  toast.classList.add('fly-effect');
+  
+  setTimeout(() => {
+    toast.classList.remove('fly-effect');
+  }, 2600);
+}
+
 window.filterNewJobsOnly = function() {
   filterNewJobsActive = !filterNewJobsActive;
+  
   const bellContainer = document.getElementById('bellContainer');
   const badge = document.getElementById('newJobsBadge');
   const backBtn = document.getElementById('notificationBackBtn');
@@ -928,9 +1563,14 @@ window.filterNewJobsOnly = function() {
     bellContainer.style.display = 'none';
     backBtn.style.display = 'flex';
     mainContent.style.display = 'none';
-    badge.style.display = 'none';
+    
+    badge.style.transform = 'scale(0)';
+    setTimeout(() => { badge.style.display = 'none'; badge.style.transform = 'scale(1)'; }, 200);
+
     allJobs.forEach(j => {
-      if ((j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company)) readNewJobsArray.push(j.company);
+      if ((j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company)) {
+        readNewJobsArray.push(j.company);
+      }
     });
     localStorage.setItem("readNewJobsArray", JSON.stringify(readNewJobsArray));
   } else {
@@ -938,47 +1578,64 @@ window.filterNewJobsOnly = function() {
     backBtn.style.display = 'none';
     mainContent.style.display = 'block';
   }
+  
   document.getElementById('lblMainSectionTitle').innerText = filterNewJobsActive ? "🔥 NEW JOBS" : "💼 Available Jobs";
   renderJobs();
 }
 
-async function loadJobs(){
- try {
-  const snap = await getDocs(collection(db, "jobs"));
-  allJobs = [];
-  snap.forEach(d => { let data = d.data(); data.id = d.id; allJobs.push(data); });
-  setupDropdownUI();
-  updateNotificationBadge();
-  
-  if(registeredCandidate) {
-    document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
-    if(registeredCandidate.area && registeredCandidate.area !== 'Other') {
-      hiddenLocInput.value = registeredCandidate.area;
-      locSearchInput.value = registeredCandidate.area;
-    }
-    if(registeredCandidate.skills) {
-      candidateSkills = registeredCandidate.skills.split(", ").filter(x => x);
-      updateSkillChips();
-    }
+function initRealtimeJobsSync() {
+  try {
+    onSnapshot(collection(db, "jobs"), (snapshot) => {
+      allJobs = [];
+      snapshot.forEach(d => {
+        let data = d.data();
+        data.id = d.id;
+        allJobs.push(data);
+      });
+      
+      setupDropdownUI();
+      updateNotificationBadge();
+      
+      if(isInitialLoad && registeredCandidate) {
+        document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
+        if(registeredCandidate.area && registeredCandidate.area !== 'Other') {
+          hiddenLocInput.value = registeredCandidate.area;
+          locSearchInput.value = registeredCandidate.area;
+        }
+        
+        if(registeredCandidate.skills) {
+          candidateSkills = registeredCandidate.skills.split(", ").filter(x => x);
+          updateSkillChips();
+        }
+      }
+
+      renderJobs();
+      isInitialLoad = false;
+    }, (error) => {
+      console.error("Firestore sync error:", error);
+      document.getElementById('jobsContainer').innerHTML = "<p style='color:var(--danger); text-align:center; font-weight: 600;'>Database Connection Error. Please check your network.</p>";
+    });
+  } catch(e) {
+    document.getElementById('jobsContainer').innerHTML = "<p style='color:var(--danger); text-align:center; font-weight: 600;'>Database Connection Error.</p>";
   }
-  renderJobs();
- } catch(e) {
-  document.getElementById('jobsContainer').innerHTML = "<p style='color:var(--danger); text-align:center; font-weight:600;'>Database Connection Error.</p>";
- }
 }
 
 window.openFormModal = function(isEdit = false) {
   document.getElementById('modalOverlay').style.display = "block";
   document.getElementById('formContainer').style.display = "block";
+  
   if(registeredCandidate) {
     document.getElementById('name').value = registeredCandidate.name;
     document.getElementById('mobile').value = registeredCandidate.mobile;
     document.getElementById('email').value = registeredCandidate.email;
     document.getElementById('dob').value = registeredCandidate.dob;
     document.getElementById('gender').value = registeredCandidate.gender;
+    
     hiddenQualInput.value = registeredCandidate.qualification;
     qualSearchInput.value = registeredCandidate.qualification;
+
     document.getElementById('candidateExperience').value = registeredCandidate.experience;
+    
     if(registeredCandidate.experience === 'Experienced') {
       document.getElementById('experienceDetailsBlock').style.display = 'flex';
       document.getElementById('prevCompany').value = registeredCandidate.prevCompany;
@@ -986,21 +1643,28 @@ window.openFormModal = function(isEdit = false) {
       document.getElementById('lastCtc').value = registeredCandidate.lastCtc;
     }
     document.getElementById('jobCategory').value = registeredCandidate.jobCategory;
+    
     hiddenCandAreaInput.value = registeredCandidate.area;
     candAreaSearchInput.value = registeredCandidate.area;
+
     document.getElementById('address').value = registeredCandidate.address;
     calculateLiveStrengthScore();
   }
+
   document.getElementById('modalCloseBtn').style.display = "block"; 
 }
 
 window.closeFormModalBack = function() {
   document.getElementById('modalOverlay').style.display = "none";
   document.getElementById('formContainer').style.display = "none";
+  
   const editBtn = document.getElementById('editProfileBtn');
-  editBtn.style.display = "inline-flex";
+  editBtn.style.display = "block";
   editBtn.classList.add('blink-active');
-  setTimeout(() => editBtn.classList.remove('blink-active'), 3000);
+  
+  setTimeout(() => {
+    editBtn.classList.remove('blink-active');
+  }, 4000);
 }
 
 window.markNewJobAsRead = function(companyName) {
@@ -1034,8 +1698,10 @@ window.renderJobs = function() {
    const escTitle = String(j.title||'').replace(/'/g,"\\'");
    const escCompany = String(j.company||'').replace(/'/g,"\\'");
    const escWhatsApp = String(j.whatsappNumber || '').replace(/'/g,"\\'");
+   
    const rawWebsite = j.companyWebsite || j.applyUrl || '';
    const escWebsite = String(rawWebsite).replace(/'/g,"\\'");
+
    const alreadyApplied = appliedCompanies.includes(j.company);
 
    let scoreBadgeHTML = '';
@@ -1046,6 +1712,16 @@ window.renderJobs = function() {
       else scoreBadgeHTML = `<div class="score-tag-low">🎯 ${item.matchPercentage}% Match</div>`;
    }
 
+   const processedHighlightTitle = highlightSearchTermsTerm(j.title || 'Job Title', search);
+   const processedHighlightCompany = highlightSearchTermsTerm(j.company || 'Company', search);
+
+   function highlightSearchTermsTerm(sourceText, query) {
+     if (!query) return sourceText;
+     const escapeRegEx = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+     const regexPattern = new RegExp(`(${escapeRegEx})`, 'gi');
+     return sourceText.replace(regexPattern, '<mark style="background:var(--highlight); color:inherit; border-radius:2px; padding:0 2px;">$1</mark>');
+   }
+
    let isLiveNewJob = (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company);
    let liveNewTagHTML = isLiveNewJob ? `<span class="new-job-badge-tag">NEW</span>` : '';
 
@@ -1054,12 +1730,18 @@ window.renderJobs = function() {
    if (registeredCandidate) {
      let jobGenderOpt = (j.genderOption || '').toLowerCase();
      let jobTitleLower = (j.title || '').toLowerCase();
-     if (registeredCandidate.gender === 'Male' && (jobGenderOpt.includes('female only') || jobTitleLower.includes('female only'))) {
-       isGenderMismatch = true;
-       genderWarningHTML = `<div class="ai-gender-warning">⚠️ AI Guardrail: Reserved for Female candidates only.</div>`;
-     } else if (registeredCandidate.gender === 'Female' && (jobGenderOpt.includes('male only') || jobTitleLower.includes('male only'))) {
-       isGenderMismatch = true;
-       genderWarningHTML = `<div class="ai-gender-warning">⚠️ AI Guardrail: Reserved for Male candidates only.</div>`;
+     let jobDescLower = (j.description || '').toLowerCase();
+     
+     if (registeredCandidate.gender === 'Male') {
+       if (jobGenderOpt.includes('female only') || jobTitleLower.includes('female only') || jobTitleLower.includes('girls only') || jobTitleLower.includes('women only') || jobDescLower.includes('female only')) {
+         isGenderMismatch = true;
+         genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Female candidates. Not eligible for Male profiles.</div>`;
+       }
+     } else if (registeredCandidate.gender === 'Female') {
+       if (jobGenderOpt.includes('male only') || jobTitleLower.includes('male only') || jobTitleLower.includes('boys only') || jobTitleLower.includes('men only') || jobDescLower.includes('male only')) {
+         isGenderMismatch = true;
+         genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Male candidates. Not eligible for Female profiles.</div>`;
+       }
      }
    }
 
@@ -1068,60 +1750,92 @@ window.renderJobs = function() {
    let jobTypeLabel = j.jobType ? j.jobType : "Full-time";
 
    let dynamicActionButtonHTML = '';
+
    if (isGenderMismatch || item.isMismatch) {
-     dynamicActionButtonHTML = `<button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">🚫 Not Eligible</button><button class="btn-whatsapp" disabled>💬 WhatsApp</button>`;
+     let mismatchText = isGenderMismatch ? "🚫 Not Eligible (Gender Restricted)" : `🚫 ${item.mismatchReason || 'Not Eligible'}`;
+     dynamicActionButtonHTML = `
+       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
+         ${mismatchText}
+       </button>
+       <button class="btn-whatsapp" disabled>💬 WhatsApp HR</button>
+     `;
    } else if(alreadyApplied) {
-     dynamicActionButtonHTML = `<button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">✓ Applied</button>` + 
-       (rawWebsite ? `<a href="${escWebsite}" target="_blank" class="btn-link-view-site">🌐 Visit</a>` : `<button class="btn-whatsapp" onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">💬 WhatsApp</button>`);
+     dynamicActionButtonHTML = `
+       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
+         ✓ Applied
+       </button>
+       ${rawWebsite ? `<a href="${escWebsite}" target="_blank" class="btn-link-view-site">🌐 Visit Site</a>` : 
+         `<button class="btn-whatsapp" onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">💬 WhatsApp HR</button>`}
+     `;
    } else {
-     dynamicActionButtonHTML = `<button class="btn-primary" onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">⚡ Apply</button>` +
-       (rawWebsite ? `<a class="btn-link-view-site disabled">🌐 Visit</a>` : `<button class="btn-whatsapp" disabled>💬 WhatsApp</button>`);
+     dynamicActionButtonHTML = `
+       <button class="btn-primary" onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">
+         ⚡ Apply
+       </button>
+       ${rawWebsite ? `<a class="btn-link-view-site disabled">🌐 Visit Site</a>` : 
+         `<button class="btn-whatsapp" disabled>💬 WhatsApp HR</button>`}
+     `;
    }
 
    return `<div class="job-card ${item.isMismatch || isGenderMismatch ? 'mismatch' : ''}" onclick="markNewJobAsRead('${escCompany}')">
      ${item.isMismatch ? `<div class="mismatch-tag">${item.mismatchReason}</div>` : scoreBadgeHTML}
-     <h3>${j.title || 'Job Title'} ${liveNewTagHTML}</h3>
-     <div class="company-name">🏢 ${j.company || 'Company'} 
-        ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:3px 8px; border-radius:4px; color:var(--primary); font-weight:700;">${j.category}</span>` : ''}
-        <span style="font-size:11px; background:rgba(59,130,246,0.1); padding:3px 8px; border-radius:4px; color:#3b82f6; font-weight:800;">${jobTypeLabel}</span>
+     <h3>${processedHighlightTitle} ${liveNewTagHTML}</h3>
+     <div class="company-name">🏢 ${processedHighlightCompany} 
+        ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 8px; border-radius:4px; margin-left:6px; color:var(--primary); font-weight:700;">${j.category}</span>` : ''}
+        <span style="font-size:11px; background:rgba(59,130,246,0.1); padding:2px 8px; border-radius:4px; margin-left:6px; color:#3b82f6; font-weight:800;">${jobTypeLabel}</span>
      </div>
      ${genderWarningHTML}
      <div class="job-details-grid">
        <div class="detail-badge ${registeredCandidate ? 'proximity-badge' : ''}">📍 ${item.distanceString}</div>
-       <div class="detail-badge">🎓 Qual: ${j.minQualification || 'Any'}</div>
-       <div class="detail-badge">💼 Exp: ${j.experienceRequired || 'Both'}</div>
-       <div class="detail-badge">💰 ₹${j.salary || 'Best'}</div>
+       <div class="detail-badge">🎓 Qualification: ${j.minQualification || 'Any'}</div>
+       <div class="detail-badge">💼 Experience: ${j.experienceRequired || 'Both'}</div>
+       <div class="detail-badge">💰 Salary: ₹${j.salary || 'Best in Industry'}</div>
      </div>
      ${skillsHTML}
      ${expiryHTML}
-     <div class="actions-flex">${dynamicActionButtonHTML}</div>
+     <div class="actions-flex">
+       ${dynamicActionButtonHTML}
+     </div>
    </div>`;
  }
 
  let finalHTMLOutput = '';
+
  if (filterNewJobsActive) {
    let newJobsList = sortedSourceJobs.filter(j => (j.isNew === true || j.isNew === "Yes"));
+   
    if (newJobsList.length === 0) {
-     finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-size:14px;'>No new jobs added recently.</p>`;
+     finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-weight:500;'>No new jobs added recently.</p>`;
    } else {
-     finalHTMLOutput += `<div class="section-title" style="color:var(--primary);">🔥 NEW JOBS (${newJobsList.length})</div>`;
+     finalHTMLOutput += `<div class="section-title" style="color:var(--primary); font-size:22px; margin-top:10px;">🔥 NEW JOBS (${newJobsList.length})</div>`;
+
      let categoryGroups = {};
      newJobsList.forEach(j => {
        let cat = j.category || 'General';
        if (!categoryGroups[cat]) categoryGroups[cat] = [];
-       categoryGroups[cat].push({data: j, isMismatch: false, mismatchReason: '', matchPercentage: 100, distanceString: j.location || "Hyderabad"});
+       
+       let isMismatch = false;
+       let mismatchReason = '';
+       let matchPercentage = 100;
+       let distanceString = j.location || "Hyderabad";
+
+       categoryGroups[cat].push({data: j, isMismatch, mismatchReason, matchPercentage, distanceString});
      });
 
      Object.keys(categoryGroups).forEach(catName => {
        let jobsInCat = categoryGroups[catName];
        let visibleLimit = categoryLimits[catName] || 2;
-       finalHTMLOutput += `<div class="category-group-header"><span>📁 ${catName.toUpperCase()}</span> <span>(${jobsInCat.length})</span></div>`;
-       finalHTMLOutput += jobsInCat.slice(0, visibleLimit).map(item => buildJobCardHtml(item)).join('');
+       let visibleJobs = jobsInCat.slice(0, visibleLimit);
+
+       finalHTMLOutput += `<div class="category-group-header"><span>📁 ${catName.toUpperCase()} ADDED</span> <span>(${jobsInCat.length})</span></div>`;
+       finalHTMLOutput += visibleJobs.map(item => buildJobCardHtml(item)).join('');
+
        if(jobsInCat.length > visibleLimit) {
-         finalHTMLOutput += `<button class="btn-primary" style="width:180px; margin:10px auto; display:block;" onclick="loadMoreCategoryJobs('${catName}')">Load More</button>`;
+         finalHTMLOutput += `<button class="btn-load-more" onclick="loadMoreCategoryJobs('${catName.replace(/'/g,"\\'")}')">👇 Click to Load More (${jobsInCat.length - visibleLimit} Jobs Left)</button>`;
        }
      });
    }
+
  } else {
    let directMatchesArray = [];
    let recommendedFallbackArray = [];
@@ -1129,6 +1843,7 @@ window.renderJobs = function() {
    sortedSourceJobs.forEach(j => {
      let searchableContent = `${j.title || ''} ${j.company || ''} ${j.skillsRequired || ''} ${j.category || ''} ${j.location || ''}`.toLowerCase();
      let matchesSearch = !search || searchableContent.includes(search);
+     
      let matchesCat = !catFilter || j.category === catFilter;
      let matchesLoc = !locFilter || (j.location && j.location.toLowerCase().includes(locFilter));
 
@@ -1139,26 +1854,44 @@ window.renderJobs = function() {
 
      if(registeredCandidate && registeredCandidate.area && j.location) {
         if(j.location.toLowerCase().includes(registeredCandidate.area.toLowerCase())) {
-           distanceString = `Near You (${j.location})`;
+           distanceString = `📍 Near You (${j.location})`;
            matchPercentage += 10;
         }
      }
 
      if(registeredCandidate) {
-        if(registeredCandidate.qualification === 'SSC' && (j.minQualification && j.minQualification.toLowerCase().includes('degree'))) {
-           isMismatch = true; mismatchReason = "Degree Required";
+        if(registeredCandidate.qualification === 'SSC' && (j.minQualification && j.minQualification.toLowerCase().includes('degree') || (j.title && j.title.toLowerCase().includes('degree')))) {
+           isMismatch = true;
+           mismatchReason = "SSC candidates restricted from Degree jobs";
         }
+
         if(!isMismatch && j.minQualification && j.minQualification !== "Any") {
            let cRank = qualOrder.indexOf(registeredCandidate.qualification);
            let jRank = qualOrder.indexOf(j.minQualification);
            if(cRank !== -1 && jRank !== -1 && cRank < jRank) { isMismatch = true; mismatchReason = `${j.minQualification} Required`; }
         }
-        if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = "Exp Required"; }
+        if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = "Experience Required"; }
+        if(!isMismatch && j.experienceRequired === "Freshers Only" && registeredCandidate.experience === "Experienced") { isMismatch = true; mismatchReason = "Freshers Only"; }
+
+        if(!isMismatch) {
+           let candidateSkillList = candidateSkills.map(s => s.toLowerCase());
+           let jobSkillsString = (j.skillsRequired || '').toLowerCase();
+           
+           let matchedCount = candidateSkillList.filter(skill => jobSkillsString.includes(skill)).length;
+           if(matchedCount >= 3) matchPercentage = 100;
+           else if(matchedCount === 2) matchPercentage = 85;
+           else if(matchedCount === 1) matchPercentage = 70;
+           else matchPercentage = 50;
+        }
      }
 
      let itemObj = {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
-     if(matchesSearch && matchesCat && matchesLoc) directMatchesArray.push(itemObj); 
-     else if(!isMismatch && (matchesCat && matchesLoc)) recommendedFallbackArray.push(itemObj);
+
+     if(matchesSearch && matchesCat && matchesLoc) { 
+        directMatchesArray.push(itemObj); 
+     } else if(!isMismatch && (matchesCat && matchesLoc)) { 
+        recommendedFallbackArray.push(itemObj); 
+     }
    });
 
    directMatchesArray.sort((a, b) => b.matchPercentage - a.matchPercentage);
@@ -1166,22 +1899,25 @@ window.renderJobs = function() {
    if(directMatchesArray.length > 0) {
       finalHTMLOutput = directMatchesArray.map(item => buildJobCardHtml(item)).join('');
    } else {
-      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.06); border-radius:12px; font-size:14px;'>❌ No exact jobs found matching filters.</p>`;
+      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.05); border:1px dashed rgba(225,29,72,0.2); border-radius:14px; font-size:14px;'>❌ No exact jobs found matching your filters/keywords.</p>`;
+      
       if(recommendedFallbackArray.length > 0) {
-         finalHTMLOutput += `<div class="recommended-title">⭐ Recommended Jobs</div>`;
-         finalHTMLOutput += recommendedFallbackArray.slice(0, 6).map(item => buildJobCardHtml(item)).join('');
+         finalHTMLOutput += `<div class="recommended-title">⭐ Recommended Jobs For You</div>`;
+         finalHTMLOutput += recommendedFallbackArray.slice(0, 10).map(item => buildJobCardHtml(item)).join('');
       } else {
-         let fallbackSubset = sortedSourceJobs.slice(0, 5).map(j => ({data: j, isMismatch: false, mismatchReason: '', matchPercentage: 80, distanceString: j.location || "Hyderabad"}));
-         finalHTMLOutput += `<div class="recommended-title">⭐ Suggested Jobs</div>`;
+         let fallbackSubset = sortedSourceJobs.slice(0, 6).map(j => ({data: j, isMismatch: false, mismatchReason: '', matchPercentage: 80, distanceString: j.location || "Hyderabad"}));
+         finalHTMLOutput += `<div class="recommended-title">⭐ Suggested Jobs Based On Your Profile</div>`;
          finalHTMLOutput += fallbackSubset.map(item => buildJobCardHtml(item)).join('');
       }
    }
  }
 
  container.innerHTML = finalHTMLOutput;
+ 
  if(registeredCandidate) {
-   document.getElementById('profileBadge').style.display = filterNewJobsActive ? "none" : "block";
-   document.getElementById('editProfileBtn').style.display = "inline-flex";
+   const badge = document.getElementById('profileBadge');
+   badge.style.display = filterNewJobsActive ? "none" : "block";
+   document.getElementById('editProfileBtn').style.display = "block";
  }
 }
 
@@ -1195,6 +1931,7 @@ window.handleJobApplyAction = function(title, company, websiteUrl) {
 
 window.executeCloudJobSubmission = async function(title, company, websiteUrl) {
  if(appliedCompanies.includes(company)) return;
+
  appliedCompanies.push(company);
  localStorage.setItem("appliedCompanies", JSON.stringify(appliedCompanies));
  renderJobs(); 
@@ -1208,40 +1945,66 @@ window.executeCloudJobSubmission = async function(title, company, websiteUrl) {
  popupBtn.style.display = "none";
  loaderWrapper.style.display = "block";
  premiumBar.style.width = "0%";
- animIcon.innerHTML = `<div style="width: 40px; height: 40px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px auto;"></div>`;
+ animIcon.innerHTML = `<div style="width: 44px; height: 44px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px auto;"></div>`;
+ 
  document.getElementById('popupTitle').innerText = "Submitting...";
- document.getElementById('popupMessage').innerText = "Please wait, submitting your application...";
+ document.getElementById('popupMessage').innerText = "Please wait, submitting your details...";
  popup.style.display = "flex";
 
- setTimeout(() => { premiumBar.style.width = "100%"; }, 50);
+ setTimeout(() => {
+   premiumBar.style.width = "100%";
+ }, 50);
+
  try {
-   await new Promise(resolve => setTimeout(resolve, 1200));
+   await new Promise(resolve => setTimeout(resolve, 1500));
+   
    await fetch(API_URL, {
      method: "POST",
      headers: {"Content-Type": "text/plain;charset=utf-8"},
      body: JSON.stringify({...registeredCandidate, formType:"job_apply", appliedFor: title, company: company})
    });
+   
    loaderWrapper.style.display = "none";
    animIcon.innerHTML = `<div class="success-checkmark-glow"><span>🎉</span></div>`;
    document.getElementById('popupTitle').innerText = "Applied Successfully!";
-   document.getElementById('popupMessage').innerText = "Your details have been sent successfully.";
+   document.getElementById('popupMessage').innerText = "Your details have been submitted successfully.";
    popupBtn.style.display = "block";
+   
    renderJobs();
  } catch(e) {
    loaderWrapper.style.display = "none";
    animIcon.innerHTML = `<div class="success-checkmark-glow"><span>💾</span></div>`;
    document.getElementById('popupTitle').innerText = "Applied!";
-   document.getElementById('popupMessage').innerText = "Application saved locally.";
+   document.getElementById('popupMessage').innerText = "Your application is saved successfully.";
    popupBtn.style.display = "block";
    renderJobs();
  }
 }
 
 window.sendWhatsappResume = function(title, company, phone) {
-  if(!registeredCandidate || !appliedCompanies.includes(company) || !phone) return;
+  if(!registeredCandidate || !appliedCompanies.includes(company)) return;
+  if(!phone) return;
+
   let expString = registeredCandidate.experience;
-  if(registeredCandidate.experience === 'Experienced') expString += ` (${registeredCandidate.prevRole} at ${registeredCandidate.prevCompany})`;
-  const textMessage = `Hi, I am *${registeredCandidate.name}*. Applied for *${title}* via *FreeWalkins by VenuHR*.\n\n• Mobile: ${registeredCandidate.mobile}\n• Edu: ${registeredCandidate.qualification}\n• Exp: ${expString}\n• Skills: ${registeredCandidate.skills}\n• Area: ${registeredCandidate.area}`;
+  if(registeredCandidate.experience === 'Experienced') {
+     expString += ` (${registeredCandidate.prevRole} at ${registeredCandidate.prevCompany})`;
+  }
+
+  const textMessage = 
+`Hi, this is *${registeredCandidate.name}*. I found a job vacancy for the *${title}* position in your company from *FreeWalkins by VenuHR* job portal.
+
+Here are my details below:
+------------------------------------------
+• *Name:* ${registeredCandidate.name}
+• *Mobile:* ${registeredCandidate.mobile}
+• *Email:* ${registeredCandidate.email}
+• *Education:* ${registeredCandidate.qualification}
+• *Experience Level:* ${expString}
+• *Key Skills:* ${registeredCandidate.skills}
+• *Current Area:* ${registeredCandidate.area}
+------------------------------------------
+Looking forward to hearing from you. Thank you!`;
+
   window.open(`https://wa.me/91${phone.replace(/\D/g,'')}?text=${encodeURIComponent(textMessage)}`, '_blank');
 }
 
@@ -1262,24 +2025,31 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
    lastCtc: document.getElementById('lastCtc').value.trim() || "N/A",
    jobCategory: document.getElementById('jobCategory').value,
    skills: candidateSkills.join(", "),
-   area: document.getElementById('candidateAreaSearchInput').value.trim() || hiddenCandAreaInput.value,
+   area: hiddenCandAreaLocationSearchInputValue() || hiddenCandAreaInput.value,
    address: document.getElementById('address').value.trim(),
    formType: "quick_onboard"
  };
 
+ function hiddenCandAreaLocationSearchInputValue() {
+   return document.getElementById('candidateAreaSearchInput').value.trim();
+ }
+
  localStorage.setItem("registeredCandidate", JSON.stringify(registeredCandidate));
+
  document.getElementById('formContainer').style.display = "none";
  document.getElementById('modalOverlay').style.display = "none";
+ 
  document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
  if(registeredCandidate.area && registeredCandidate.area !== 'Other') {
    hiddenLocInput.value = registeredCandidate.area;
    locSearchInput.value = registeredCandidate.area;
  }
+
  renderJobs();
  try { fetch(API_URL, { method: "POST", body: JSON.stringify(registeredCandidate) }); } catch(err){}
 });
 
-loadJobs();
+initRealtimeJobsSync();
 </script>
 </body>
 </html>
